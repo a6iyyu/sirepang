@@ -10,15 +10,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index" />
-    <meta name="description" content="{{ $deskripsi }}" />
-    <meta property="og:title" content="{{ $judul }} | Sirepang" />
-    <meta property="og:description" content="{{ $deskripsi }}" />
+    <meta name="description" content="@yield('deskripsi')" />
+    <meta property="og:title" content="@yield('judul') | Sirepang" />
+    <meta property="og:description" content="@yield('deskripsi')" />
     <meta property="og:image" content="{{ asset('favicon.ico') }}" />
-    <meta name="twitter:title" content="{{ $judul }} | Sirepang" />
-    <meta name="twitter:description" content="{{ $deskripsi }}" />
+    <meta name="twitter:title" content="@yield('judul') | Sirepang" />
+    <meta name="twitter:description" content="@yield('deskripsi')" />
     <meta name="twitter:image" content="{{ asset('favicon.ico') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>{{ $judul }} | Sirepang</title>
+    <title>@yield('judul') | Sirepang</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,11 +29,11 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="min-h-screen">
-    @if (!Route::is('/login'))
+<body class="min-h-screen @if(!Route::is('/masuk')) w-full grid grid-cols-1 lg:grid-cols-2 @endif">
+    @auth
         @include('shared.sidebar')
-    @endif
-    {{ $slot }}
+    @endauth
+    @yield('content')
 </body>
 
 </html>
