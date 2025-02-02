@@ -1,4 +1,4 @@
-<section class="hidden lg:inline">
+<section class="hidden lg:inline min-h-screen">
     <img src="{{ asset('img/login.jpeg') }}" alt="Selamat datang!" class="object-cover h-full" loading="lazy" />
     <span class="absolute inset-0 bg-gradient-to-b from-emerald-500/10 to-emerald-500/15 transition-opacity duration-300"></span>
     <div class="absolute cursor-default bottom-8 left-8 text-white space-y-2">
