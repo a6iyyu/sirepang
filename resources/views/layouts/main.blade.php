@@ -29,7 +29,7 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="min-h-screen @if(!Route::is('/masuk')) w-full grid grid-cols-1 bg-orange-100 lg:grid-cols-2 @endif">
+<body class="min-h-screen @if(Route::is('masuk')) w-full grid grid-cols-1 lg:grid-cols-2 @endif">
     @auth
         @include('shared.ui.sidebar')
     @endauth
