@@ -7,6 +7,6 @@
 @section('deskripsi')
 @endsection
 
-@section('content')
+@section('konten')
     @include('components.dasbor.selamat-datang')
 @endsection

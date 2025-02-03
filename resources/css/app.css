@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @source "../views";
 
 @media screen and (max-width: 3120px) {

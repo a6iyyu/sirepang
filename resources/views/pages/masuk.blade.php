@@ -8,7 +8,7 @@
     Selamat datang!
 @endsection
 
-@section('content')
+@section('konten')
     @include('components.autentikasi.gambar')
     @include('components.autentikasi.formulir')
 @endsection

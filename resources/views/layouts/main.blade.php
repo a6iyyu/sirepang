@@ -13,14 +13,14 @@
     <meta name="description" content="@yield('deskripsi')" />
     <meta property="og:title" content="@yield('judul') | Sirepang" />
     <meta property="og:description" content="@yield('deskripsi')" />
-    <meta property="og:image" content="{{ asset('favicon.ico') }}" />
+    <meta property="og:image" content="{{ asset('img/logo.webp') }}" />
     <meta name="twitter:title" content="@yield('judul') | Sirepang" />
     <meta name="twitter:description" content="@yield('deskripsi')" />
-    <meta name="twitter:image" content="{{ asset('favicon.ico') }}" />
+    <meta name="twitter:image" content="{{ asset('img/logo.webp') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('judul') | Sirepang</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('img/logo.webp') }}" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
@@ -29,11 +29,11 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="min-h-screen @if(!Route::is('/masuk')) w-full grid grid-cols-1 lg:grid-cols-2 @endif">
+<body class="min-h-screen @if(!Route::is('/masuk')) w-full grid grid-cols-1 bg-orange-100 lg:grid-cols-2 @endif">
     @auth
-        @include('shared.sidebar')
+        @include('shared.ui.sidebar')
     @endauth
-    @yield('content')
+    @yield('konten')
 </body>
 
 </html>

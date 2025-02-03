@@ -13,4 +13,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [Dashboard::class, 'show'])->name('dasbor');
 });
 
-Route::get('/logout', [Authentication::class, 'logout'])->name('logout');
+Route::get('/keluar', [Authentication::class, 'logout'])->name('logout');
