@@ -14,4 +14,13 @@ class Login extends Authenticatable
     {
         return $this->login_password;
     }
+
+    //dis
+    public $timestamps = false;
+
+    public function getRememberTokenName()
+    {
+        return null; // disable remember token
+    }
+    //able
 }

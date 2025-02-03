@@ -9,20 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class Authentication extends Controller
 {
-    /**
-     * Views
-     */
+    //views
     public function show(): View
     {
         return view('pages.masuk');
     }
 
-    /**
-     * Controllers
-     */
+    //Controllers
     public function login(Request $request)
     {
         try {
@@ -31,12 +28,15 @@ class Authentication extends Controller
                 'login_password' => 'required|string|max:255',
             ]);
 
-            $credentials = [
-                'login_username' => $request->login_username,
-                'login_password' => $request->login_password,
-            ];
+            // query ke db
+            $user = DB::table('login')
+                ->where('login_username', $request->login_username)
+                ->where('login_password', $request->login_password)
+                ->first();
 
-            if (Auth::guard()->attempt($credentials, $request->has('remember'))) {
+            if ($user) {
+                //  login
+                Auth::loginUsingId($user->login_id, true); // kolom login_id);
                 $request->session()->regenerate();
                 return redirect()->route('dasbor')->with('success', 'Berhasil masuk ke akun Anda.');
             }
@@ -45,6 +45,7 @@ class Authentication extends Controller
             return back()
                 ->withErrors(['error' => 'Nama pengguna atau kata sandi salah.'])
                 ->withInput($request->except('login_password'));
+
         } catch (ValidationException $validation) {
             return back()
                 ->withErrors($validation->errors())
