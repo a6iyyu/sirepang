@@ -1,55 +1,69 @@
-<section class="mx-auto w-4/5 flex flex-col items-center justify-center px-4 text-slate-950 lg:w-3/4">
-    <h3 class="font-bold text-3xl">Selamat Datang</h3>
-    <h5 class="mt-2 text-gray-600">
-        Silakan masuk ke akun Anda.
-    </h5>
-    <form action="{{ route('masuk') }}" method="POST" class="w-full">
-        @csrf
-        @if ($errors->any())
-            <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
-        <fieldset class="flex flex-col space-y-4">
-            <label for="login_username" class="font-medium">Nama Pengguna</label>
-            <div class="relative">
-                <i class="fa-solid fa-id-card absolute inset-y-0 top-4.5 left-0 flex items-center pl-5 text-gray-500"></i>
-                <input
-                    type="text"
-                    name="login_username"
-                    id="login_username"
-                    class="w-full rounded-lg border-2 pl-12 pr-4 py-3 transition-all duration-200 text-gray-700 focus:outline-none focus:border-[#1a4167] focus:ring-2 focus:ring-[#1a4167]/20 @error('login_username') border-red-500 @enderror"
-                    value="{{ old('login_username') }}"
-                    placeholder="Masukkan NIP Anda"
-                    autofocus
-                    required
-                />
+<section class="min-h-screen flex items-center justify-center bg-orange-100 p-2 sm:p-4 md:p-8">
+    <div class="w-full max-w-2xl px-2 sm:px-4">
+        {{-- Header --}}
+        <div class="flex flex-col md:flex-row items-center justify-center gap-0 mb-8 text-center">
+            <div class="bg-orange-100/10 p-2 rounded-2xl hover:shadow-lg transition-shadow duration-300">
+                <img src="{{ asset('img/logodkp.webp') }}" alt="Logo" class="w-16 h-16 sm:w-24 sm:h-24 md:w-20 md:h-20 object-contain">
             </div>
-        </fieldset>
-        <fieldset class="mt-4 flex flex-col space-y-4">
-            <label for="login_password" class="font-medium">Kata Sandi</label>
-            <div class="relative">
-                <i class="fa-solid fa-lock absolute inset-y-0 top-4.5 left-0 flex items-center pl-5 text-gray-500"></i>
-                <input
-                    type="password"
-                    name="login_password"
-                    id="login_password"
-                    class="w-full rounded-lg border-2 pl-12 pr-4 py-3 text-gray-700 focus:outline-none focus:border-[#1a4167] focus:ring-2 focus:ring-[#1a4167]/20 transition-all duration-200 @error('login_password') border-red-500 @enderror"
-                    placeholder="Masukkan Kata Sandi Anda"
-                    required
-                />
+            <div class="space-y-1">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-stone-800 tracking-tight">SIREPANG</h1>
+                <p class="hidden md:block text-stone-900/80 text-sm sm:text-base md:text-lg">Silakan masuk ke akun Anda</p>
+                <p class="block md:hidden text-stone-900/80 text-xs sm:text-sm">Kabupaten Malang</p>
             </div>
-        </fieldset>
-        <button
-            type="submit"
-            class="mt-10 cursor-pointer w-full p-4 rounded-lg font-semibold transform transition-all duration-200 bg-emerald-500 text-white focus:outline-none hover:scale-[1.02] hover:bg-emerald-400"
-        >
-            Masuk
-        </button>
-        <h5 class="mt-8 cursor-default text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} Dinas Ketahanan Pangan Kabupaten Malang
-        </h5>
-    </form>
+        </div>
+
+        {{-- Form --}}
+        <form action="{{ route('masuk') }}" method="POST" class="space-y-6 sm:space-y-8">
+            @csrf
+            {{-- Error Messages --}}
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-200 rounded-xl p-2 sm:p-4 text-red-700 text-xs sm:text-sm">
+                    <ul class="list-disc pl-4 sm:pl-6 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li class="text-stone-800">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- Username Input --}}
+            <div class="space-y-2 sm:space-y-3">
+                <div class="flex items-center gap-2">
+                    <i class="hidden md:block fa-solid fa-id-card text-stone-600 text-sm sm:text-base"></i>
+                    <label class="text-neutral-900 font-bold text-xs sm:text-sm">
+                        <span class="hidden md:inline">Nama Pengguna</span>
+                        <span class="inline md:hidden">NIP</span>
+                    </label>
+                </div>
+                <div class="relative group">
+                    <input type="text" name="login_username"
+                        class="w-full text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2 border-b-2 border-t-0 border-l-0 border-r-0 md:border-2 border-stone-800 md:rounded-xl md:bg-orange-50 bg-transparent focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all duration-200 text-stone-900 placeholder-stone-400"
+                        placeholder="Masukkan NIP Anda" value="{{ old('login_username') }}" required autofocus>
+                </div>
+            </div>
+
+            {{-- Password Input --}}
+            <div class="space-y-2 sm:space-y-3">
+                <div class="flex items-center gap-2">
+                    <i class="hidden md:block fa-solid fa-lock text-stone-600 text-sm sm:text-base"></i>
+                    <label class="text-stone-950 font-bold text-xs sm:text-sm">Kata Sandi</label>
+                </div>
+                <div class="relative group">
+                    <input type="password" name="login_password"
+                        class="w-full text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2 border-b-2 border-t-0 border-l-0 border-r-0 md:border-2 border-stone-800 md:rounded-xl md:bg-orange-50 bg-transparent focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all duration-200 text-stone-900 placeholder-stone-400"
+                        placeholder="Masukkan Kata Sandi Anda" required>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="mt-6 sm:mt-10 cursor-pointer w-full p-3 sm:p-4 rounded-lg font-semibold transform transition-all duration-200 bg-emerald-600 text-white focus:outline-none hover:scale-[1.02] hover:bg-emerald-400 flex items-center justify-center gap-2 text-xs sm:text-sm">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Masuk</span>
+            </button>
+
+            <p class="mt-6 sm:mt-8 cursor-default text-center text-xs sm:text-sm text-gray-500">
+                &copy; {{ date('Y') }} Dinas Ketahanan Pangan Kabupaten Malang
+            </p>
+        </form>
+    </div>
 </section>
