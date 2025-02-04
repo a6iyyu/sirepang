@@ -12,4 +12,8 @@ class Kader extends Model {
     public function kecamatan(): BelongsTo {
         return $this->belongsTo('App\Models\Kecamatan', 'kader_kec_id', 'kec_id');
     }
+
+    public function login(): BelongsTo {
+        return $this->belongsTo(Login::class, 'kader_login_id');
+    }
 }
