@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Keluarga extends Model {
     protected $table = 'keluarga';
@@ -18,5 +19,9 @@ class Keluarga extends Model {
 
     public function kader(): BelongsTo{
         return $this->belongsTo('App\Models\Kader', 'keluarga_kader_id', 'kader_id');
+    }
+
+    public function anggotaKeluarga(): HasMany{
+        return $this->hasMany('App\Models\AnggotaKeluarga', 'anggota_keluarga_keluarga_id', 'keluarga_id');
     }
 }
