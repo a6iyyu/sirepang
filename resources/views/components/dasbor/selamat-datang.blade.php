@@ -58,11 +58,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-green-200 p-6 rounded-2xl border-2 border-green-200 shadow-xs">
                         <h3 class="text-lg font-semibold text-stone-700 mb-3">Jumlah Desa</h3>
-                        <div class="text-4xl font-bold text-stone-700">10</div>
+                        <div class="text-4xl font-bold text-stone-700">{{ $jumlahDesa }}</div>
                     </div>
                     <div class="bg-green-200 p-6 rounded-2xl border-2 border-green-200 shadow-xs">
                         <h3 class="text-lg font-semibold text-stone-700 mb-3">Jumlah Keluarga</h3>
-                        <div class="text-4xl font-bold text-stone-700">10</div>
+                        <div class="text-4xl font-bold text-stone-700">{{ $jumlahKeluarga }}</div>
                     </div>
 
                     <!-- Riwayat Data -->
