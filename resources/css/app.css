@@ -23,4 +23,39 @@
         -webkit-appearance: none;
         appearance: none;
     }
+    /* Custom Color Palette */
+:root {
+    /* Background Colors */
+    --bg-primary: #F4F1E8;
+    --bg-secondary: #E5F5E6;
+
+    /* Text Colors */
+    --text-primary: #2C5E4F;
+    --text-secondary: #3D8361;
+    --text-light: #F4F1E8;
+
+    /* Green Variants */
+    --green-dark: #2C5E4F;
+    --green-medium: #3D8361;
+    --green-light: #E5F5E6;
+
+    /* Accent Colors */
+    --accent-orange: #FF6B35;
+
+    /* Utility Colors */
+    --logout-bg: #FF6B35;
+}
+
+/* Tailwind-compatible utility classes */
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.bg-green-dark { background-color: var(--green-dark); }
+.bg-green-medium { background-color: var(--green-medium); }
+.bg-green-light { background-color: var(--green-light); }
+.text-green-dark { color: var(--green-dark); }
+.text-green-medium { color: var(--green-medium); }
+.text-accent-orange { color: var(--accent-orange); }
+
 }
