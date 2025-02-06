@@ -20,6 +20,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('judul') | Sirepang</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" />
     <link rel="icon" href="{{ asset('img/logo.webp') }}" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -29,9 +30,9 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="min-h-screen @if(Route::is('masuk')) w-full grid grid-cols-1 lg:grid-cols-2 @endif">
+<body class="overflow-x-hidden min-h-screen h-full bg-[#fff8eb]">
     @auth
-        @include('shared.ui.sidebar')
+        @include('shared.navigation.sidebar')
     @endauth
     @yield('konten')
 </body>

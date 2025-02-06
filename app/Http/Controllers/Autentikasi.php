@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-class Authentication extends Controller
+class Autentikasi extends Controller
 {
     /**
      * Views

@@ -1,9 +1,14 @@
-<section class="mx-auto w-4/5 flex flex-col items-center justify-center px-4 text-slate-950 lg:w-3/4">
-    <h3 class="font-bold text-3xl">Selamat Datang</h3>
-    <h5 class="mt-2 text-gray-600">
+<section
+    class="w-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-lr from-[#a9d6ff] to-[#edf2f7] text-black lg:w-1/2 lg:px-4"
+    style="background: url({{ asset('img/latar-belakang.svg') }})"
+>
+    <h3 class="cursor-default font-bold text-xl text-[#1a4167] lg:text-3xl">
+        Selamat Datang
+    </h3>
+    <h5 class="mb-6 mt-1 cursor-default text-sm text-gray-600 lg:text-base">
         Silakan masuk ke akun Anda.
     </h5>
-    <form action="{{ route('masuk') }}" method="POST" class="w-full">
+    <form action="{{ route('masuk') }}" method="POST" class="w-3/4 lg:w-[65%]">
         @csrf
         @if ($errors->any())
             <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
@@ -19,7 +24,8 @@
                 type="text"
                 icon="fa-solid fa-id-card"
                 required="true"
-                placeholder="Masukkan Nama Kecamatan Anda" autofocus
+                placeholder="Masukkan Nama Kecamatan Anda"
+                autofocus
             />
             <x-input
                 name="login_password"
@@ -34,10 +40,10 @@
             <i class="fa-solid fa-right-to-bracket"></i>
             &ensp;Masuk
         </button>
-        <h5 class="mt-8 cursor-default text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} SIREPANG
-            <br />
-            Dinas Ketahanan Pangan Kabupaten Malang
-        </h5>
     </form>
+    <h5 class="mt-8 cursor-default text-center text-sm text-gray-500">
+        &copy; {{ date('Y') }} SIREPANG
+        <br />
+        Dinas Ketahanan Pangan Kabupaten Malang
+    </h5>
 </section>

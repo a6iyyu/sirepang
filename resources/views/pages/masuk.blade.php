@@ -9,6 +9,8 @@
 @endsection
 
 @section('konten')
-    @include('components.autentikasi.gambar')
-    @include('components.autentikasi.formulir')
+    <main class="min-h-[120vh] w-full relative flex flex-grow xl:min-h-screen">
+        @include('components.autentikasi.gambar')
+        @include('components.autentikasi.formulir')
+    </main>
 @endsection

@@ -8,9 +8,9 @@ use Illuminate\Contracts\View\View;
 
 class Input extends Component
 {
-    public $name, $label, $type, $icon, $required;
+    public string $name, $label, $type, $icon, $required;
 
-    public function __construct($name, $label, $type, $icon, $required)
+    public function __construct(string $name, string $label, string $type, string $icon, string $required)
     {
         $this->name = $name;
         $this->label = $label;
