@@ -4,5 +4,5 @@
     class="{{ $style }}"
 >
     <i class="{{ $icon }}"></i>
-    <h5 @if ($sidebar) id="sidebar-menu" @endif>{{ $route }}</h5>
+    <h5 @if ($sidebar) id="sidebar-menu" @endif>{{ $label }}</h5>
 </a>

@@ -35,6 +35,7 @@
         @include('shared.navigation.sidebar')
     @endauth
     @yield('konten')
+    @stack('skrip')
 </body>
 
 </html>

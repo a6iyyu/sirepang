@@ -16,16 +16,9 @@ class Keluarga extends Controller
         return view('pages.keluarga');
     }
 
-    public function form(): View
-    {
-        return view('pages.tambah-keluarga');
-    }
 
     /**
      * Controllers
      */
-    public function create()
-    {
-
-    }
+    public function create(Request $request) {}
 }

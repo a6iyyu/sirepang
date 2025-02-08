@@ -9,6 +9,9 @@ use Illuminate\View\View;
 
 class Dasbor extends Controller
 {
+    /**
+     * Views
+     */
     public function show(): View
     {
         $desa = Auth::user()->kader->kecamatan->desa;

@@ -8,12 +8,13 @@ use Illuminate\Contracts\View\View;
 
 class Menu extends Component
 {
-    public string $icon, $route, $style;
+    public string $icon, $label, $route, $style;
     public bool $sidebar;
 
-    public function __construct(string $icon, string $route, bool $sidebar = false, string $style)
+    public function __construct(string $icon, string $label, string $route, bool $sidebar, string $style)
     {
         $this->icon = $icon;
+        $this->label = $label;
         $this->route = $route;
         $this->sidebar = $sidebar;
         $this->style = $style;

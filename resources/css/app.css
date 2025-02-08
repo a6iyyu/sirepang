@@ -1,6 +1,49 @@
 @import "tailwindcss";
 @source "../views";
 
+:root {
+    --bg-primary: #f4f1e8;
+    --bg-secondary: #e5f5e6;
+    --text-primary: #2c5e4f;
+    --text-secondary: #3d8361;
+    --text-light: #f4f1e8;
+    --green-dark: #2c5e4f;
+    --green-medium: #3d8361;
+    --green-light: #e5f5e6;
+    --accent-orange: #ff6b35;
+    --logout-bg: #ff6b35;
+}
+.bg-primary {
+    background-color: var(--bg-primary);
+}
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+.text-primary {
+    color: var(--text-primary);
+}
+.text-secondary {
+    color: var(--text-secondary);
+}
+.bg-green-dark {
+    background-color: var(--green-dark);
+}
+.bg-green-medium {
+    background-color: var(--green-medium);
+}
+.bg-green-light {
+    background-color: var(--green-light);
+}
+.text-green-dark {
+    color: var(--green-dark);
+}
+.text-green-medium {
+    color: var(--green-medium);
+}
+.text-accent-orange {
+    color: var(--accent-orange);
+}
+
 @media screen and (max-width: 3120px) {
     ::-webkit-scrollbar {
         display: none !important;
@@ -23,39 +66,9 @@
         -webkit-appearance: none;
         appearance: none;
     }
-    /* Custom Color Palette */
-:root {
-    /* Background Colors */
-    --bg-primary: #F4F1E8;
-    --bg-secondary: #E5F5E6;
-
-    /* Text Colors */
-    --text-primary: #2C5E4F;
-    --text-secondary: #3D8361;
-    --text-light: #F4F1E8;
-
-    /* Green Variants */
-    --green-dark: #2C5E4F;
-    --green-medium: #3D8361;
-    --green-light: #E5F5E6;
-
-    /* Accent Colors */
-    --accent-orange: #FF6B35;
-
-    /* Utility Colors */
-    --logout-bg: #FF6B35;
-}
-
-/* Tailwind-compatible utility classes */
-.bg-primary { background-color: var(--bg-primary); }
-.bg-secondary { background-color: var(--bg-secondary); }
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.bg-green-dark { background-color: var(--green-dark); }
-.bg-green-medium { background-color: var(--green-medium); }
-.bg-green-light { background-color: var(--green-light); }
-.text-green-dark { color: var(--green-dark); }
-.text-green-medium { color: var(--green-medium); }
-.text-accent-orange { color: var(--accent-orange); }
-
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 }

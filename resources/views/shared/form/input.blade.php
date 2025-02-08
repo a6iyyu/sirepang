@@ -13,7 +13,7 @@
             type="{{ $type ?? 'text' }}"
             name="{{ $name }}"
             id="{{ $name }}"
-            class="w-full rounded-lg border-2 pl-12 pr-4 py-2.75 transition-all duration-200 text-gray-700 focus:outline-none focus:border-[#1a4167] focus:ring-2 focus:ring-[#1a4167]/20 @error($name) border-red-500 @enderror"
+            class="appearance-none w-full rounded-lg border-2 pl-12 pr-4 py-2.75 transition-all duration-200 text-gray-700 focus:outline-none focus:border-[#1a4167] focus:ring-2 focus:ring-[#1a4167]/20 @error($name) border-red-500 @enderror"
             value="{{ old($name) }}"
             @if (!empty($required)) required @endif
             {{ $attributes ?? '' }}
