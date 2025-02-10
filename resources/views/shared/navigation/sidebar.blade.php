@@ -28,5 +28,14 @@
             :style="'group relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' .
             (Request::routeIs('Keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
         />
+
+        <x-menu
+        icon="fa-solid fa-image mr-4"
+        label="Upload Foto"
+        route="foto"
+        sidebar="{{ true }}"
+        :style="'group relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' .
+        (Request::routeIs('Keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+    />
     </nav>
 </aside>

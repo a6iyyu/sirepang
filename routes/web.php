@@ -3,6 +3,7 @@
 use App\Http\Controllers\Autentikasi;
 use App\Http\Controllers\Dasbor;
 use App\Http\Controllers\Desa;
+use App\Http\Controllers\Foto;
 use App\Http\Controllers\Keluarga;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,9 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('keluarga')->group(function () {
         Route::get('/', [Keluarga::class, 'show'])->name('keluarga');
+    });
+    Route::prefix('foto')->group(function () {
+        Route::get('/', [Foto::class, 'show'])->name('foto');
     });
 });
 
