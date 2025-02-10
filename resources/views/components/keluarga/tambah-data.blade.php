@@ -43,6 +43,16 @@
         required="true"
     />
 
+
+    <x-input
+        name="status_keluarga"
+        label="Status Keluarga"
+        type="text"
+        icon="fa-solid fa-pen-to-square"
+        required="true"
+        placeholder="Cth: Menikah"
+    />
+
     <x-radio
         name="ibu_hamil"
         label="Apakah Terdapat Ibu Hamil?"
