@@ -1,4 +1,4 @@
-<aside class="fixed z-10 flex h-full flex-col space-y-4 pl-6 pr-8 py-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out">
+<aside class="fixed z-30 flex h-full flex-col space-y-4 pl-6 pr-8 py-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out">
     <section class="flex space-x-8">
         <div class="cursor-default flex items-center space-x-4">
             <img src="{{ asset('img/logo.webp') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
@@ -13,29 +13,18 @@
     <hr class="mt-2 h-0.5 w-full text-green-dark" />
     <nav class="mt-2 space-y-4">
         <x-menu
-            icon="fa-solid fa-gauge-high mr-4"
+            icon="fa-solid fa-gauge-high"
             label="Dasbor"
             route="dasbor"
             sidebar="{{ true }}"
-            :style="'group relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' .
-            (Request::routeIs('Dasbor') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Dasbor') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
         />
         <x-menu
-            icon="fa-solid fa-users mr-4"
+            icon="fa-solid fa-users"
             label="Keluarga"
             route="keluarga"
             sidebar="{{ true }}"
-            :style="'group relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' .
-            (Request::routeIs('Keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
         />
-
-        <x-menu
-        icon="fa-solid fa-image mr-4"
-        label="Upload Foto"
-        route="foto"
-        sidebar="{{ true }}"
-        :style="'group relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' .
-        (Request::routeIs('Keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
-    />
     </nav>
 </aside>

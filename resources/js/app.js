@@ -1,9 +1,5 @@
 import "./bootstrap";
 import { Carousel } from "./carousel";
-import { OpenModal, CloseModal } from "./form";
-
-window.open_modal = OpenModal;
-window.close_modal = CloseModal;
 
 document.addEventListener("DOMContentLoaded", () => {
     // Carousel
