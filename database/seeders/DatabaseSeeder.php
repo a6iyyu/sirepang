@@ -8,5 +8,12 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run(): void { }
+    public function run(): void {
+        $this->call(KecamatanTableSeeder::class);
+        $this->call(DesaTableSeeder::class);
+        $this->call(JenisPanganTableSeeder::class);
+        $this->call(PanganTableSeeder::class);
+        $this->call(KaderTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+    }
 }
