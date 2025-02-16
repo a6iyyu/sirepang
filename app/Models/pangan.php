@@ -8,9 +8,5 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Pangan extends Model
 {
     protected $tables = 'pangan';
-    protected $primaryKey = 'idpangan';
-    protected function jenisPangan(): BelongsTo
-    {
-        return $this->belongsTo(JenisPangan::class, 'idjenis_pangan');
-    }
+    protected $primaryKey = 'id_pangan';
 }

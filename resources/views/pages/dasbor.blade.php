@@ -12,6 +12,6 @@
         @include('components.dasbor.selamat-datang')
         @include('components.dasbor.jumlah-desa-dan-keluarga')
         @include('components.dasbor.sortir')
-        @include('components.dasbor.tabel-data-keluarga')
+        @include('components.dasbor.tabel')
     </main>
 @endsection

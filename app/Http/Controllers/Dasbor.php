@@ -14,8 +14,8 @@ class Dasbor extends Controller
      */
     public function show(): View
     {
-        $desa = Auth::user()->kader->kecamatan->desa;
-        $keluarga = Auth::user()->kader->kecamatan->keluarga;
+        $desa = Auth::user()->desa;
+        $keluarga = Auth::user()->keluarga;
         $data_keluarga = $keluarga->map(function ($item) {
             return [
                 'nama' => $item->anggota_keluarga_nama,

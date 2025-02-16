@@ -1,7 +1,7 @@
 <section class="flex flex-col justify-between pt-10 lg:flex-row">
     <div class="cursor-default text-green-dark">
         <h2 class="font-bold text-3xl">
-            Selamat datang, {{ Auth::user()->kader->kader_nama }}!
+            Selamat datang, {{ ucfirst(strtolower(Auth::user()->users->username)) }}!
         </h2>
         <h5 class="mt-2 italic">
             Apa yang bisa dibantu?

@@ -4,15 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('pangan', function (Blueprint $table) {
-            $table->integer('idpangan', true)->unique('idpangan_unique');
+            $table->integer('id_pangan', true)->unique('id_pangan_unique');
             $table->string('nama_pangan');
             $table->string('takaran');
             $table->integer('urt');
@@ -21,15 +17,11 @@ return new class extends Migration
             $table->decimal('lemak', 9);
             $table->decimal('karbohidrat', 9);
             $table->decimal('protein', 9);
-            $table->integer('idjenis_pangan')->index('fk_pangan_jenis_pangan1_idx');
-
-            $table->primary(['idpangan']);
+            $table->integer('id_jenis_pangan')->index('fk_pangan_jenis_pangan1_idx');
+            $table->primary(['id_pangan']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pangan');

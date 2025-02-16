@@ -29,34 +29,37 @@ class Autentikasi extends Controller
     {
         try {
             $request->validate([
-                'login_username' => 'required|string|max:255',
-                'login_password' => 'required|string|max:255',
+                'username' => 'required|string|max:255',
+                'password' => 'required|string|max:255',
+            ], [
+                'username.required' => 'Harap mengisikan nama daerah Anda!',
+                'password.required' => 'Isi kata sandi terlebih dahulu!',
             ]);
 
-            $user = DB::table('login')
-                ->where('login_username', $request->login_username)
-                ->where('login_password', $request->login_password)
+            $user = DB::table('users')
+                ->where('username', $request->username)
+                ->where('password', $request->password)
                 ->first();
 
             if ($user) {
-                Auth::loginUsingId($user->login_id, true);
+                Auth::loginUsingId($user->id_user, true);
                 $request->session()->regenerate();
                 return redirect()->route('dasbor')->with('success', 'Berhasil masuk ke akun Anda.');
             }
 
-            Log::warning('Upaya masuk gagal dilakukan.', ['login_username' => $request->login_username]);
+            Log::warning('Upaya masuk gagal dilakukan.', ['username' => $request->username]);
             return back()
                 ->withErrors(['error' => 'Nama pengguna atau kata sandi salah.'])
-                ->withInput($request->except('login_password'));
+                ->withInput($request->except('password'));
         } catch (ValidationException $validation) {
             return back()
                 ->withErrors($validation->errors())
-                ->withInput($request->except('login_password'));
+                ->withInput($request->except('password'));
         } catch (Exception $exception) {
             Log::error("Terjadi kesalahan: ", ['error' => $exception->getMessage()]);
             return back()
                 ->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])
-                ->withInput($request->except('login_password'));
+                ->withInput($request->except('password'));
         }
     }
 

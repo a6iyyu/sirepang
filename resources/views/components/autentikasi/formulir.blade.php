@@ -19,7 +19,7 @@
         @endif
         <div class="mt-7 space-y-5">
             <x-input
-                name="login_username"
+                name="username"
                 label="Nama Kecamatan"
                 type="text"
                 icon="fa-solid fa-id-card"
@@ -28,7 +28,7 @@
                 autofocus
             />
             <x-input
-                name="login_password"
+                name="password"
                 label="Kata Sandi"
                 type="password"
                 icon="fa-solid fa-lock"

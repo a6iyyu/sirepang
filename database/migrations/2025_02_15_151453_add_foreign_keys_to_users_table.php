@@ -4,21 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign(['idkader'], 'users_ibfk_1')->references(['idkader'])->on('kader')->onUpdate('no action')->onDelete('no action');
+            $table->foreign(['id_kader'], 'users_ibfk_1')->references(['id_kader'])->on('kader')->onUpdate('no action')->onDelete('no action');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
