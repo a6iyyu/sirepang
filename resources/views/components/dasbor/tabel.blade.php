@@ -3,7 +3,7 @@
         'headers' => ['nama', 'desa', 'Aksi'],
         'sortable' => ['desa'],
     ])
-    @if(count($data) > 0)
+    @if(isset($data) && is_array($data) && count($data) > 0)
         <tr>
             <th>nama</th>
             <th>desa</th>
