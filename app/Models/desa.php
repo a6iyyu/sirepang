@@ -9,4 +9,9 @@ class Desa extends Model
 {
     protected $table = 'desa';
     protected $primaryKey = 'id_desa';
+
+    public function kecamatan(): BelongsTo
+    {
+        return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id_kecamatan');
+    }
 }

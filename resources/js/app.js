@@ -1,5 +1,8 @@
 import "./bootstrap";
+import { PreviewImage } from "./preview-image";
 import { Carousel } from "./carousel";
+
+window.preview_image = PreviewImage;
 
 document.addEventListener("DOMContentLoaded", () => {
     // Carousel

@@ -15,7 +15,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('keluarga')->group(function () {
         Route::get('/', fn() => view('pages.keluarga'))->name('keluarga');
-        Route::get('/tambah-data', fn() => view('pages.tambah-data-keluarga'))->name('tambah-data-keluarga');
+        Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data-keluarga');
+        Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
     });
 });
 

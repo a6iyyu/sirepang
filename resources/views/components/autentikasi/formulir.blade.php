@@ -21,19 +21,18 @@
             <x-input
                 name="username"
                 label="Nama Kecamatan"
-                type="text"
                 icon="fa-solid fa-id-card"
-                required="true"
                 placeholder="Masukkan Nama Kecamatan Anda"
-                autofocus
+                autocomplete
+                required
             />
             <x-input
                 name="password"
                 label="Kata Sandi"
                 type="password"
                 icon="fa-solid fa-lock"
-                required="true"
                 placeholder="Masukkan Kata Sandi Anda"
+                required
             />
         </div>
         <button type="submit" class="mt-10 cursor-pointer w-full p-4 rounded-lg font-semibold transform transition-all duration-200 bg-emerald-500 text-white focus:outline-none hover:scale-[1.02] hover:bg-emerald-400">

@@ -6,8 +6,7 @@ use Illuminate\View\Component;
 
 class Select extends Component
 {
-    public string $name;
-    public string $label;
+    public string $name, $label;
     public array $options;
     public bool $required;
 

@@ -1,16 +1,22 @@
-<div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700 mb-2">{{ $label }}</label>
+<fieldset class="flex w-full flex-col justify-between space-y-4">
+    <h5 class="font-medium">
+        {{ $label }}
+        @if (!empty($required))
+            <span class="text-red-500">*</span>
+        @endif
+    </h5>
     <div class="flex items-center space-x-6">
-        @foreach($options as $value => $text)
-            <label class="inline-flex items-center">
-                <input 
-                    type="radio" 
-                    name="{{ $name }}" 
-                    value="{{ $value }}" 
-                    class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                >
-                <span class="ml-2">{{ $text }}</span>
-            </label>
+        @foreach ($options as $value => $text)
+            <span class="inline-flex items-center cursor-pointer">
+                <input
+                    type="radio"
+                    name="{{ $name }}"
+                    id="{{ $name . '_' . $value }}"
+                    value="{{ $value }}"
+                    class="h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                />
+                <label for="{{ $name . '_' . $value }}" class="ml-2 cursor-pointer">{{ $text }}</label>
+            </span>
         @endforeach
     </div>
-</div>
+</fieldset>

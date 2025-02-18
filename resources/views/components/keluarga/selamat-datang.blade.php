@@ -1,4 +1,4 @@
-<section class="flex flex-col justify-between pt-10 lg:flex-row">
+<section class="flex flex-col justify-between lg:flex-row">
     <div class="cursor-default text-green-dark">
         <h2 class="font-bold text-3xl">
             Data Keluarga

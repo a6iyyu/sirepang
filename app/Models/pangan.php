@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pangan extends Model
 {
-    protected $tables = 'pangan';
+    protected $table = 'pangan';
     protected $primaryKey = 'id_pangan';
 }
