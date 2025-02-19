@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Desa;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +15,8 @@ class DatabaseSeeder extends Seeder
             JenisPangan::class,
             Pangan::class,
             Kader::class,
-            Users::class
+            RentangUang::class,
+            Users::class,
         ]);
     }
 }

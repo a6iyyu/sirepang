@@ -26,6 +26,7 @@ class Keluarga extends Controller
         $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)
             ->pluck('nama_desa', 'id_desa')
             ->toArray();
+
         $range_pendapatan = KeluargaModel::all()->pluck('range_pendapatan', 'id_keluarga')->toArray();
         $range_pengeluaran = KeluargaModel::all()->pluck('range_pengeluaran', 'id_keluarga')->toArray();
         $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
