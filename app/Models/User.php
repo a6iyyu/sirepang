@@ -25,4 +25,9 @@ class User extends Authenticable
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
+
+    public function kader()
+    {
+        return $this->belongsTo(Kader::class, 'id_kader','id_kader');
+    }
 }
