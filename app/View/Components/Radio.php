@@ -6,15 +6,16 @@ use Illuminate\View\Component;
 
 class Radio extends Component
 {
-    public string $name;
-    public string $label;
     public array $options;
+    public ?bool $required;
+    public string $name, $label;
 
-    public function __construct(string $name, string $label, array $options)
+    public function __construct(array $options, ?bool $required, string $name, string $label)
     {
+        $this->options = $options;
+        $this->required = $required;
         $this->name = $name;
         $this->label = $label;
-        $this->options = $options;
     }
 
     public function render()

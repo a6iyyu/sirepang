@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Desa as DesaModel;
 use App\Models\JenisPangan as JenisPanganModel;
-use App\Models\Kader;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
 use App\Models\User;
@@ -27,16 +26,21 @@ class Keluarga extends Controller
             ->pluck('nama_desa', 'id_desa')
             ->toArray();
 
+        $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
+        $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(function ($items) {
+            return $items->pluck('nama_pangan', 'id_pangan')->toArray();
+        })->toArray();
+
         $range_pendapatan = KeluargaModel::all()->pluck('range_pendapatan', 'id_keluarga')->toArray();
         $range_pengeluaran = KeluargaModel::all()->pluck('range_pengeluaran', 'id_keluarga')->toArray();
-        $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
         $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
 
         return view('pages.tambah-data-keluarga', [
             'desa' => $desa,
+            'jenis_pangan' => $jenis_pangan,
+            'nama_pangan' => $nama_pangan,
             'range_pendapatan' => $range_pendapatan,
             'range_pengeluaran' => $range_pengeluaran,
-            'jenis_pangan' => $jenis_pangan,
             'takaran' => $takaran,
         ]);
     }

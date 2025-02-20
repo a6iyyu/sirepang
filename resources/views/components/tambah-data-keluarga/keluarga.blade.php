@@ -55,6 +55,7 @@
             '1' => 'Ya',
             '0' => 'Tidak',
         ]"
+        required
     />
     <x-radio
         name="is_menyusui"
@@ -63,6 +64,7 @@
             '1' => 'Ya',
             '0' => 'Tidak',
         ]"
+        required=""
     />
     <x-radio
         name="is_balita"

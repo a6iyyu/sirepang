@@ -6,21 +6,17 @@
         name="nama_jenis"
         label="Jenis Pangan"
         :options="$jenis_pangan"
-        required
     />
-    <x-input
+    <x-select
         name="nama_pangan"
-        label="Nama Makanan"
-        icon="fa-solid fa-bowl-rice"
-        placeholder="Cth. Nasi"
-        required
+        label="Nama Pangan"
+        :options="[]"
     />
     <x-input
         name="urt"
-        label="Takaran URT"
+        label="Jumlah URT"
         icon="fa-solid fa-ruler"
         placeholder="Cth. 1"
-        required
     />
 </section>
 <section class="flex justify-end">
@@ -31,8 +27,8 @@
 </section>
 <section class="mt-6 mb-8">
     @include('shared.table.table', [
-        'headers' => ['Nama', 'Desa', 'Aksi'],
-        'sortable' => ['Desa'],
+        'headers' => ['Nama Pangan', 'Jenis Pangan', 'Takaran URT', 'Aksi'],
+        'sortable' => ['Nama Pangan'],
     ])
     @if (isset($data) && is_array($data) && count($data) > 0)
         <tr>
@@ -63,3 +59,27 @@
         @endforeach
     @endif
 </section>
+
+@push('skrip')
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let jenis_pangan = document.querySelector("[name='nama_jenis']");
+            let nama_pangan = document.querySelector("[name='nama_pangan']");
+            let daftar_pangan = @json($nama_pangan);
+
+            jenis_pangan.addEventListener("change", () => {
+                let selected = jenis_pangan.value;
+                nama_pangan.innerHTML = "<option value='' selected disabled>Pilih Nama Pangan</option>";
+
+                if (daftar_pangan[selected]) {
+                    Object.entries(daftar_pangan[selected]).forEach(([id, nama]) => {
+                        let option = document.createElement("option");
+                        option.value = id;
+                        option.textContent = nama;
+                        nama_pangan.appendChild(option);
+                    });
+                }
+            });
+        });
+    </script>
+@endpush
