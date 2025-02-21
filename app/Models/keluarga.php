@@ -10,4 +10,15 @@ class Keluarga extends Model
 {
     protected $table = 'keluarga';
     protected $primaryKey = 'id_keluarga';
+
+    public function rentangPendapatan(): BelongsTo
+    {
+        return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pendapatan');
+    }
+
+    public function rentangPengeluaran(): BelongsTo
+    {
+        return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pengeluaran');
+
+    }
 }
