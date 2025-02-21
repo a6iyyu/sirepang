@@ -13,22 +13,10 @@ use Illuminate\View\View;
 
 class Autentikasi extends Controller
 {
-    /**
-     * Views
-     */
-    public function show(): View
-    {
-        return view('pages.masuk');
-    }
-
-
-    /**
-     * Controllers
-     */
     public function login(Request $request)
     {
         try {
-            $request->validate([
+            $credentials = $request->validate([
                 'username' => 'required|string|max:255',
                 'password' => 'required|string|max:255',
             ], [

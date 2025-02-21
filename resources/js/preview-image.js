@@ -2,7 +2,7 @@
 
 export const PreviewImage = (event) => {
     const file = event.target.files[0];
-    const file_upload = document.querySelector("label[for='file-upload']");
+    const file_upload = document.querySelector("label[for='gambar']");
     const image_preview = document.getElementById("image-preview");
     const reader = new FileReader();
     image_preview.innerHTML = "";

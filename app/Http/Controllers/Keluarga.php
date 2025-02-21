@@ -35,7 +35,7 @@ class Keluarga extends Controller
         $range_pengeluaran = KeluargaModel::all()->pluck('range_pengeluaran', 'id_keluarga')->toArray();
         $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
 
-        return view('pages.tambah-data-keluarga', [
+        return view('pages.surveyor.tambah-data-keluarga', [
             'desa' => $desa,
             'jenis_pangan' => $jenis_pangan,
             'nama_pangan' => $nama_pangan,
@@ -52,7 +52,21 @@ class Keluarga extends Controller
     public function create(Request $request)
     {
         try {
-            $request->validate([]);
+            $request->validate([
+                'nama_kepala_keluarga' => 'string|required|max:255',
+                'nama_desa' => 'string|required|max:255',
+                'alamat' => 'string|required|max:255',
+                'jumlah_keluarga' => 'integer|required|min:1|max:3',
+                'range_pendapatan' => 'string|required|max:255',
+                'range_pengeluaran'  => 'string|required|max:255',
+                'is_hamil' => 'in:1,0|required',
+                'is_menyusui' => 'in:1,0|required',
+                'is_balita' => 'in:1,0|required',
+                'gambar' => 'image|mimes:jpeg,png,jpg|max:4096|required',
+                'nama_jenis' => 'required|exists:jenis_pangan,nama_jenis',
+                'nama_pangan' => 'required|exists:pangan,nama_pangan',
+                'urt' => 'integer|required|min:1|max:4',
+            ]);
         } catch (Exception $exception) {
             Log::error('Terdapat kesalahan pada sistem!', ['error' => $exception->getMessage()]);
         }

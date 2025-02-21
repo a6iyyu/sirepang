@@ -12,8 +12,8 @@
         class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        @include('components.keluarga.selamat-datang')
-        @include('components.keluarga.sortir')
-        @include('components.keluarga.tabel')
+        @include('components.surveyor.keluarga.selamat-datang')
+        @include('components.surveyor.keluarga.sortir')
+        @include('components.surveyor.keluarga.tabel')
     </main>
 @endsection

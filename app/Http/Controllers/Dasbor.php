@@ -27,7 +27,7 @@ class Dasbor extends Controller
             ];
         });
 
-        return view('pages.dasbor', [
+        return view('pages.surveyor.dasbor', [
             'jumlah_desa' => $desa->count(),
             'jumlah_keluarga' => $keluarga->count(),
             'data_keluarga' => $data_keluarga,

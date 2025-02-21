@@ -10,7 +10,7 @@
 
 @section('konten')
     <main class="min-h-screen w-full relative flex flex-grow">
-        @include('components.autentikasi.gambar')
-        @include('components.autentikasi.formulir')
+        @include('components.auth.gambar')
+        @include('components.auth.formulir')
     </main>
 @endsection
