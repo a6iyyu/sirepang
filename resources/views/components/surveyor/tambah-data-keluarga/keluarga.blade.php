@@ -37,13 +37,13 @@
     <x-select
         name="range_pendapatan"
         label="Pendapatan Keluarga"
-        :options="$range_pendapatan"
+        :options="$rentang_uang"
         required
     />
     <x-select
         name="range_pengeluaran"
         label="Pengeluaran Keluarga"
-        :options="$range_pengeluaran"
+        :options="$rentang_uang"
         required
     />
 </section>

@@ -16,7 +16,7 @@ class Autentikasi extends Controller
     public function login(Request $request)
     {
         try {
-            $credentials = $request->validate([
+            $request->validate([
                 'username' => 'required|string|max:255',
                 'password' => 'required|string|max:255',
             ], [
@@ -32,7 +32,7 @@ class Autentikasi extends Controller
             if ($user) {
                 Auth::loginUsingId($user->id_user, true);
                 $request->session()->regenerate();
-                return redirect()->route('dasbor')->with('success', 'Berhasil masuk ke akun Anda.');
+                return redirect()->route($user->tipe === 'admin' ? 'admin' : 'dasbor')->with('success', 'Berhasil masuk ke akun Anda.');
             }
 
             Log::warning('Upaya masuk gagal dilakukan.', ['username' => $request->username]);
