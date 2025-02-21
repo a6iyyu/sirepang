@@ -4,16 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('rentang_uang', function (Blueprint $table) {
-            $table->integer('id_rentang_uang')->primary()->autoIncrement();
+            $table->integer('id_rentang_uang', true);
             $table->string('batas_bawah', 16);
             $table->string('batas_atas', 16);
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('rentang_uang');
