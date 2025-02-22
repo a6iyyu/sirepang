@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('pangan_keluarga', function (Blueprint $table) {
+            $table->integer('id_pangan_keluarga')->primary();
+            $table->integer('id_pangan')->index('id_pangan');
+            $table->integer('id_keluarga')->index('id_keluarga');
+            $table->unsignedInteger('urt');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('pangan_keluarga');
+    }
+};
