@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->tinyInteger('is_menyusui')->default(1);
             $table->tinyInteger('is_balita')->default(1);
             $table->longText('gambar');
-            $table->integer('kecamatan_id_kecamatan')->index('fk_keluarga_kecamatan1_idx');
+            $table->integer('id_kecamatan')->index('fk_keluarga_kecamatan1_idx');
             $table->integer('id_desa')->index('fk_keluarga_desa1_idx');
             $table->integer('id_kader')->index('fk_keluarga_kader1_idx');
             $table->integer('rentang_pendapatan')->nullable()->index('fk_rentang_pendapatan');
