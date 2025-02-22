@@ -23,6 +23,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/tambah-data', [Keluarga::class, 'show']);
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
     });
+
+    Route::get('/test', action: [Keluarga::class, 'show']);
+    Route::post('/test', action: [Keluarga::class, 'create'])->name('testing');
 });
 
 Route::get('/keluar', [Autentikasi::class, 'logout'])->name('keluar');

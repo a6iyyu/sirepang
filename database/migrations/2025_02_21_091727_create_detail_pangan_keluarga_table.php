@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('detail_pangan_keluarga', function (Blueprint $table) {
             $table->integer('id_detail_pangan_keluarga', true)->unique('id_detail_pangan_keluarga_unique');
             $table->string('jumlah_urt', 10);
-            $table->timestamp('waktu')->useCurrent();
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
             $table->integer('id_keluarga')->index('fk_detail_pangan_keluarga_keluarga1_idx');
             $table->integer('id_pangan')->index('fk_detail_pangan_keluarga_pangan1_idx');
 
