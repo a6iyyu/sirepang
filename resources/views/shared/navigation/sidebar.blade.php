@@ -12,6 +12,7 @@
     <i id="open" class="fa-solid fa-bars !hidden cursor-pointer text-center text-xl text-white"></i>
     <hr class="mt-2 h-0.5 w-full text-green-dark" />
     <nav class="mt-2 space-y-4">
+        @if (Auth::check() && Auth::user()->tipe == 'kader')
         <x-menu
             icon="fa-solid fa-gauge-high"
             label="Dasbor"
@@ -26,10 +27,11 @@
             sidebar="{{ true }}"
             :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
         />
+        @endif
         @if (Auth::check() && Auth::user()->tipe == 'admin')
         <x-menu
             icon="fa-solid fa-user-shield"
-            label="Admin"
+            label="Dasbor"
             route="admin"
             sidebar="{{ true }}"
             :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Admin') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"

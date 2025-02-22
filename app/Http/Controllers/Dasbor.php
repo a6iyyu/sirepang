@@ -27,11 +27,18 @@ class Dasbor extends Controller
             ];
         });
 
-        return view('pages.surveyor.dasbor', [
-            'jumlah_desa' => $desa->count(),
-            'jumlah_keluarga' => $keluarga->count(),
-            'data_keluarga' => $data_keluarga,
-            'penomoran_halaman' => '',
-        ]);
+        if (Auth::user()->tipe == 'admin') {
+            return view('pages.admin.dasbor', []);
+        } elseif (Auth::user()->tipe == 'kader') {
+            return view('pages.surveyor.dasbor', [
+                'jumlah_desa' => $desa->count(),
+                'jumlah_keluarga' => $keluarga->count(),
+                'data_keluarga' => $data_keluarga,
+                'penomoran_halaman' => '',
+            ]);
+        } else {
+            // Handle other user types or redirect to a default page
+            return redirect()->route('/masuk');
+        }
     }
 }
