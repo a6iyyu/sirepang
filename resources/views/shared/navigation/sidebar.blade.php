@@ -26,5 +26,21 @@
             sidebar="{{ true }}"
             :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
         />
+        @if (Auth::check() && Auth::user()->tipe == 'admin')
+        <x-menu
+            icon="fa-solid fa-user-shield"
+            label="Admin"
+            route="admin"
+            sidebar="{{ true }}"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Admin') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+        />
+        <x-menu
+            icon="fa-solid fa-map"
+            label="Data Kecamatan"
+            route="data-kecamatan"
+            sidebar="{{ true }}"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('data-kecamatan') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+        />
+    @endif
     </nav>
 </aside>
