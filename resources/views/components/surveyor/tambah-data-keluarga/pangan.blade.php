@@ -1,173 +1,199 @@
 <h3 class="mb-6 cursor-default font-bold text-3xl text-primary">
     Masukkan Data Pangan
 </h3>
-<section id="form" class="hidden mb-6 bg-transparent rounded-lg border border-gray-200 p-6">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <x-select name="nama_jenis" label="Jenis Pangan" :options="$jenis_pangan" />
-        <x-select name="nama_pangan" label="Nama Pangan" :options="[]" />
-        <x-input type="number" name="urt" label="Jumlah URT" icon="fa-solid fa-ruler" placeholder="Cth. 1" />
+
+<form id="panganForm">
+    <div class="overflow-x-auto shadow-lg rounded-">
+        <table class="w-full border-collapse bg-transparent">
+            <thead>
+                <tr class="bg-green-dark">
+                    <th class="px-6 py-4 text-left text-white font-semibold">Jenis Pangan</th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">Nama Pangan</th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">Takaran URT</th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="panganTableBody">
+                <tr id="form-row">
+                    <td class="px-6 py-4">
+                        <select id="nama_jenis" class="w-full rounded-lg border border-green-800 focus:border-green-500 focus:ring-2 focus:ring-green-800 transparent py-2.5 px-2">
+                            <option value="" selected disabled>Pilih Jenis Pangan</option>
+                            @foreach($jenis_pangan as $id => $jenis)
+                                <option value="{{ $id }}">{{ $jenis }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <select id="nama_pangan" class="w-full rounded-lg border border-green-800 focus:border-green-500 focus:ring-2 focus:ring-green-800 bg-transparent py-2.5 px-2">
+                            <option value="" selected disabled>Pilih Nama Pangan</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input type="number" id="urt" class="w-full rounded-lg border border-green-800 focus:border-green-500 focus:ring-2 focus:ring-green-800 bg-transparent py-2.5 px-2" placeholder="Cth. 1">
+                    </td>
+                    <td class="px-6 py-4">
+                        <button type="button" id="tambah" class="px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
+                            <i class="fa-solid fa-plus mr-1"></i> Tambah Baru
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <span class="flex justify-end gap-2 mt-6">
-        <button
-            type="button"
-            id="batalkan"
-            class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green text-gray-700 border border-gray-300 hover:bg-gray-200"
-        >
-            Kembali
+
+    <div class="mt-6 flex justify-end">
+        <button type="submit" id="submitForm" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
+            <i class="fa-solid fa-save mr-2"></i> Simpan Semua Data
         </button>
-        <button
-            type="button"
-            id="simpan"
-            class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green-dark text-white hover:bg-green-700"
-        >
-            Simpan
-        </button>
-    </span>
-</section>
-<button
-    type="button"
-    id="tambah-pangan"
-    class="mb-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white hover:bg-green-700"
->
-    <i class="fa-solid fa-plus mr-2"></i>
-    Tambah
-</button>
-<div class="my-8">
-    @include('shared.table.table', [
-        'headers' => ['Nama Pangan', 'Jenis Pangan', 'Takaran URT', 'Aksi'],
-        'sortable' => ['Nama Pangan'],
-        'rows' => [],
-    ])
-</div>
-<input type="hidden" id="data_pangan" name="data_pangan" value="[]">
+    </div>
+</form>
 
 @push('skrip')
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById('form');
-            const tambah_pangan = document.getElementById('tambah-pangan');
-            const batalkan = document.getElementById('batalkan');
-            const simpan = document.getElementById('simpan');
-            const jenis_pangan = document.querySelector("[name='nama_jenis']");
-            const nama_pangan = document.querySelector("[name='nama_pangan']");
-            const urt = document.querySelector("[name='urt']");
-            const data_pangan = document.getElementById('data_pangan');
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const panganForm = document.getElementById('panganForm');
+    const formRow = document.getElementById('form-row');
+    const tambah = document.getElementById('tambah');
+    const jenisSelect = document.getElementById('nama_jenis');
+    const namaSelect = document.getElementById('nama_pangan');
+    const urtInput = document.getElementById('urt');
 
-            let daftar_pangan = [];
-            let editing_index = null;
+    let daftarPangan = [];
 
-            const perbarui_tabel = () => {
-                const tbody = document.querySelector("tbody");
-                tbody.innerHTML = '';
+    const perbaruiTabel = () => {
+        const existingRows = document.querySelectorAll('tr[data-pangan-row]');
+        existingRows.forEach(row => row.remove());
 
-                daftar_pangan.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    row.classList.add('flex', 'transition-colors', 'duration-200');
-                    row.innerHTML = `
-                        <td class="flex w-full items-center justify-center px-6 py-4">${item.nama_pangan_text}</td>
-                        <td class="flex w-full items-center justify-center px-6 py-4">${item.jenis_pangan_text}</td>
-                        <td class="flex w-full items-center justify-center px-6 py-4">${item.urt}</td>
-                        <td class="flex w-full items-center justify-center px-6 py-4">
-                            <button id="edit" class="cursor-pointer mr-2 transition-colors rounded-lg !text-sm px-4 py-3 bg-[#2c5e4f] text-white hover:bg-green-700" data-index="${index}">
-                                <i class="fa-solid fa-pencil"></i>
-                            </button>
-                            <button id="delete" class="cursor-pointer transition-colors rounded-lg !text-sm px-4 py-3 bg-red-600 text-white hover:bg-red-500" data-index="${index}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                document.querySelectorAll("#edit").forEach(button => button.addEventListener("click", () => edit_pangan(button.dataset.index)));
-                document.querySelectorAll("#delete").forEach(button => button.addEventListener("click", () => hapus_pangan(button.dataset.index)));
-            };
-
-            window.edit_pangan = (index) => {
-                editing_index = index;
-                const item = daftar_pangan[index];
-                jenis_pangan.value = item.jenis_pangan;
-                pilihan_nama_pangan(item.jenis_pangan, item.nama_pangan);
-                urt.value = item.urt;
-
-                form.classList.remove('hidden');
-                tambah_pangan.classList.add('hidden');
-            };
-
-            const hapus_pangan = (index) => {
-                daftar_pangan.splice(index, 1);
-                perbarui_tabel();
-                perbarui_masukan();
-            };
-
-            const reset_formulir = () => {
-                jenis_pangan.value = "";
-                pilihan_nama_pangan("");
-                urt.value = "";
-            };
-
-            const perbarui_masukan = () => data_pangan.value = JSON.stringify(daftar_pangan);
-
-            const pilihan_nama_pangan = (nama_jenis, pilihan = "") => {
-                nama_pangan.innerHTML = "<option value='' selected disabled>Pilih Nama Pangan</option>";
-                if (@json($nama_pangan)[nama_jenis]) {
-                    Object.entries(@json($nama_pangan)[nama_jenis]).forEach(([id, nama]) => {
-                        let option = document.createElement("option");
-                        option.value = nama;
-                        option.textContent = nama;
-                        if (id === pilihan) option.selected = true;
-                        nama_pangan.appendChild(option);
-                    });
-                }
-            };
-
-            tambah_pangan.addEventListener('click', () => {
-                editing_index = null;
-                reset_formulir();
-                form.classList.remove('hidden');
-                tambah_pangan.classList.add('hidden');
-            });
-
-            batalkan.addEventListener('click', () => {
-                form.classList.add('hidden');
-                tambah_pangan.classList.remove('hidden');
-                reset_formulir();
-                editing_index = null;
-            });
-
-            jenis_pangan.addEventListener("change", () => {
-                pilihan_nama_pangan(jenis_pangan.value);
-            });
-
-            simpan.addEventListener('click', () => {
-                if (!jenis_pangan.value || !nama_pangan.value || !urt.value) {
-                    alert("Semua bidang harus diisi!");
-                    return;
-                }
-
-                const item = {
-                    jenis_pangan: jenis_pangan.value,
-                    nama_pangan: nama_pangan.value,
-                    urt: urt.value,
-                    jenis_pangan_text: jenis_pangan.options[jenis_pangan.selectedIndex].text,
-                    nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
-                };
-
-                if (editing_index !== null) {
-                    daftar_pangan[editing_index] = item;
-                    editing_index = null;
-                } else {
-                    daftar_pangan.push(item);
-                }
-
-                perbarui_tabel();
-                perbarui_masukan();
-                reset_formulir();
-                form.classList.add('hidden');
-                tambah_pangan.classList.remove('hidden');
-            });
-
-            perbarui_tabel();
+        daftarPangan.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-pangan-row', '');
+            row.classList.add('transition-colors', 'duration-150');
+            row.innerHTML = `
+                <td class="px-6 py-4 text-gray-700">${item.jenis_pangan_text}</td>
+                <td class="px-6 py-4 text-gray-700">${item.nama_pangan_text}</td>
+                <td class="px-6 py-4 text-gray-700">${item.urt}</td>
+                <td class="px-6 py-4">
+                    <button type="button" onclick="editPangan(${index})" class="mr-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
+                        <i class="fa-solid fa-pencil mr-1"></i> Edit
+                    </button>
+                    <button type="button" onclick="hapusPangan(${index})" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-150 shadow-sm">
+                        <i class="fa-solid fa-trash mr-1"></i> Hapus
+                    </button>
+                </td>
+            `;
+            formRow.parentNode.insertBefore(row, formRow);
         });
-    </script>
+    };
+
+    window.editPangan = (index) => {
+        const item = daftarPangan[index];
+        jenisSelect.value = item.jenis_pangan;
+        pilihanNamaPangan(item.jenis_pangan, item.nama_pangan);
+        urtInput.value = item.urt;
+        daftarPangan.splice(index, 1);
+        perbaruiTabel();
+    };
+
+    window.hapusPangan = (index) => {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            daftarPangan.splice(index, 1);
+            perbaruiTabel();
+        }
+    };
+
+    const resetFormulir = () => {
+        jenisSelect.value = "";
+        namaSelect.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
+        urtInput.value = "";
+    };
+
+    const pilihanNamaPangan = (namaJenis, pilihan = "") => {
+        namaSelect.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
+        if (@json($nama_pangan)[namaJenis]) {
+            Object.entries(@json($nama_pangan)[namaJenis]).forEach(([id, nama]) => {
+                const option = document.createElement("option");
+                option.value = nama;
+                option.textContent = nama;
+                if (id === pilihan) option.selected = true;
+                namaSelect.appendChild(option);
+            });
+        }
+    };
+
+    jenisSelect.addEventListener("change", () => {
+        pilihanNamaPangan(jenisSelect.value);
+    });
+
+    tambah.addEventListener('click', () => {
+        if (!jenisSelect.value || !namaSelect.value || !urtInput.value) {
+            alert("Semua bidang harus diisi!");
+            return;
+        }
+
+        const item = {
+            jenis_pangan: jenisSelect.value,
+            nama_pangan: namaSelect.value,
+            urt: urtInput.value,
+            jenis_pangan_text: jenisSelect.options[jenisSelect.selectedIndex].text,
+            nama_pangan_text: namaSelect.options[namaSelect.selectedIndex].text
+        };
+
+        daftarPangan.push(item);
+        resetFormulir();
+    });
+
+    panganForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Tambahkan data aktif di form ke daftar jika ada
+        if (jenisSelect.value && namaSelect.value && urtInput.value) {
+            const item = {
+                jenis_pangan: jenisSelect.value,
+                nama_pangan: namaSelect.value,
+                urt: urtInput.value,
+                jenis_pangan_text: jenisSelect.options[jenisSelect.selectedIndex].text,
+                nama_pangan_text: namaSelect.options[namaSelect.selectedIndex].text
+            };
+            daftarPangan.push(item);
+        }
+
+        if (daftarPangan.length === 0) {
+            alert('Mohon tambahkan setidaknya satu data pangan!');
+            return;
+        }
+
+        const formData = new FormData();
+        daftarPangan.forEach((item, index) => {
+            formData.append(`detail_pangan_keluarga[${index}][jenis_pangan]`, item.jenis_pangan);
+            formData.append(`detail_pangan_keluarga[${index}][nama_pangan]`, item.nama_pangan);
+            formData.append(`detail_pangan_keluarga[${index}][jumlah_urt]`, item.urt);
+        });
+
+        fetch(panganForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Data berhasil disimpan!');
+                daftarPangan = [];
+                perbaruiTabel();
+                resetFormulir();
+            } else {
+                alert('Terjadi kesalahan saat menyimpan data.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyimpan data.');
+        });
+    });
+
+    perbaruiTabel();
+});
+</script>
 @endpush
