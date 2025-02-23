@@ -1,6 +1,6 @@
 <div>
     <!-- Life is available only in the present moment. - Thich Nhat Hanh -->
-    <form action="{{ route('testing') }}" method="POST">
+    <form action="{{ route('testing') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="text" name="no_kk" value="949073">
         <input type="text" name="nama_kepala_keluarga" value="Gus Miftah">
@@ -10,7 +10,7 @@
         <input type="text" name="is_hamil" value="1">
         <input type="text" name="is_menyusui" value="1">
         <input type="text" name="is_balita" value="1">
-        <input type="text" name="gambar" value="gam">
+        <input type="file" name="gambar" accept="image/*">
         <input type="text" name="id_desa" value="2">
         <input type="text" name="id_kecamatan" value="2">
 

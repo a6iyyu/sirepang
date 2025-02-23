@@ -91,6 +91,10 @@ class Keluarga extends Controller
         /**
          * gini bisa
          */
+        $gambar = $request->file('gambar');
+        // dd($gambar);
+        $gambar_base64 = base64_encode($gambar);
+
         $keluarga = new KeluargaModel();
         $keluarga->nama_kepala_keluarga = $request['nama_kepala_keluarga'];
         $keluarga->id_desa = $request['id_desa'];
@@ -104,14 +108,9 @@ class Keluarga extends Controller
         $keluarga->id_kader = Auth::user()->id_kader;
         $keluarga->id_desa = $request['id_desa'];
         $keluarga->id_kecamatan = $request['id_kecamatan'];
-        $keluarga->gambar = $request['gambar'];
+        // $keluarga->gambar = "alan";
+        $keluarga->gambar = $gambar_base64;
         $keluarga->save();
-
-        /**
-         * atau gini
-         */
-        // $keluarga = KeluargaModel::create($request->except('detail_pangan_keluarga'));
-        // tapi masih belum bisa karena perlu gambar
 
         foreach ($request->detail_pangan_keluarga as $detail) {
             if (!isset($detail['id_pangan'])) {
