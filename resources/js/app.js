@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const menu_items = document.querySelectorAll("nav > a"); // Assuming each menu item is a link
 
     close.addEventListener("click", () => {
-        aside.classList.remove("pr-8");
+        aside.classList.remove("pr-6");
         aside.classList.add("pr-6");
         aside_div.classList.remove("space-x-4");
         aside_logo.classList.remove("space-x-8");
         close.style.display = "none";
         logo.style.display = "none";
-        main.style.paddingLeft = "8.5rem";
+        main.style.paddingLeft = "8rem";
         open.classList.add("!lg:inline");
         open.classList.remove("!hidden");
         route.style.width = "fit-content";
@@ -48,27 +48,20 @@ document.addEventListener("DOMContentLoaded", () => {
         open.classList.add("!hidden");
         open.classList.remove("!lg:inline");
         route.style.width = "";
-        route_icon.forEach(icon => icon.style.marginRight = "1rem");
         sidebar_menu.forEach(menu => menu.style.display = "inline");
     });
 
-    // Highlight active menu item on click
     menu_items.forEach(item => {
         item.addEventListener("click", () => {
-            // Remove active state from all menu items
             menu_items.forEach(menu => {
                 menu.classList.remove("bg-primary", "text-green-dark");
                 menu.classList.add("text-white");
             });
 
-            // Add active state to clicked menu
             item.classList.add("bg-primary", "text-green-dark");
             item.classList.remove("text-white");
         });
-    });
 
-    // Preserve highlight based on current route
-    menu_items.forEach(item => {
         if (item.href === window.location.href) {
             item.classList.add("bg-primary", "text-green-dark");
             item.classList.remove("text-white");

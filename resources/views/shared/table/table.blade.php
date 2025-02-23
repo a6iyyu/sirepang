@@ -1,14 +1,14 @@
 @props(['headers', 'rows' => [], 'sortable' => null])
 
-<section class="overflow-x-auto rounded-lg shadow relative">
-    <table class="border-collapse table-auto w-full whitespace-no-wrap table-striped">
+<section class="overflow-x-auto whitespace-nowrap rounded-lg shadow relative">
+    <table class="border-collapse table-auto w-full whitespace-normal table-striped">
         <thead>
-            <tr class="flex cursor-default text-left">
+            <tr class="flex cursor-default">
                 @foreach ($headers as $header)
-                    <th class="w-full flex items-center justify-center space-x-2 px-6 py-3 font-bold tracking-wider uppercase text-xs text-gray-600">
-                        <span>{{ $header }}</span>
+                    <th class="flex w-full items-center justify-center space-x-2 px-6 py-4 font-bold tracking-wider uppercase text-xs @if (Request::routeIs('tambah-data')) bg-green-700 text-white @endif">
+                        <h6>{{ $header }}</h6>
                         @if (in_array(strtolower($header), array_map('strtolower', $sortable)))
-                            <i onclick="" class="fa-solid fa-sort cursor-pointer text-green-dark/50 hover:text-green-dark"></i>
+                            <i onclick="" class="fa-solid fa-sort cursor-pointer hover:text-green-dark"></i>
                         @endif
                     </th>
                 @endforeach
@@ -16,9 +16,9 @@
         </thead>
         <tbody>
             @foreach ($rows as $row)
-                <tr class="hover:bg-green-light/30 transition-colors duration-200">
+                <tr class="flex transition-colors duration-200">
                     @foreach ($row as $cell)
-                        <td class="px-6 py-4 text-green-medium">{{ $cell }}</td>
+                        <td class="flex w-full items-center justify-center px-6 py-4">{{ $cell }}</td>
                     @endforeach
                 </tr>
             @endforeach

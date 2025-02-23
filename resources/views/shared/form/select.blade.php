@@ -9,10 +9,10 @@
         <select
             name="{{ $name }}"
             id="{{ $name }}"
-            required
             class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100"
+            required
         >
-            <option value="" selected disabled>
+            <option value="" hidden>
                 Pilih {{ $label }}
             </option>
             @if (is_array($options))

@@ -1,168 +1,173 @@
 <h3 class="mb-6 cursor-default font-bold text-3xl text-primary">
     Masukkan Data Pangan
 </h3>
-<section id="formSection" class="hidden mb-6">
-    <div class="bg-transparent rounded-lg border border-gray-200 p-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="w-full">
-                <x-select name="nama_jenis" label="Jenis Pangan" :options="$jenis_pangan" required />
-            </div>
-            <div class="w-full">
-                <x-select name="nama_pangan" label="Nama Pangan" :options="[]" required />
-            </div>
-            <div class="w-full">
-                <x-input name="urt" label="Jumlah URT" icon="fa-solid fa-ruler" placeholder="Cth. 1" required />
-            </div>
-        </div>
-        <div class="flex justify-end gap-2 mt-6">
-            <button type="button" id="batalkanPangan"
-                class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green text-gray-700 border border-gray-300 hover:bg-gray-200">
-                Kembali
-            </button>
-            <button type="button" id="simpanPangan"
-                class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green-dark text-white hover:bg-green-700">
-                Simpan
-            </button>
-        </div>
+<section id="form" class="hidden mb-6 bg-transparent rounded-lg border border-gray-200 p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <x-select name="nama_jenis" label="Jenis Pangan" :options="$jenis_pangan" />
+        <x-select name="nama_pangan" label="Nama Pangan" :options="[]" />
+        <x-input type="number" name="urt" label="Jumlah URT" icon="fa-solid fa-ruler" placeholder="Cth. 1" />
     </div>
+    <span class="flex justify-end gap-2 mt-6">
+        <button
+            type="button"
+            id="batalkan"
+            class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green text-gray-700 border border-gray-300 hover:bg-gray-200"
+        >
+            Kembali
+        </button>
+        <button
+            type="button"
+            id="simpan"
+            class="flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green-dark text-white hover:bg-green-700"
+        >
+            Simpan
+        </button>
+    </span>
 </section>
-
-<section class="mt-6">
-    <button type="button" id="tambahPangan"
-        class="mb-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-green-dark text-white hover:bg-green-700">
-        <i class="fa-solid fa-plus"></i>
-        Tambah
-    </button>
-
-    <div class="overflow-x-auto">
-        @include('shared.table.table-form-pangan', [
-            'headers' => ['Nama Pangan', 'Jenis Pangan', 'Takaran URT', 'Aksi'],
-            'sortable' => ['Nama Pangan'],
-            'rows' => [],
-        ])
-    </div>
-</section>
-
-<input type="hidden" id="panganData" name="pangan_data" value="[]">
+<button
+    type="button"
+    id="tambah-pangan"
+    class="mb-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-2.5 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white hover:bg-green-700"
+>
+    <i class="fa-solid fa-plus mr-2"></i>
+    Tambah
+</button>
+<div class="my-8">
+    @include('shared.table.table', [
+        'headers' => ['Nama Pangan', 'Jenis Pangan', 'Takaran URT', 'Aksi'],
+        'sortable' => ['Nama Pangan'],
+        'rows' => [],
+    ])
+</div>
+<input type="hidden" id="data_pangan" name="data_pangan" value="[]">
 
 @push('skrip')
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const formSection = document.getElementById('formSection');
-            const tambahButton = document.getElementById('tambahPangan');
-            const batalkanButton = document.getElementById('batalkanPangan');
-            const simpanButton = document.getElementById('simpanPangan');
-            const jenisPangan = document.querySelector("[name='nama_jenis']");
-            const namaPangan = document.querySelector("[name='nama_pangan']");
-            const urtInput = document.querySelector("[name='urt']");
-            let daftar_pangan = @json($nama_pangan);
-            let panganDataInput = document.getElementById('panganData');
-            let panganList = [];
-            let editingIndex = null;
+            const form = document.getElementById('form');
+            const tambah_pangan = document.getElementById('tambah-pangan');
+            const batalkan = document.getElementById('batalkan');
+            const simpan = document.getElementById('simpan');
+            const jenis_pangan = document.querySelector("[name='nama_jenis']");
+            const nama_pangan = document.querySelector("[name='nama_pangan']");
+            const urt = document.querySelector("[name='urt']");
+            const data_pangan = document.getElementById('data_pangan');
 
-            function updateTable() {
-                const tbody = document.querySelector('tbody');
+            let daftar_pangan = [];
+            let editing_index = null;
+
+            const perbarui_tabel = () => {
+                const tbody = document.querySelector("tbody");
                 tbody.innerHTML = '';
 
-                panganList.forEach((item, index) => {
+                daftar_pangan.forEach((item, index) => {
                     const row = document.createElement('tr');
-                    row.classList.add('hover:bg-green-light/30', 'transition-colors', 'duration-200');
+                    row.classList.add('flex', 'transition-colors', 'duration-200');
                     row.innerHTML = `
-                        <td class="w-1/4 px-6 py-4">${item.nama_pangan_text}</td>
-                        <td class="w-1/4 px-6 py-4">${item.jenis_pangan_text}</td>
-                        <td class="w-1/4 px-6 py-4">${item.urt}</td>
-                        <td class="w-1/4 px-6 py-4 flex items-center justify-center">
-                            <button onclick="editPangan(${index})" class="text-white bg-blue-500 hover:bg-blue-600 transition-colors rounded-lg p-2">
+                        <td class="flex w-full items-center justify-center px-6 py-4">${item.nama_pangan_text}</td>
+                        <td class="flex w-full items-center justify-center px-6 py-4">${item.jenis_pangan_text}</td>
+                        <td class="flex w-full items-center justify-center px-6 py-4">${item.urt}</td>
+                        <td class="flex w-full items-center justify-center px-6 py-4">
+                            <button id="edit" class="cursor-pointer mr-2 transition-colors rounded-lg !text-sm px-4 py-3 bg-[#2c5e4f] text-white hover:bg-green-700" data-index="${index}">
                                 <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button id="delete" class="cursor-pointer transition-colors rounded-lg !text-sm px-4 py-3 bg-red-600 text-white hover:bg-red-500" data-index="${index}">
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
                     `;
                     tbody.appendChild(row);
                 });
-            }
 
-            window.editPangan = function(index) {
-                editingIndex = index;
-                const item = panganList[index];
-                jenisPangan.value = item.jenis_pangan;
-                namaPangan.innerHTML =
-                    `<option value="${item.nama_pangan}" selected>${item.nama_pangan_text}</option>`;
-                urtInput.value = item.urt;
-                formSection.classList.remove('hidden');
-                tambahButton.classList.add('hidden');
-                jenisPangan.focus();
+                document.querySelectorAll("#edit").forEach(button => button.addEventListener("click", () => edit_pangan(button.dataset.index)));
+                document.querySelectorAll("#delete").forEach(button => button.addEventListener("click", () => hapus_pangan(button.dataset.index)));
             };
 
-            tambahButton.addEventListener('click', () => {
-                editingIndex = null;
-                resetForm();
-                formSection.classList.remove('hidden');
-                tambahButton.classList.add('hidden');
-                jenisPangan.focus();
-            });
+            window.edit_pangan = (index) => {
+                editing_index = index;
+                const item = daftar_pangan[index];
+                jenis_pangan.value = item.jenis_pangan;
+                pilihan_nama_pangan(item.jenis_pangan, item.nama_pangan);
+                urt.value = item.urt;
 
-            batalkanButton.addEventListener('click', () => {
-                formSection.classList.add('hidden');
-                tambahButton.classList.remove('hidden');
-                resetForm();
-                editingIndex = null;
-            });
+                form.classList.remove('hidden');
+                tambah_pangan.classList.add('hidden');
+            };
 
-            jenisPangan.addEventListener("change", () => {
-                let selected = jenisPangan.value;
-                namaPangan.innerHTML = "<option value='' selected disabled>Pilih Nama Pangan</option>";
-                if (daftar_pangan[selected]) {
-                    Object.entries(daftar_pangan[selected]).forEach(([id, nama]) => {
+            const hapus_pangan = (index) => {
+                daftar_pangan.splice(index, 1);
+                perbarui_tabel();
+                perbarui_masukan();
+            };
+
+            const reset_formulir = () => {
+                jenis_pangan.value = "";
+                pilihan_nama_pangan("");
+                urt.value = "";
+            };
+
+            const perbarui_masukan = () => data_pangan.value = JSON.stringify(daftar_pangan);
+
+            const pilihan_nama_pangan = (nama_jenis, pilihan = "") => {
+                nama_pangan.innerHTML = "<option value='' selected disabled>Pilih Nama Pangan</option>";
+                if (@json($nama_pangan)[nama_jenis]) {
+                    Object.entries(@json($nama_pangan)[nama_jenis]).forEach(([id, nama]) => {
                         let option = document.createElement("option");
-                        option.value = id;
+                        option.value = nama;
                         option.textContent = nama;
-                        namaPangan.appendChild(option);
+                        if (id === pilihan) option.selected = true;
+                        nama_pangan.appendChild(option);
                     });
                 }
-                setTimeout(() => namaPangan.focus(), 10);
+            };
+
+            tambah_pangan.addEventListener('click', () => {
+                editing_index = null;
+                reset_formulir();
+                form.classList.remove('hidden');
+                tambah_pangan.classList.add('hidden');
             });
 
-            simpanButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                formSection.classList.remove('hidden');
-                if (!jenisPangan.value || !namaPangan.value || !urtInput.value) {
+            batalkan.addEventListener('click', () => {
+                form.classList.add('hidden');
+                tambah_pangan.classList.remove('hidden');
+                reset_formulir();
+                editing_index = null;
+            });
+
+            jenis_pangan.addEventListener("change", () => {
+                pilihan_nama_pangan(jenis_pangan.value);
+            });
+
+            simpan.addEventListener('click', () => {
+                if (!jenis_pangan.value || !nama_pangan.value || !urt.value) {
                     alert("Semua bidang harus diisi!");
                     return;
                 }
 
-                const newPangan = {
-                    jenis_pangan: jenisPangan.value,
-                    nama_pangan: namaPangan.value,
-                    urt: urtInput.value,
-                    jenis_pangan_text: jenisPangan.options[jenisPangan.selectedIndex].text,
-                    nama_pangan_text: namaPangan.options[namaPangan.selectedIndex].text
+                const item = {
+                    jenis_pangan: jenis_pangan.value,
+                    nama_pangan: nama_pangan.value,
+                    urt: urt.value,
+                    jenis_pangan_text: jenis_pangan.options[jenis_pangan.selectedIndex].text,
+                    nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
                 };
 
-                if (editingIndex !== null) {
-                    panganList[editingIndex] = newPangan;
-                    editingIndex = null;
+                if (editing_index !== null) {
+                    daftar_pangan[editing_index] = item;
+                    editing_index = null;
                 } else {
-                    panganList.push(newPangan);
+                    daftar_pangan.push(item);
                 }
 
-                updateTable();
-                updateHiddenInput();
-                resetForm();
-                formSection.classList.add('hidden');
-                tambahButton.classList.remove('hidden');
+                perbarui_tabel();
+                perbarui_masukan();
+                reset_formulir();
+                form.classList.add('hidden');
+                tambah_pangan.classList.remove('hidden');
             });
 
-            function resetForm() {
-                jenisPangan.value = '';
-                namaPangan.innerHTML = "<option value='' selected disabled>Pilih Nama Pangan</option>";
-                urtInput.value = '';
-            }
-
-            function updateHiddenInput() {
-                panganDataInput.value = JSON.stringify(panganList);
-            }
-
-            updateTable();
+            perbarui_tabel();
         });
     </script>
 @endpush

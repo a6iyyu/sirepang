@@ -7,7 +7,8 @@ use App\Models\Desa as DesaModel;
 use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
-use App\Models\RentangUang;
+use App\Models\PanganKeluarga as PanganKeluargaModel;
+use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class Keluarga extends Controller
             return $items->pluck('nama_pangan', 'id_pangan')->toArray();
         })->toArray();
 
-        $batas_bawah = RentangUang::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
-        $batas_atas = RentangUang::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
+        $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
+        $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
 
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
@@ -60,9 +61,9 @@ class Keluarga extends Controller
     public function create(Request $request)
     {
         try {
-            $data = $request->json()->all();
+            Log::info($request->all());
 
-            $credentials = Validator::make($data, [
+            $validator = Validator::make($request->all(), [
                 'nama_kepala_keluarga' => 'string|required|max:255',
                 'nama_desa' => 'string|required|max:255',
                 'alamat' => 'string|required|max:255',
@@ -73,24 +74,38 @@ class Keluarga extends Controller
                 'is_menyusui' => 'in:1,0|required',
                 'is_balita' => 'in:1,0|required',
                 'gambar' => 'image|mimes:jpeg,png,jpg|max:4096|required',
-                'nama_jenis' => 'required|exists:jenis_pangan,nama_jenis',
-                'nama_pangan' => 'required|exists:pangan,nama_pangan',
-                'urt' => 'integer|required|min:1|max:4',
-            ])->validate();
+            ]);
 
-            if ($request->hasFile('gambar')) {
-                $image_data = base64_encode(file_get_contents($request->file('gambar')->getRealPath()));
-            } else {
-                return response()->json(['error' => 'Gambar tidak ditemukan!'], 400);
+            if ($validator->fails()) return response()->json(['error' => $validator->errors()], 400);
+
+            $keluarga = KeluargaModel::create([
+                'nama_kepala_keluarga' => $request->nama_kepala_keluarga,
+                'nama_desa' => $request->nama_desa,
+                'alamat' => $request->alamat,
+                'jumlah_keluarga' => $request->jumlah_keluarga,
+                'range_pendapatan' => $request->range_pendapatan,
+                'range_pengeluaran' => $request->range_pengeluaran,
+                'is_hamil' => $request->is_hamil,
+                'is_menyusui' => $request->is_menyusui,
+                'is_balita' => $request->is_balita,
+                'gambar' => base64_encode(file_get_contents($request->file('gambar')->getRealPath())),
+            ]);
+
+            $data_pangan = json_decode($request->pangan, true);
+
+            foreach ($data_pangan as $pangan) {
+                PanganKeluargaModel::create([
+                    'id_keluarga' => $keluarga->id_keluarga,
+                    'nama_pangan' => $pangan['nama_pangan'],
+                    'nama_jenis' => $pangan['nama_jenis'],
+                    'urt' => $pangan['urt'],
+                ]);
             }
-
-            $keluarga = new KeluargaModel();
-            $keluarga->gambar = $image_data;
-            $keluarga->save();
 
             return response()->json(['message' => 'Data berhasil disimpan!'], 200);
         } catch (Exception $exception) {
-            Log::error('Terdapat kesalahan pada sistem!', $request->all());
+            Log::error('Terdapat kesalahan pada sistem!', ['error' => $exception->getMessage()]);
+            return response()->json(['error' => 'Terjadi kesalahan pada sistem.'], 500);
         }
     }
 }

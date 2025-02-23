@@ -12,8 +12,6 @@
         class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-    <div class="text-center mt-10">
-        <h1 class="text-4xl font-bold">tes page data kec</h1>
-        <p class="mt-4 text-lg"></p>
+        @include('components.admin.data-kecamatan.tabel')
     </main>
 @endsection

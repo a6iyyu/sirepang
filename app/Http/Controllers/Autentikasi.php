@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
 class Autentikasi extends Controller
 {
@@ -32,8 +31,6 @@ class Autentikasi extends Controller
             if ($user) {
                 Auth::loginUsingId($user->id_user, true);
                 $request->session()->regenerate();
-                // return redirect()->route($user->tipe === 'admin' ? 'admin' : 'dasbor')->with('success', 'Berhasil masuk ke akun Anda.');
-                //seems not really used. its still redirect by tipe automatically even i delete this line
             }
 
             Log::warning('Upaya masuk gagal dilakukan.', ['username' => $request->username]);

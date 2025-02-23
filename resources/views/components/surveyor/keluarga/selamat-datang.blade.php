@@ -1,14 +1,17 @@
 <section class="flex flex-col justify-between lg:flex-row">
     <div class="cursor-default text-green-dark">
-        <h2 class="font-bold text-3xl">
+        <h2 class="font-bold text-2xl lg:text-3xl">
             Data Keluarga
         </h2>
-        <h5 class="mt-2 italic">
+        <h5 class="mt-2 italic text-sm lg:text-base">
             Silakan Masukkan Data Keluarga
         </h5>
     </div>
-    <a href="/keluarga/tambah-data" class="mt-4 w-fit flex items-center justify-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-green-dark text-white lg:mt-0 lg:hover:bg-green-mediu">
-        <i class="fa-solid fa-plus mr-3"></i>
-        Keluarga
-    </a>
+    <x-menu
+        icon="fa-solid fa-plus"
+        label="Keluarga"
+        route="tambah-data-keluarga"
+        sidebar="{{ false }}"
+        style="mt-4 flex w-fit items-center justify-center cursor-pointer h-fit rounded-lg px-4 py-3 text-sm transition-all transform duration-300 ease-in-out bg-green-dark text-white lg:px-5 lg:py-3 lg:text-base lg:hover:bg-green-medium"
+    />
 </section>

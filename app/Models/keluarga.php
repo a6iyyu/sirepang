@@ -12,12 +12,12 @@ class Keluarga extends Model
     protected $primaryKey = 'id_keluarga';
     protected $guarded = ['id_keluarga'];
 
-    public function rentangPendapatan(): BelongsTo
+    public function rentang_pendapatan(): BelongsTo
     {
         return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pendapatan');
     }
 
-    public function rentangPengeluaran(): BelongsTo
+    public function rentang_pengeluaran(): BelongsTo
     {
         return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pengeluaran');
     }
@@ -30,11 +30,13 @@ class Keluarga extends Model
     {
         return $this->belongsTo(Desa::class, 'id_desa', 'id_desa');
     }
+
     public function kader(): BelongsTo
     {
         return $this->belongsTo(Kader::class, 'id_kader', 'id_kader');
     }
-    public function detailPanganKeluarga(): HasMany
+
+    public function detail_pangan_keluarga(): HasMany
     {
         return $this->hasMany(DetailPanganKeluarga::class, 'id_keluarga', 'id_keluarga');
     }
