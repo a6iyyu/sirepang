@@ -11,6 +11,7 @@ class Keluarga extends Model
     protected $table = 'keluarga';
     protected $primaryKey = 'id_keluarga';
     protected $guarded = ['id_keluarga'];
+    public $timestamps = false;
 
     public function rentang_pendapatan(): BelongsTo
     {
@@ -26,6 +27,7 @@ class Keluarga extends Model
     {
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id_kecamatan');
     }
+
     public function desa(): BelongsTo
     {
         return $this->belongsTo(Desa::class, 'id_desa', 'id_desa');

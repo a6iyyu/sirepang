@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Desa as DesaModel;
+use App\Models\DetailPanganKeluarga;
 use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
-use App\Models\PanganKeluarga as PanganKeluargaModel;
 use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class Keluarga extends Controller
@@ -61,51 +60,29 @@ class Keluarga extends Controller
     public function create(Request $request)
     {
         try {
-            Log::info($request->all());
-
-            $validator = Validator::make($request->all(), [
+            $request->validate([
                 'nama_kepala_keluarga' => 'string|required|max:255',
-                'nama_desa' => 'string|required|max:255',
+                'id_desa' => 'string|required|max:255',
                 'alamat' => 'string|required|max:255',
-                'jumlah_keluarga' => 'integer|required|min:1|max:3',
+                'jumlah_keluarga' => 'integer|required|min:1|max:50',
                 'range_pendapatan' => 'string|required|max:255',
-                'range_pengeluaran'  => 'string|required|max:255',
+                'range_pengeluaran' => 'string|required|max:255',
                 'is_hamil' => 'in:1,0|required',
                 'is_menyusui' => 'in:1,0|required',
                 'is_balita' => 'in:1,0|required',
-                'gambar' => 'image|mimes:jpeg,png,jpg|max:4096|required',
             ]);
 
-            if ($validator->fails()) return response()->json(['error' => $validator->errors()], 400);
+            $data = $request->all();
+            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+    
+            $data['id_kecamatan'] = Auth::user()->kader->kecamatan->id_kecamatan;
+            $data['id_kader'] = Auth::user()->kader->id_kader;
+            KeluargaModel::create($data);
 
-            $keluarga = KeluargaModel::create([
-                'nama_kepala_keluarga' => $request->nama_kepala_keluarga,
-                'nama_desa' => $request->nama_desa,
-                'alamat' => $request->alamat,
-                'jumlah_keluarga' => $request->jumlah_keluarga,
-                'range_pendapatan' => $request->range_pendapatan,
-                'range_pengeluaran' => $request->range_pengeluaran,
-                'is_hamil' => $request->is_hamil,
-                'is_menyusui' => $request->is_menyusui,
-                'is_balita' => $request->is_balita,
-                'gambar' => base64_encode(file_get_contents($request->file('gambar')->getRealPath())),
-            ]);
-
-            $data_pangan = json_decode($request->pangan, true);
-
-            foreach ($data_pangan as $pangan) {
-                PanganKeluargaModel::create([
-                    'id_keluarga' => $keluarga->id_keluarga,
-                    'nama_pangan' => $pangan['nama_pangan'],
-                    'nama_jenis' => $pangan['nama_jenis'],
-                    'urt' => $pangan['urt'],
-                ]);
-            }
-
-            return response()->json(['message' => 'Data berhasil disimpan!'], 200);
+            if ($request->ajax() || $request->wantsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
+            return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil disimpan!');
         } catch (Exception $exception) {
-            Log::error('Terdapat kesalahan pada sistem!', ['error' => $exception->getMessage()]);
-            return response()->json(['error' => 'Terjadi kesalahan pada sistem.'], 500);
+            return back()->withErrors(['error' => $exception->getMessage()]);
         }
     }
 }

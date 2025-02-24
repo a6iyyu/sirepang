@@ -11,7 +11,7 @@
 />
 <section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
     <x-select
-        name="nama_desa"
+        name="id_desa"
         label="Desa"
         :options="$desa"
         required

@@ -23,7 +23,6 @@ return new class extends Migration {
             $table->integer('id_kader')->index('fk_keluarga_kader1_idx');
             $table->integer('rentang_pendapatan')->nullable()->index('fk_rentang_pendapatan');
             $table->integer('rentang_pengeluaran')->nullable()->index('fk_rentang_pengeluaran');
-
             $table->primary(['id_keluarga']);
         });
     }

@@ -17,8 +17,8 @@
             @include('components.surveyor.tambah-data-keluarga.keluarga')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.dokumentasi')
-            <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
-            @include('components.surveyor.tambah-data-keluarga.pangan')
+            {{-- <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
+            @include('components.surveyor.tambah-data-keluarga.pangan') --}}
             <section class="flex justify-end">
                 <button type="submit" class="mt-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white lg:hover:bg-green-700">
                     <i class="fa-solid fa-paper-plane"></i>
@@ -59,7 +59,7 @@
                         },
                     });
 
-                    return await response.json();
+                    if (await response.json().redirect) window.location.href = await response.json().redirect;
                 } catch (error) {
                     console.error(error);
                 }
