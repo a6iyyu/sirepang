@@ -46,7 +46,7 @@
                         'nama_kepala_keluarga': Math.random().toString(36).substring(7),
                         'id_desa': Math.floor(Math.random() * 10) + 50,
                         'alamat': Math.random().toString(36).substring(7),
-                        'jumlah_keluarga': Math.floor(Math.random() * 10),
+                        'jumlah_keluarga': Math.floor(Math.random() * 10) + 1,
                         'range_pendapatan': '1',
                         'range_pengeluaran': '1',
                         'is_hamil': Math.floor(Math.random() * 2),
@@ -84,17 +84,17 @@
                 console.debug("[DEBUG] Submit event triggered.");
                 let form_data = new FormData(form);
 
-                // let data_pangan = [];
-                // document.querySelectorAll("[name='nama_pangan']").forEach((element, index) => {
-                //     data_pangan.push({
-                //         nama_pangan: element.value,
-                //         nama_jenis: document.querySelectorAll("[name='nama_jenis']")[
-                //             index].value,
-                //         urt: document.querySelectorAll("[name='urt']")[index].value,
-                //     });
-                // });
+                let data_pangan = [];
+                document.querySelectorAll("[name='nama_pangan']").forEach((element, index) => {
+                    data_pangan.push({
+                        nama_pangan: element.value,
+                        nama_jenis: document.querySelectorAll("[name='nama_jenis']")[
+                            index].value,
+                        urt: document.querySelectorAll("[name='urt']")[index].value,
+                    });
+                });
 
-                // form_data.set("pangan", JSON.stringify(data_pangan));
+                form_data.set("pangan", JSON.stringify(data_pangan));
 
                 try {
                     let response = await fetch("{{ route('tambah-data-keluarga') }}", {

@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('kader')->prefix('keluarga')->group(function () {
-        Route::get('/', fn() => view('pages.surveyor.keluarga'))->name('keluarga');
+        Route::get('/', [Keluarga::class, 'index'])->name('keluarga');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
     });

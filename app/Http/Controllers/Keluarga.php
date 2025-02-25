@@ -21,6 +21,25 @@ class Keluarga extends Controller
     /**
      * Views
      */
+
+    public function index() 
+    {
+        $kaderId = Auth::user()->kader->id_kader;
+
+        $keluargaData = KeluargaModel::where('id_kader', $kaderId)
+        ->get()
+        ->map(function($item) {
+            return (object) [
+                'id' => $item->id_keluarga,
+                'nama'=> $item->nama_kepala_keluarga,
+                'desa' => $item->desa->nama_desa,
+            ];
+        });
+
+        return view('pages.surveyor.keluarga', [
+            'data' => $keluargaData,
+        ]);
+    }
     public function show(): View
     {
         $kader = User::find(Auth::user()->id_user)->kader;
