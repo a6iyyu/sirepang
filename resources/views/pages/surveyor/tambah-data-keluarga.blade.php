@@ -17,8 +17,8 @@
             @include('components.surveyor.tambah-data-keluarga.keluarga')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.dokumentasi')
-            {{-- <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
-            @include('components.surveyor.tambah-data-keluarga.pangan') --}}
+            <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
+            @include('components.surveyor.tambah-data-keluarga.pangan')
             <section class="flex justify-end">
                 <button
                     type="submit"
