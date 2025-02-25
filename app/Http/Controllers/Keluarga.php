@@ -79,9 +79,15 @@ class Keluarga extends Controller
             $data['id_kader'] = Auth::user()->kader->id_kader;
             KeluargaModel::create($data);
 
-            if ($request->ajax() || $request->wantsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
+            if ($request->ajax() || $request->expectsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
             return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil disimpan!');
         } catch (Exception $exception) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message'=> $exception->getMessage(),
+                ]);
+            };
             return back()->withErrors(['error' => $exception->getMessage()]);
         }
     }
