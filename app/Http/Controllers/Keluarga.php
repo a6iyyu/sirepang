@@ -21,6 +21,25 @@ class Keluarga extends Controller
     /**
      * Views
      */
+
+    public function index() 
+    {
+        $kaderId = Auth::user()->kader->id_kader;
+
+        $keluargaData = KeluargaModel::where('id_kader', $kaderId)
+        ->get()
+        ->map(function($item) {
+            return (object) [
+                'id' => $item->id_keluarga,
+                'nama'=> $item->nama_kepala_keluarga,
+                'desa' => $item->desa->nama_desa,
+            ];
+        });
+
+        return view('pages.surveyor.keluarga', [
+            'data' => $keluargaData,
+        ]);
+    }
     public function show(): View
     {
         $kader = User::find(Auth::user()->id_user)->kader;
@@ -79,9 +98,15 @@ class Keluarga extends Controller
             $data['id_kader'] = Auth::user()->kader->id_kader;
             KeluargaModel::create($data);
 
-            if ($request->ajax() || $request->wantsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
+            if ($request->ajax() || $request->expectsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
             return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil disimpan!');
         } catch (Exception $exception) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message'=> $exception->getMessage(),
+                ]);
+            };
             return back()->withErrors(['error' => $exception->getMessage()]);
         }
     }
