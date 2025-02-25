@@ -1,12 +1,19 @@
 <h3 class="mb-6 cursor-default font-bold text-3xl text-[#2c5e4f]">
     Masukkan Data Keluarga
 </h3>
+@if ($errors->any())
+    <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
 <x-input
     name="nama_kepala_keluarga"
     label="Nama Kepala Keluarga"
     icon="fa-solid fa-user"
     placeholder="Cth. Agus Miftah"
-    autofocus
+    value=""
     required
 />
 <section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">

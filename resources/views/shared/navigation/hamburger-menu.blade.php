@@ -1,0 +1,1 @@
+<i class="fa-solid fa-bars fixed inline top-4 left-4 z-20 p-2 rounded-lg bg-green-dark text-white transition-opacity duration-300 text-xl lg:hidden"></i>

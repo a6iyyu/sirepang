@@ -15,12 +15,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return match (Auth::user()->tipe) {
             'admin' => redirect()->route('admin'),
-            'kader' => redirect()->route('dasbor'),
+            'kader' => redirect()->route('penyuluh'),
             default => redirect()->route('keluar'),
         };
     })->name('beranda');
 
-    Route::get('/dasbor', [Dasbor::class, 'show'])->name('dasbor');
+    Route::get('/dasbor', [Dasbor::class, 'show'])->name('penyuluh');
 
     Route::prefix('admin')->middleware('admin')->group(function () {
         Route::get('/', [Dasbor::class, 'show'])->name('admin');

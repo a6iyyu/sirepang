@@ -12,7 +12,6 @@
     
     @if (isset($data) && count($data) > 0)
         @foreach ($data as $item)
-        {{-- Monggo mas FE di adjust awokwoak --}}
             <tr class="border-b border-gray-200 hover:bg-blue-50 transition-all duration-200">
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="font-medium text-gray-900">{{ $item->nama }}</div>
@@ -52,13 +51,11 @@
         @endforeach
     @else
         <tr>
-            <td colspan="3" class="text-center p-8">
-                <div class="flex flex-col items-center justify-center rounded-lg p-6">
-                    <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <p class="text-gray-600 text-lg font-medium mb-1">Belum ada data keluarga</p>
-                    <p class="text-gray-500 text-sm">Silakan tambahkan data keluarga baru</p>
+            <td colspan="3">
+                <div class="flex flex-col items-center justify-center rounded-lg py-20">
+                    <i class="fa-solid fa-file mb-3 text-5xl text-gray-400"></i>
+                    <h5 class="text-gray-600 text-lg font-medium mb-1">Belum ada data keluarga</h5>
+                    <h6 class="text-gray-500 text-sm">Silakan tambahkan data keluarga baru</h6>
                 </div>
             </td>
         </tr>

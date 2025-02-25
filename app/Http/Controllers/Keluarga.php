@@ -24,9 +24,9 @@ class Keluarga extends Controller
 
     public function index() 
     {
-        $kaderId = Auth::user()->kader->id_kader;
+        $kader = Auth::user()->kader->id_kader;
 
-        $keluargaData = KeluargaModel::where('id_kader', $kaderId)
+        $data = KeluargaModel::where('id_kader', $kader)
         ->get()
         ->map(function($item) {
             return (object) [
@@ -36,10 +36,9 @@ class Keluarga extends Controller
             ];
         });
 
-        return view('pages.surveyor.keluarga', [
-            'data' => $keluargaData,
-        ]);
+        return view('pages.surveyor.keluarga', ['data' => $data]);
     }
+
     public function show(): View
     {
         $kader = User::find(Auth::user()->id_user)->kader;
@@ -107,7 +106,7 @@ class Keluarga extends Controller
                     'message'=> $exception->getMessage(),
                 ]);
             };
-            return back()->withErrors(['error' => $exception->getMessage()]);
+            return back()->withErrors(['errors' => $exception->getMessage()]);
         }
     }
 }
