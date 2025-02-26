@@ -75,12 +75,12 @@
                         <td class="px-6 py-4 text-gray-700">${item.jenis_pangan_text}</td>
                         <td class="px-6 py-4 text-gray-700">${item.nama_pangan_text}</td>
                         <td class="px-6 py-4 text-gray-700">${item.urt}</td>
-                        <td class="px-6 py-4">
-                            <button type="button" data-edit="${index}" class="mr-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
-                                <i class="fa-solid fa-pencil mr-1"></i> Edit
+                        <td class="flex px-6 py-4 items-center justify-center space-x-4">
+                            <button type="button" data-edit="${index}" class="flex items-center justify-center mr-2 px-4 py-3 bg-green-600 text-white rounded-lg shadow-sm transition-colors duration-150 hover:bg-green-700">
+                                <i class="fa-solid fa-pencil mr-3"></i> Edit
                             </button>
-                            <button type="button" data-delete="${index}" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-150 shadow-sm">
-                                <i class="fa-solid fa-trash mr-1"></i> Hapus
+                            <button type="button" data-delete="${index}" class="flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
+                                <i class="fa-solid fa-trash mr-3"></i> Hapus
                             </button>
                         </td>
                     `;
@@ -226,7 +226,8 @@
                         body: form_data,
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                         }
                     })
                     .then(response => response.json())

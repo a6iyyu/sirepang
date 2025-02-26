@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [Keluarga::class, 'index'])->name('keluarga');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
+        Route::post('/detail', [Keluarga::class, 'detail'])->name('keluarga.detail');
+        Route::put('/edit', [Keluarga::class, 'edit'])->name('keluarga.edit');
+        Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
     });
 
     Route::get('/keluar', [Autentikasi::class, 'logout'])->name('keluar');

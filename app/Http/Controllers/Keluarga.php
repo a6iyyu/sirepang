@@ -11,9 +11,12 @@ use App\Models\Pangan as PanganModel;
 use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class Keluarga extends Controller
@@ -21,8 +24,7 @@ class Keluarga extends Controller
     /**
      * Views
      */
-
-    public function index() 
+    public function index(): View 
     {
         $kader = Auth::user()->kader->id_kader;
 
@@ -107,6 +109,54 @@ class Keluarga extends Controller
                 ]);
             };
             return back()->withErrors(['errors' => $exception->getMessage()]);
+        }
+    }
+
+    public function detail($id): RedirectResponse|View
+    {
+        try {
+            $keluarga = KeluargaModel::with('desa')->findOrFail($id);
+            return view('', ['keluarga' => $keluarga]);
+        } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
+            return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
+        }
+    }
+
+    public function edit(Request $request, $id): RedirectResponse
+    {
+        try {
+            $keluarga = KeluargaModel::findOrFail($id);
+            $keluarga->update($request->validate([
+                'nama_kepala_keluarga' => 'required|string|max:255',
+                'id_desa' => 'required|string|max:255',
+                'alamat' => 'required|string|max:255',
+                'jumlah_keluarga' => 'required|integer|min:1|max:50',
+                'range_pendapatan' => 'required|string|max:255',
+                'range_pengeluaran' => 'required|string|max:255',
+                'is_hamil' => 'required|in:1,0',
+                'is_menyusui' => 'required|in:1,0',
+                'is_balita' => 'required|in:1,0',
+            ]));
+
+            return redirect()->route('keluarga')->with('success', 'Data keluarga hasil diperbarui!');
+        } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan saat mengedit data: ' . $exception->getMessage());
+            return back()->withErrors(['errors' => 'Gagal memperbarui data!']);
+        }
+    }
+
+    public function delete($id): RedirectResponse
+    {
+        try {
+            $keluarga = KeluargaModel::where('id_keluarga', $id)->firstOrFail();
+            $keluarga->delete();
+            return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil dihapus!');
+        } catch (ModelNotFoundException $exception) {
+            return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
+        } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan saat menghapus data: ' . $exception->getMessage());
+            return back()->withErrors(['errors' => 'Gagal menghapus data!']);
         }
     }
 }
