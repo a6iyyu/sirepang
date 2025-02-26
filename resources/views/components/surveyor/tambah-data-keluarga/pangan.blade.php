@@ -44,10 +44,7 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-6 flex justify-end">
-        <button type="button" id="simpan-semua" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
-            <i class="fa-solid fa-save mr-2"></i> Simpan Semua Data
-        </button>
+    <div id="hidden-pangan-inputs">
     </div>
 </section>
 
@@ -57,13 +54,38 @@
             const formulir_pangan = document.getElementById('formulir-pangan');
             const baris_tabel_formulir_pangan = document.getElementById('baris-tabel-formulir-pangan');
             const tambah = document.getElementById('tambah');
-            const simpan_semua = document.getElementById('simpan-semua');
             const nama_jenis = document.getElementById('nama-jenis');
             const nama_pangan = document.getElementById('nama-pangan');
             const urt = document.getElementById('urt');
+            const hiddenInputsContainer = document.getElementById('hidden-pangan-inputs');
 
             let daftar_pangan = [];
             let edit_index = -1; // Used to track if we're editing an existing item
+
+            const updateHiddenInputs = () => {
+                hiddenInputsContainer.innerHTML = '';
+                
+                daftar_pangan.forEach((item, index) => {
+                    const jenisPanganInput = document.createElement('input');
+                    jenisPanganInput.type = 'hidden';
+                    jenisPanganInput.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
+                    jenisPanganInput.value = item.jenis_pangan;
+                    
+                    const namaPanganInput = document.createElement('input');
+                    namaPanganInput.type = 'hidden';
+                    namaPanganInput.name = `detail_pangan_keluarga[${index}][nama_pangan]`;
+                    namaPanganInput.value = item.nama_pangan;
+                    
+                    const urtInput = document.createElement('input');
+                    urtInput.type = 'hidden';
+                    urtInput.name = `detail_pangan_keluarga[${index}][jumlah_urt]`;
+                    urtInput.value = item.urt;
+                    
+                    hiddenInputsContainer.appendChild(jenisPanganInput);
+                    hiddenInputsContainer.appendChild(namaPanganInput);
+                    hiddenInputsContainer.appendChild(urtInput);
+                });
+            };
 
             const perbarui_tabel = () => {
                 document.querySelectorAll('tr[data-pangan-row]').forEach(row => row.remove());
@@ -95,6 +117,8 @@
                 document.querySelectorAll('button[data-delete]').forEach(btn => {
                     btn.addEventListener('click', () => hapus_pangan(parseInt(btn.getAttribute('data-delete'))));
                 });
+                
+                updateHiddenInputs();
             };
 
             const edit_pangan = (index) => {
@@ -187,63 +211,6 @@
 
                 reset_formulir();
                 perbarui_tabel();
-            });
-
-            simpan_semua.addEventListener('click', () => {
-                if (nama_jenis.value && nama_pangan.value && urt.value) {
-                    // Add current form data if not empty
-                    const item = {
-                        jenis_pangan: nama_jenis.value,
-                        nama_pangan: nama_pangan.value,
-                        urt: urt.value,
-                        jenis_pangan_text: nama_jenis.options[nama_jenis.selectedIndex].text,
-                        nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
-                    };
-
-                    if (edit_index >= 0) {
-                        daftar_pangan[edit_index] = item;
-                    } else {
-                        daftar_pangan.push(item);
-                    }
-
-                    perbarui_tabel();
-                    reset_formulir();
-                }
-
-                if (daftar_pangan.length === 0) {
-                    alert('Mohon tambahkan setidaknya satu data pangan!');
-                    return;
-                }
-
-                const form_data = new FormData();
-                daftar_pangan.forEach((item, index) => {
-                    form_data.append(`detail_pangan_keluarga[${index}][jenis_pangan]`, item.jenis_pangan);
-                    form_data.append(`detail_pangan_keluarga[${index}][nama_pangan]`, item.nama_pangan);
-                    form_data.append(`detail_pangan_keluarga[${index}][jumlah_urt]`, item.urt);
-                });
-
-                fetch(window.location.href, {
-                        body: form_data,
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Data berhasil disimpan!');
-                            daftar_pangan = [];
-                            perbarui_tabel();
-                        } else {
-                            alert('Terjadi kesalahan saat menyimpan data: ' + (data.message || 'Kesalahan tidak diketahui'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Terjadi kesalahan saat menyimpan data: ', error);
-                        alert('Terjadi kesalahan saat menyimpan data.');
-                    });
             });
 
             perbarui_tabel();
