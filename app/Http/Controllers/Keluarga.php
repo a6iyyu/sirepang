@@ -116,14 +116,24 @@ class Keluarga extends Controller
     {
         try {
             $keluarga = KeluargaModel::with('desa')->findOrFail($id);
-            return view('', ['keluarga' => $keluarga]);
+            return view('pages.surveyor.detail', ['keluarga' => $keluarga]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 
-    public function edit(Request $request, $id): RedirectResponse
+    public function edit($id): RedirectResponse|View
+    {
+        try {
+            return view('pages.surveyor.edit', ['keluarga' => KeluargaModel::findOrFail($id)]);
+        } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
+            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+        }
+    }
+
+    public function update(Request $request, $id): RedirectResponse
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);

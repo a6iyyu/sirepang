@@ -1,17 +1,11 @@
-<x-menu
-    icon="fa-solid fa-circle-info"
-    label="Detail"
-    route="keluarga.detail"
-    sidebar="{{ false }}"
-    style="inline-flex items-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors duration-200"
-/>
-<x-menu
-    icon="fa-solid fa-pencil"
-    label="Edit"
-    route="keluarga.edit"
-    sidebar="{{ false }}"
-    style="inline-flex items-center px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-sm font-medium transition-colors duration-200"
-/>
+<a href="{{ route('keluarga.detail', $item->id) }}" class="inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-md text-sm font-medium transition-colors duration-200 hover:bg-blue-700">
+    <i class="fa-solid fa-circle-info mr-2"></i>
+    Detail
+</a>
+<a href="{{ route('keluarga.edit', $item->id) }}" class="inline-flex items-center px-4 py-3 bg-emerald-600 text-white rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-700">
+    <i class="fa-solid fa-pencil mr-2"></i>
+    Edit
+</a>
 <form action="{{ route('keluarga.hapus', $item->id) }}" method="POST">
     @csrf
     @method('DELETE')

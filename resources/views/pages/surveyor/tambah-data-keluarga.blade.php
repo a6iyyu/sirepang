@@ -19,17 +19,7 @@
             @include('components.surveyor.tambah-data-keluarga.dokumentasi')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.pangan')
-            <section class="flex justify-end space-x-4">
-                @if (config('app.debug'))
-                    <button
-                        type="button"
-                        id="debug"
-                        class="mt-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-yellow-500 text-white lg:hover:bg-yellow-600"
-                    >
-                        <i class="fa-solid fa-bug"></i>
-                        &emsp;Debug Fill
-                    </button>
-                @endif
+            <section class="flex justify-end">
                 <button
                     type="submit"
                     id="submit-form"
@@ -48,37 +38,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.querySelector("form");
             const submit_form = document.getElementById("submit-form");
-
-            @if (config('app.debug'))
-                document.getElementById("debug").addEventListener("click", () => {
-                    const debug = {
-                        'nama_kepala_keluarga': Math.random().toString(36).substring(7),
-                        'id_desa': Math.floor(Math.random() * 10) + 50,
-                        'alamat': Math.random().toString(36).substring(7),
-                        'jumlah_keluarga': Math.floor(Math.random() * 10) + 1,
-                        'range_pendapatan': '1',
-                        'range_pengeluaran': '1',
-                        'is_hamil': Math.floor(Math.random() * 2),
-                        'is_menyusui': Math.floor(Math.random() * 2),
-                        'is_balita': Math.floor(Math.random() * 2),
-                    }
-
-                    Object.keys(debug).forEach(key => {
-                        const input = form.querySelector(`[name="${key}"]`);
-                        if (!input) return;
-
-                        if (input.type === 'radio') {
-                            const radio = form.querySelector(`[name="${key}"][value="${debug[key]}"]`);
-                            if (radio) radio.checked = true;
-                            return;
-                        }
-
-                        if (input.type === 'file') return;
-                        input.value = debug[key];
-                        if (input.tagName.toLowerCase() === 'select') input.dispatchEvent(new Event('change', { bubbles: true }));
-                    });
-                });
-            @endif
 
             form.addEventListener("submit", async e => {
                 e.preventDefault();
@@ -110,7 +69,7 @@
                     });
 
                     let response_text = await response.text();
-                    if (response_text.trim().startsWith("<!DOCTYPE html>")) throw new Error("Server mengembalikan halaman HTML. Mungkin terjadi kesalahan pada server.");
+                    if (response_text.trim().startsWith("<!DOCTYPE html>")) throw new Error("Server mengembalikan halaman HTML, mungkin terjadi kesalahan pada server.");
 
                     const parse = JSON.parse(response_text);
 

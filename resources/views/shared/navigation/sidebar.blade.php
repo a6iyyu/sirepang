@@ -1,4 +1,4 @@
-<aside class="fixed z-30 flex h-full flex-col space-y-4 p-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out">
+<aside class="fixed z-30 hidden h-full flex-col space-y-4 p-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out lg:flex">
     <section class="flex space-x-8">
         <div class="cursor-default flex items-center space-x-4">
             <img src="{{ asset('img/logo.webp') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
@@ -10,7 +10,7 @@
         <i id="close" class="fa-solid fa-right-to-bracket cursor-pointer mt-1.5 h-fit text-lg text-white"></i>
     </section>
     <i id="open" class="fa-solid fa-bars !hidden cursor-pointer text-center text-xl text-white"></i>
-    <hr class="mt-2 h-0.5 w-full text-green-dark" />
+    <hr class="mt-2 h-0.5 w-full text-emerald-800" />
     <nav class="mt-2 space-y-4">
         @if (Auth::check() && Auth::user()->tipe == 'kader')
             <x-menu
