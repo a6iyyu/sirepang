@@ -8,6 +8,7 @@ use App\Models\DetailPanganKeluarga;
 use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
+use App\Models\PanganKeluarga;
 use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
@@ -79,6 +80,7 @@ class Keluarga extends Controller
      */
     public function create(Request $request)
     {
+        DB::beginTransaction();
         try {
             $request->validate([
                 'nama_kepala_keluarga' => 'string|required|max:255',
@@ -90,25 +92,57 @@ class Keluarga extends Controller
                 'is_hamil' => 'in:1,0|required',
                 'is_menyusui' => 'in:1,0|required',
                 'is_balita' => 'in:1,0|required',
+                'detail_pangan_keluarga' => 'array',
             ]);
 
             $data = $request->all();
-            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-    
-            $data['id_kecamatan'] = Auth::user()->kader->kecamatan->id_kecamatan;
-            $data['id_kader'] = Auth::user()->kader->id_kader;
-            KeluargaModel::create($data);
+            if ($request->hasFile('gambar')) {
+                $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            }
 
-            if ($request->ajax() || $request->expectsJson()) return response()->json(['redirect' => route('keluarga'), 'success' => 'Data keluarga berhasil disimpan!']);
-            return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil disimpan!');
-        } catch (Exception $exception) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message'=> $exception->getMessage(),
-                ]);
-            };
-            return back()->withErrors(['errors' => $exception->getMessage()]);
+            $user = Auth::user();
+            $data['id_kader'] = $user->kader->id_kader;
+            $data['id_kecamatan'] = $user->kader->id_kecamatan;
+
+            $keluarga = new KeluargaModel();
+            $keluarga->nama_kepala_keluarga = $data['nama_kepala_keluarga'];
+            $keluarga->id_desa = $data['id_desa'];
+            $keluarga->id_kader = $data['id_kader'];
+            $keluarga->id_kecamatan = $data['id_kecamatan'];
+            $keluarga->alamat = $data['alamat'];
+            $keluarga->jumlah_keluarga = $data['jumlah_keluarga'];
+            $keluarga->rentang_pendapatan = $data['range_pendapatan'];
+            $keluarga->rentang_pengeluaran = $data['range_pengeluaran'];
+            $keluarga->is_hamil = $data['is_hamil'];
+            $keluarga->is_menyusui = $data['is_menyusui'];
+            $keluarga->is_balita = $data['is_balita'];
+            if (isset($data['gambar'])) {
+                $keluarga->gambar = $data['gambar'];
+            }
+            $keluarga->save();
+
+            if (!empty($data['detail_pangan_keluarga'])) {
+                foreach ($data['detail_pangan_keluarga'] as $pangan) {
+                    PanganKeluarga::create([
+                        'id_pangan' => $pangan['nama_pangan'],
+                        'id_keluarga' => $keluarga->id_keluarga,
+                        'urt' => $pangan['jumlah_urt']
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json([
+                'redirect' => route('keluarga')
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error saat menyimpan data keluarga: ' . $e->getMessage());
+            
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()
+            ], 500);
         }
     }
 

@@ -60,7 +60,7 @@
             const hiddenInputsContainer = document.getElementById('hidden-pangan-inputs');
 
             let daftar_pangan = [];
-            let edit_index = -1; // Used to track if we're editing an existing item
+            let edit_index = -1;
 
             const updateHiddenInputs = () => {
                 hiddenInputsContainer.innerHTML = '';
@@ -109,7 +109,6 @@
                     baris_tabel_formulir_pangan.parentNode.insertBefore(row, baris_tabel_formulir_pangan);
                 });
 
-                // Attach event listeners to newly created buttons
                 document.querySelectorAll('button[data-edit]').forEach(btn => {
                     btn.addEventListener('click', () => edit_pangan(parseInt(btn.getAttribute('data-edit'))));
                 });
@@ -125,9 +124,7 @@
                 const item = daftar_pangan[index];
                 nama_jenis.value = item.jenis_pangan;
 
-                // Load nama pangan options first, then set the value
                 pilihan_nama_pangan(item.jenis_pangan, () => {
-                    // Find and select the correct option
                     Array.from(nama_pangan.options).forEach(option => {
                         if (option.value === item.nama_pangan) {
                             option.selected = true;
@@ -136,9 +133,8 @@
                 });
 
                 urt.value = item.urt;
-                edit_index = index; // Set edit mode
+                edit_index = index;
 
-                // Change the add button text to indicate edit mode
                 tambah.innerHTML = '<i class="fa-solid fa-check"></i>';
                 tambah.classList.remove('bg-green-600', 'hover:bg-green-700');
                 tambah.classList.add('bg-blue-600', 'hover:bg-blue-700');
@@ -149,7 +145,6 @@
                     daftar_pangan.splice(index, 1);
                     perbarui_tabel();
 
-                    // If we were editing the item that was just deleted, reset the form
                     if (edit_index === index) {
                         reset_formulir();
                     }
@@ -160,9 +155,8 @@
                 nama_jenis.value = "";
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 urt.value = "";
-                edit_index = -1; // Exit edit mode
+                edit_index = -1;
 
-                // Reset add button to normal state
                 tambah.innerHTML = '<i class="fa-solid fa-plus"></i>';
                 tambah.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                 tambah.classList.add('bg-green-600', 'hover:bg-green-700');
@@ -202,10 +196,8 @@
                 };
 
                 if (edit_index >= 0) {
-                    // Update existing item
                     daftar_pangan[edit_index] = item;
                 } else {
-                    // Add new item
                     daftar_pangan.push(item);
                 }
 
