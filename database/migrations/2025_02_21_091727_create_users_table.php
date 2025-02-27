@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('password', 32);
             $table->enum('tipe', ['admin', 'kader']);
             $table->integer('id_kader')->nullable()->unique('id_kader');
+            $table->rememberToken();
 
             $table->primary(['id_user']);
         });
