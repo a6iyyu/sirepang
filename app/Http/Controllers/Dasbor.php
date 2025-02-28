@@ -35,12 +35,12 @@ class Dasbor extends Controller
 
         return match ($user->tipe) {
             'admin' => view('pages.admin.dasbor', [
-                'jumlah_desa' => $desa->count(),
                 'jumlah_kecamatan' => $kecamatan->count(),
                 'jumlah_keluarga' => $keluarga->count(),
+                'jumlah_desa' => $keluarga->unique('id_desa')->count(),
             ]),
             'kader' => view('pages.surveyor.dasbor', [
-                'jumlah_desa' => $desa->count(),
+                'jumlah_desa' => $keluarga->unique('id_desa')->count(),
                 'jumlah_keluarga' => $keluarga->count(),
                 'data_keluarga' => $data_keluarga,
                 'penomoran_halaman' => '',

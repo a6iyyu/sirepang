@@ -8,7 +8,7 @@ use App\Models\DetailPanganKeluarga;
 use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
-use App\Models\PanganKeluarga;
+use App\Models\PanganKeluarga as PanganKeluargaModel;
 use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
@@ -25,7 +25,7 @@ class Keluarga extends Controller
     /**
      * Views
      */
-    public function index(): View 
+    public function index(): View
     {
         $kader = Auth::user()->kader->id_kader;
 
@@ -123,7 +123,7 @@ class Keluarga extends Controller
 
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
-                    PanganKeluarga::create([
+                    PanganKeluargaModel::create([
                         'id_pangan' => $pangan['nama_pangan'],
                         'id_keluarga' => $keluarga->id_keluarga,
                         'urt' => $pangan['jumlah_urt']
@@ -139,7 +139,7 @@ class Keluarga extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error saat menyimpan data keluarga: ' . $e->getMessage());
-            
+
             return response()->json([
                 'error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()
             ], 500);
@@ -193,6 +193,7 @@ class Keluarga extends Controller
     public function delete($id): RedirectResponse
     {
         try {
+            PanganKeluargaModel::where('id_keluarga', $id)->delete();
             $keluarga = KeluargaModel::where('id_keluarga', $id)->firstOrFail();
             $keluarga->delete();
             return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil dihapus!');
