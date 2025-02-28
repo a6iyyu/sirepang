@@ -46,17 +46,6 @@
                 submit_form.disabled = true;
 
                 let form_data = new FormData(form);
-                // let data_pangan = [];
-
-                // document.querySelectorAll("[name='nama_pangan']").forEach((element, index) => {
-                //     data_pangan.push({
-                //         nama_pangan: element.value,
-                //         nama_jenis: document.querySelectorAll("[name='nama_jenis']")[index].value,
-                //         urt: document.querySelectorAll("[name='urt']")[index].value,
-                //     });
-                // });
-
-                // form_data.set("pangan", JSON.stringify(data_pangan));
 
                 try {
                     let response = await fetch("{{ route('tambah-data-keluarga') }}", {
