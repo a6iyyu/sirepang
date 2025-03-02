@@ -1,3 +1,4 @@
+
 <aside class="fixed z-30 hidden h-full flex-col space-y-4 p-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out lg:flex">
     <section class="flex space-x-8">
         <div class="cursor-default flex items-center space-x-4">

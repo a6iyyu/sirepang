@@ -1,6 +1,3 @@
-<h3 class="mb-6 cursor-default font-bold text-3xl text-primary">
-    Masukkan Data Pangan
-</h3>
 <section id="formulir-pangan">
     <div class="overflow-x-auto shadow-lg rounded-">
         <table class="w-full border-collapse bg-transparent">
@@ -60,27 +57,26 @@
             const hiddenInputsContainer = document.getElementById('hidden-pangan-inputs');
 
             let daftar_pangan = [];
-            let edit_index = -1;
 
             const updateHiddenInputs = () => {
                 hiddenInputsContainer.innerHTML = '';
-                
+
                 daftar_pangan.forEach((item, index) => {
                     const jenisPanganInput = document.createElement('input');
                     jenisPanganInput.type = 'hidden';
                     jenisPanganInput.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
                     jenisPanganInput.value = item.jenis_pangan;
-                    
+
                     const namaPanganInput = document.createElement('input');
                     namaPanganInput.type = 'hidden';
                     namaPanganInput.name = `detail_pangan_keluarga[${index}][nama_pangan]`;
                     namaPanganInput.value = item.nama_pangan;
-                    
+
                     const urtInput = document.createElement('input');
                     urtInput.type = 'hidden';
                     urtInput.name = `detail_pangan_keluarga[${index}][jumlah_urt]`;
                     urtInput.value = item.urt;
-                    
+
                     hiddenInputsContainer.appendChild(jenisPanganInput);
                     hiddenInputsContainer.appendChild(namaPanganInput);
                     hiddenInputsContainer.appendChild(urtInput);
@@ -98,9 +94,6 @@
                         <td class="px-6 py-4 text-gray-700">${item.nama_pangan_text}</td>
                         <td class="px-6 py-4 text-gray-700">${item.urt}</td>
                         <td class="flex px-6 py-4 items-center justify-center space-x-4">
-                            <button type="button" data-edit="${index}" class="flex items-center justify-center mr-2 px-4 py-3 bg-green-600 text-white rounded-lg shadow-sm transition-colors duration-150 hover:bg-green-700">
-                                <i class="fa-solid fa-pencil mr-3"></i> Edit
-                            </button>
                             <button type="button" data-delete="${index}" class="flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
                                 <i class="fa-solid fa-trash mr-3"></i> Hapus
                             </button>
@@ -109,45 +102,17 @@
                     baris_tabel_formulir_pangan.parentNode.insertBefore(row, baris_tabel_formulir_pangan);
                 });
 
-                document.querySelectorAll('button[data-edit]').forEach(btn => {
-                    btn.addEventListener('click', () => edit_pangan(parseInt(btn.getAttribute('data-edit'))));
-                });
-
                 document.querySelectorAll('button[data-delete]').forEach(btn => {
                     btn.addEventListener('click', () => hapus_pangan(parseInt(btn.getAttribute('data-delete'))));
                 });
-                
+
                 updateHiddenInputs();
-            };
-
-            const edit_pangan = (index) => {
-                const item = daftar_pangan[index];
-                nama_jenis.value = item.jenis_pangan;
-
-                pilihan_nama_pangan(item.jenis_pangan, () => {
-                    Array.from(nama_pangan.options).forEach(option => {
-                        if (option.value === item.nama_pangan) {
-                            option.selected = true;
-                        }
-                    });
-                });
-
-                urt.value = item.urt;
-                edit_index = index;
-
-                tambah.innerHTML = '<i class="fa-solid fa-check"></i>';
-                tambah.classList.remove('bg-green-600', 'hover:bg-green-700');
-                tambah.classList.add('bg-blue-600', 'hover:bg-blue-700');
             };
 
             const hapus_pangan = (index) => {
                 if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
                     daftar_pangan.splice(index, 1);
                     perbarui_tabel();
-
-                    if (edit_index === index) {
-                        reset_formulir();
-                    }
                 }
             };
 
@@ -155,14 +120,9 @@
                 nama_jenis.value = "";
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 urt.value = "";
-                edit_index = -1;
-
-                tambah.innerHTML = '<i class="fa-solid fa-plus"></i>';
-                tambah.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                tambah.classList.add('bg-green-600', 'hover:bg-green-700');
             };
 
-            const pilihan_nama_pangan = (jenis_id, callback = null) => {
+            const pilihan_nama_pangan = (jenis_id) => {
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 if (@json($nama_pangan)[jenis_id]) {
                     Object.entries(@json($nama_pangan)[jenis_id]).forEach(([id, nama]) => {
@@ -171,9 +131,6 @@
                         option.textContent = nama;
                         nama_pangan.appendChild(option);
                     });
-                }
-                if (callback && typeof callback === 'function') {
-                    callback();
                 }
             };
 
@@ -195,12 +152,7 @@
                     nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
                 };
 
-                if (edit_index >= 0) {
-                    daftar_pangan[edit_index] = item;
-                } else {
-                    daftar_pangan.push(item);
-                }
-
+                daftar_pangan.push(item);
                 reset_formulir();
                 perbarui_tabel();
             });
