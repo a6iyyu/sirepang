@@ -59,8 +59,8 @@
         name="is_hamil"
         label="Apakah Ada Ibu Hamil?"
         :options="[
-            '1' => 'Ya',
-            '0' => 'Tidak',
+            'Ya' => 'Ya',
+            'Tidak' => 'Tidak',
         ]"
         required
     />
@@ -68,8 +68,8 @@
         name="is_menyusui"
         label="Apakah Terdapat Ibu Menyusui?"
         :options="[
-            '1' => 'Ya',
-            '0' => 'Tidak',
+            'Ya' => 'Ya',
+            'Tidak' => 'Tidak',
         ]"
         required=""
     />
@@ -77,8 +77,8 @@
         name="is_balita"
         label="Apakah Terdapat Balita 0 - 6 Tahun?"
         :options="[
-            '1' => 'Ya',
-            '0' => 'Tidak',
+            'Ya' => 'Ya',
+            'Tidak' => 'Tidak',
         ]"
     />
 </section>

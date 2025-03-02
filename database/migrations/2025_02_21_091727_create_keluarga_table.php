@@ -14,9 +14,9 @@ return new class extends Migration {
             $table->integer('jumlah_keluarga');
             $table->string('alamat');
             $table->string('kode_pos', 5)->nullable();
-            $table->tinyInteger('is_hamil')->default(1);
-            $table->tinyInteger('is_menyusui')->default(1);
-            $table->tinyInteger('is_balita')->default(1);
+            $table->string('is_hamil')->default("Tidak");
+            $table->string('is_menyusui')->default("Tidak");
+            $table->string('is_balita')->default("Tidak");
             $table->longText('gambar');
             $table->integer('id_kecamatan')->index('fk_keluarga_kecamatan1_idx');
             $table->integer('id_desa')->index('fk_keluarga_desa1_idx');

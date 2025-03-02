@@ -1,5 +1,5 @@
 <i id="hamburger-menu" class="fa-solid fa-bars cursor-pointer fixed flex top-10 right-10 z-20 p-2 rounded-lg bg-green-dark text-white transition-opacity duration-300 text-xl lg:!hidden"></i>
-<aside id="mobile" class="fixed z-30 top-0 left-0 min-h-screen w-3/4 bg-green-dark transform -translate-x-full space-y-4 p-6 rounded-r-2xl shadow-2xl transition-transform duration-300 ease-in-out">
+<aside id="mobile" class="fixed z-30 top-0 left-0 min-h-screen bg-green-dark transform -translate-x-full space-y-4 p-6 rounded-r-2xl shadow-2xl transition-transform duration-300 ease-in-out">
     <section class="flex space-x-8">
         <div class="cursor-default flex items-center space-x-4">
             <img src="{{ asset('img/logo.webp') }}" alt="Logo" class="h-12 w-12 object-cover" />

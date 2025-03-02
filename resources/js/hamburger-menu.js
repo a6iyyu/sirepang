@@ -1,34 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
     const hamburger_menu = document.getElementById("hamburger-menu");
-    const mobileSidebar = document.getElementById("mobile");
-    const mobileClose = document.getElementById("mobile-close");
-    const mobileMenuItems = document.querySelectorAll("#mobile nav > a");
+    const mobile_sidebar = document.getElementById("mobile");
+    const mobile_close = document.getElementById("mobile-close");
+    const mobile_menu_items = document.querySelectorAll("#mobile nav > a");
 
     hamburger_menu.addEventListener("click", () => {
-        if (mobileSidebar.classList.contains('translate-x-0')) {
-            mobileSidebar.classList.remove('translate-x-0');
-            mobileSidebar.classList.add('-translate-x-full');
+        if (mobile_sidebar.classList.contains("translate-x-0")) {
+            mobile_sidebar.classList.remove("translate-x-0");
+            mobile_sidebar.classList.add("-translate-x-full");
         } else {
-            mobileSidebar.classList.remove('-translate-x-full');
-            mobileSidebar.classList.add('translate-x-0');
+            mobile_sidebar.classList.remove("-translate-x-full");
+            mobile_sidebar.classList.add("translate-x-0");
         }
     });
-    if (mobileClose) {
-        mobileClose.addEventListener("click", () => {
-            mobileSidebar.classList.remove('translate-x-0');
-            mobileSidebar.classList.add('-translate-x-full');
+
+    if (mobile_close) {
+        mobile_close.addEventListener("click", () => {
+            mobile_sidebar.classList.remove("translate-x-0");
+            mobile_sidebar.classList.add("-translate-x-full");
         });
     }
-    mobileMenuItems.forEach(item => {
+
+    mobile_menu_items.forEach((item) => {
         item.addEventListener("click", () => {
-            mobileMenuItems.forEach(menu => {
+            mobile_menu_items.forEach((menu) => {
                 menu.classList.remove("bg-primary", "text-green-dark");
                 menu.classList.add("text-white");
             });
+
             item.classList.add("bg-primary", "text-green-dark");
             item.classList.remove("text-white");
-            mobileSidebar.classList.remove('translate-x-0');
-            mobileSidebar.classList.add('-translate-x-full');
+            mobile_sidebar.classList.remove("translate-x-0");
+            mobile_sidebar.classList.add("-translate-x-full");
         });
 
         if (item.href === window.location.href) {

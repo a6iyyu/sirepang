@@ -1,4 +1,3 @@
-
 <aside class="fixed z-30 hidden h-full flex-col space-y-4 p-6 rounded-r-2xl shadow-2xl bg-green-dark transition-all duration-300 ease-in-out lg:flex">
     <section class="flex space-x-8">
         <div class="cursor-default flex items-center space-x-4">
@@ -28,8 +27,8 @@
                 sidebar="{{ true }}"
                 :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
             />
-            @endif
-            @if (Auth::check() && Auth::user()->tipe == 'admin')
+        @endif
+        @if (Auth::check() && Auth::user()->tipe == 'admin')
             <x-menu
                 icon="fa-solid fa-user-shield"
                 label="Dasbor"

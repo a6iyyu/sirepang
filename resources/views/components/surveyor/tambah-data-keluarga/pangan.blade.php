@@ -54,32 +54,32 @@
             const nama_jenis = document.getElementById('nama-jenis');
             const nama_pangan = document.getElementById('nama-pangan');
             const urt = document.getElementById('urt');
-            const hiddenInputsContainer = document.getElementById('hidden-pangan-inputs');
+            const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
 
             let daftar_pangan = [];
 
-            const updateHiddenInputs = () => {
-                hiddenInputsContainer.innerHTML = '';
+            const update_hidden_inputs = () => {
+                hidden_inputs_container.innerHTML = '';
 
                 daftar_pangan.forEach((item, index) => {
-                    const jenisPanganInput = document.createElement('input');
-                    jenisPanganInput.type = 'hidden';
-                    jenisPanganInput.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
-                    jenisPanganInput.value = item.jenis_pangan;
+                    const jenis_pangan_input = document.createElement('input');
+                    jenis_pangan_input.type = 'hidden';
+                    jenis_pangan_input.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
+                    jenis_pangan_input.value = item.jenis_pangan;
 
-                    const namaPanganInput = document.createElement('input');
-                    namaPanganInput.type = 'hidden';
-                    namaPanganInput.name = `detail_pangan_keluarga[${index}][nama_pangan]`;
-                    namaPanganInput.value = item.nama_pangan;
+                    const pangan_input = document.createElement('input');
+                    pangan_input.type = 'hidden';
+                    pangan_input.name = `detail_pangan_keluarga[${index}][nama_pangan]`;
+                    pangan_input.value = item.nama_pangan;
 
-                    const urtInput = document.createElement('input');
-                    urtInput.type = 'hidden';
-                    urtInput.name = `detail_pangan_keluarga[${index}][jumlah_urt]`;
-                    urtInput.value = item.urt;
+                    const urt_input = document.createElement('input');
+                    urt_input.type = 'hidden';
+                    urt_input.name = `detail_pangan_keluarga[${index}][jumlah_urt]`;
+                    urt_input.value = item.urt;
 
-                    hiddenInputsContainer.appendChild(jenisPanganInput);
-                    hiddenInputsContainer.appendChild(namaPanganInput);
-                    hiddenInputsContainer.appendChild(urtInput);
+                    hidden_inputs_container.appendChild(jenis_pangan_input);
+                    hidden_inputs_container.appendChild(pangan_input);
+                    hidden_inputs_container.appendChild(urt_input);
                 });
             };
 
@@ -102,11 +102,8 @@
                     baris_tabel_formulir_pangan.parentNode.insertBefore(row, baris_tabel_formulir_pangan);
                 });
 
-                document.querySelectorAll('button[data-delete]').forEach(btn => {
-                    btn.addEventListener('click', () => hapus_pangan(parseInt(btn.getAttribute('data-delete'))));
-                });
-
-                updateHiddenInputs();
+                document.querySelectorAll('button[data-delete]').forEach(btn => btn.addEventListener('click', () => hapus_pangan(parseInt(btn.getAttribute('data-delete')))));
+                update_hidden_inputs();
             };
 
             const hapus_pangan = (index) => {
@@ -134,9 +131,7 @@
                 }
             };
 
-            nama_jenis.addEventListener("change", () => {
-                pilihan_nama_pangan(nama_jenis.value);
-            });
+            nama_jenis.addEventListener("change", () => pilihan_nama_pangan(nama_jenis.value));
 
             tambah.addEventListener('click', () => {
                 if (!nama_jenis.value || !nama_pangan.value || !urt.value) {
