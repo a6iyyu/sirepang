@@ -142,14 +142,25 @@ class Keluarga extends Controller
             $pengeluaran = $rentangUang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentangUang[$keluarga->rentang_pengeluaran]->batas_atas;
 
             $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
-            $pangan = PanganModel::all()->keyBy('id_pangan');
-            $jenis_pangan = JenisPanganModel::all()->keyBy('id_jenis_pangan'); // jan dihapus dl bzir, nunggu dibikinin tabel sm khalid bin walid
+            $pangan_ids = $pangan_keluarga->pluck('id_pangan');
+            $pangan = PanganModel::whereIn('id_pangan', $pangan_ids)->get()->keyBy('id_pangan');
+            $jenis_pangan = JenisPanganModel::whereIn('id_jenis_pangan', $pangan->pluck('id_jenis_pangan'))->get()->keyBy('id_jenis_pangan');
+
+            $panganDetails = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
+                $pangan_item = $pangan->get($item->id_pangan);
+                return (object) [
+                    'nama_pangan' => $pangan_item->nama_pangan,
+                    'jenis_pangan' => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
+                    'urt' => $item->urt,
+                ];
+            });
+            // dd($panganDetails);
 
             return view('pages.surveyor.detail', [
             'keluarga' => $keluarga,
             'pendapatan' => $pendapatan,
             'pengeluaran' => $pengeluaran,
-            'pangan_keluarga' => $pangan_keluarga,
+            'pangan_detail' => $panganDetails,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
