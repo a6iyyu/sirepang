@@ -30,7 +30,7 @@
                 </div>
                 <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
                     @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->anggota_keluarga }}</span>
+                        <span class="font-medium">{{ $keluarga->jumlah_keluarga }}</span>
                     @else
                         <span class="text-gray-400">—</span>
                     @endif
@@ -60,7 +60,7 @@
                 </div>
                 <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
                     @if (isset($keluarga))
-                    <span class="font-medium">Rp {{($keluarga->rentang_pendapatan) }}</span>
+                    <span class="font-medium">Rp {{($pendapatan) }}</span>
                     @else
                         <span class="text-gray-400">—</span>
                     @endif
@@ -75,7 +75,7 @@
                 </div>
                 <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
                     @if (isset($keluarga))
-                        <span class="font-medium">Rp {{ number_format($keluarga->pengeluaran, 0, ',', '.') }}</span>
+                        <span class="font-medium">Rp {{ $pengeluaran }}</span>
                     @else
                         <span class="text-gray-400">—</span>
                     @endif

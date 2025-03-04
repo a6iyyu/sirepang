@@ -136,7 +136,21 @@ class Keluarga extends Controller
     public function detail($id): RedirectResponse|View
     {
         try {
-            return view('pages.surveyor.detail', ['keluarga' => KeluargaModel::findOrFail($id)]);
+            $keluarga = KeluargaModel::with('desa')->findOrFail($id);
+            $rentangUang = RentangUangModel::all()->keyBy('id_rentang_uang');
+            $pendapatan = $rentangUang[$keluarga->rentang_pendapatan]->batas_bawah . ' - ' . $rentangUang[$keluarga->rentang_pendapatan]->batas_atas;
+            $pengeluaran = $rentangUang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentangUang[$keluarga->rentang_pengeluaran]->batas_atas;
+
+            $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
+            $pangan = PanganModel::all()->keyBy('id_pangan');
+            $jenis_pangan = JenisPanganModel::all()->keyBy('id_jenis_pangan'); // jan dihapus dl bzir, nunggu dibikinin tabel sm khalid bin walid
+
+            return view('pages.surveyor.detail', [
+            'keluarga' => $keluarga,
+            'pendapatan' => $pendapatan,
+            'pengeluaran' => $pengeluaran,
+            'pangan_keluarga' => $pangan_keluarga,
+            ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
