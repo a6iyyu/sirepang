@@ -73,7 +73,6 @@ class Keluarga extends Controller
         ]);
     }
 
-
     /**
      * Controllers
      */
@@ -132,6 +131,15 @@ class Keluarga extends Controller
             DB::rollBack();
             Log::error('Error saat menyimpan data keluarga: ' . $e->getMessage());
             return response()->json(['errors' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
+        }
+    }
+    public function detail($id): RedirectResponse|View
+    {
+        try {
+            return view('pages.surveyor.detail', ['keluarga' => KeluargaModel::findOrFail($id)]);
+        } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
+            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 

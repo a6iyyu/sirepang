@@ -36,7 +36,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
         Route::put('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
         Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
+        Route::get('/detail/{id}', [Keluarga::class, 'detail'])->name('keluarga.detail');
     });
+
 
     Route::get('/keluar', [Autentikasi::class, 'logout'])->name('keluar');
 });

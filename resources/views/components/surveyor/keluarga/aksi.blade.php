@@ -1,11 +1,10 @@
-<button
-    id="detail-keluarga"
-    data-id="{{ $item->id }}"
+<a
+   href="{{ route('keluarga.detail', $item->id) }}"
     class="cursor-pointer inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-md text-sm font-medium transition-colors duration-200 hover:bg-blue-700"
 >
     <i class="fa-solid fa-circle-info mr-2"></i>
     Detail
-</button>
+</a>
 <a
     href="{{ route('keluarga.edit', $item->id) }}"
     class="inline-flex items-center px-4 py-3 bg-emerald-600 text-white rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-700"
