@@ -8,6 +8,4 @@ class RentangUang extends Model
 {
     protected $table = 'rentang_uang';
     protected $primaryKey = 'id_rentang_uang';
-    
-
 }

@@ -49,20 +49,17 @@ class Keluarga extends Controller
     {
         $kader = User::find(Auth::user()->id_user)->kader;
         $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->pluck('nama_desa', 'id_desa')->toArray();
-
         $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
         $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-
         $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
+        $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
 
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
             $atas = $batas_atas[$id] ?? null;
             $rentang_uang[$id] = "$bawah - $atas";
         }
-
-        $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
 
         return view('pages.surveyor.tambah-data-keluarga', [
             'rentang_uang' => $rentang_uang,
@@ -72,6 +69,7 @@ class Keluarga extends Controller
             'takaran' => $takaran,
         ]);
     }
+
 
     /**
      * Controllers
@@ -133,20 +131,20 @@ class Keluarga extends Controller
             return response()->json(['errors' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
         }
     }
+
     public function detail($id): RedirectResponse|View
     {
         try {
             $keluarga = KeluargaModel::with('desa')->findOrFail($id);
-            $rentangUang = RentangUangModel::all()->keyBy('id_rentang_uang');
-            $pendapatan = $rentangUang[$keluarga->rentang_pendapatan]->batas_bawah . ' - ' . $rentangUang[$keluarga->rentang_pendapatan]->batas_atas;
-            $pengeluaran = $rentangUang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentangUang[$keluarga->rentang_pengeluaran]->batas_atas;
-
+            $rentang_uang = RentangUangModel::all()->keyBy('id_rentang_uang');
+            $pendapatan = $rentang_uang[$keluarga->rentang_pendapatan]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pendapatan]->batas_atas;
+            $pengeluaran = $rentang_uang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pengeluaran]->batas_atas;
             $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
-            $pangan_ids = $pangan_keluarga->pluck('id_pangan');
-            $pangan = PanganModel::whereIn('id_pangan', $pangan_ids)->get()->keyBy('id_pangan');
+            $pangan_id = $pangan_keluarga->pluck('id_pangan');
+            $pangan = PanganModel::whereIn('id_pangan', $pangan_id)->get()->keyBy('id_pangan');
             $jenis_pangan = JenisPanganModel::whereIn('id_jenis_pangan', $pangan->pluck('id_jenis_pangan'))->get()->keyBy('id_jenis_pangan');
 
-            $panganDetails = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
+            $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
                 $pangan_item = $pangan->get($item->id_pangan);
                 return (object) [
                     'nama_pangan' => $pangan_item->nama_pangan,
@@ -154,13 +152,12 @@ class Keluarga extends Controller
                     'urt' => $item->urt,
                 ];
             });
-            // dd($panganDetails);
 
             return view('pages.surveyor.detail', [
-            'keluarga' => $keluarga,
-            'pendapatan' => $pendapatan,
-            'pengeluaran' => $pengeluaran,
-            'pangan_detail' => $panganDetails,
+                'keluarga' => $keluarga,
+                'pendapatan' => $pendapatan,
+                'pengeluaran' => $pengeluaran,
+                'pangan_detail' => $pangan_detail,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());

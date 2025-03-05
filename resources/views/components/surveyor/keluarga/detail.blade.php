@@ -1,189 +1,69 @@
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-<div x-data="{ open: true }" class="container w-full mx-auto py-6">
-    <div class="card rounded-xl overflow-hidden shadow-xl bg-transparent border-0">
-        <!-- Header with darker gradient -->
-        <div class="bg-gradient-to-r from-emerald-800 to-emerald-600 p-5 flex justify-between items-center">
-            <h4 class="text-white text-xl font-bold mb-0">Data Keluarga</h4>
-            <button @click="open = !open" class="text-white text-xl">
-                <span x-show="open">&#x25BC;</span> <!-- Down arrow -->
-                <span x-show="!open">&#x25B6;</span> <!-- Right arrow -->
-            </button>
-        </div>
-
-        <!-- Main content -->
-        <div x-show="open" class="divide-y divide-gray-100">
-            <!-- Nama -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Nama</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->nama_kepala_keluarga }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Anggota Keluarga -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Anggota Keluarga</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->jumlah_keluarga }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Alamat -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Alamat</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->alamat }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Pendapatan -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Pendapatan</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">Rp {{ $pendapatan }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Pengeluaran -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Pengeluaran</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">Rp {{ $pengeluaran }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Ibu Hamil -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Ibu Hamil</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->is_hamil }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Ibu Menyusui -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Ibu Menyusui</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->is_menyusui }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Balita -->
-            <div class="grid grid-cols-1 md:grid-cols-2 hover:bg-emerald-50/50 transition-all duration-200">
-                <div class="p-4 md:p-5 flex items-center">
-                    <div class="w-1.5 h-12 bg-emerald-700 mr-4 rounded-full"></div>
-                    <span class="text-emerald-800 font-medium text-base">Balita</span>
-                </div>
-                <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                    @if (isset($keluarga))
-                        <span class="font-medium">{{ $keluarga->is_balita }}</span>
-                    @else
-                        <span class="text-gray-400">—</span>
-                    @endif
-                </div>
-            </div>
-        </div>
+<section x-data="{ open: true }" class="cursor-default rounded-xl overflow-hidden shadow-xl border-0">
+    <div class="bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 flex justify-between items-center">
+        <h4 class="text-white text-xl font-bold mb-0">Data Keluarga</h4>
+        <button @click="open = !open" class="text-white text-xl">
+            <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
+            <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
+        </button>
     </div>
-    <div class="my-6"></div>
-    <div x-data="{ open: true }" class="card rounded-xl overflow-hidden shadow-xl bg-transparent border-0">
-        <div class="bg-gradient-to-r from-emerald-800 to-emerald-600 p-5 flex justify-between items-center">
-            <h4 class="text-white text-xl font-bold mb-0">Pangan Keluarga</h4>
-            <button @click="open = !open" class="text-white text-xl">
-                <span x-show="open">&#x25BC;</span> <!-- Down arrow -->
-                <span x-show="!open">&#x25B6;</span> <!-- Right arrow -->
-            </button>
-        </div>
-        <div x-show="open">
-            <!-- Pangan Keluarga -->
-            <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-emerald-50/50 transition-all duration-200 text-center">
-                <div class="p-4 md:p-5 flex items-center justify-center">
-                    <span class="text-emerald-800 font-medium text-base">Jenis Pangan</span>
-                </div>
-                <div class="p-4 md:p-5 flex items-center justify-center">
-                    <span class="text-emerald-800 font-medium text-base">Nama Pangan</span>
-                </div>
-                <div class="p-4 md:p-5 flex items-center justify-center">
-                    <span class="text-emerald-800 font-medium text-base">URT</span>
-                </div>
-            </div>
-            <div class="h-1 bg-emerald-700 rounded-full"></div>
-
-            @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
-                @foreach ($pangan_detail as $pangan)
-                    <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-emerald-50/50 transition-all duration-200">
-                        <div class="p-4 md:p-5 text-gray-800 flex justify-center items-center">
-                            <span class="font-medium">{{ $pangan->jenis_pangan }}</span>
-                        </div>
-                        <div class="p-4 md:p-5 text-gray-800 flex justify-center items-center">
-                            <span class="font-medium">{{ $pangan->nama_pangan }}</span>
-                        </div>
-                        <div class="p-4 md:p-5 text-gray-800 flex justify-center items-center">
-                            <span class="font-medium">{{ $pangan->urt }}</span>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-3 hover:bg-emerald-50/50 transition-all duration-200">
-                    <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                        <span class="text-gray-400">—</span>
-                    </div>
-                    <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                        <span class="text-gray-400">—</span>
-                    </div>
-                    <div class="p-4 md:p-5 md:text-right text-gray-800 flex md:justify-end items-center">
-                        <span class="text-gray-400">—</span>
-                    </div>
-                </div>
-            @endif
-        </div>
+    <article x-show="open" class="divide-y divide-gray-100">
+        <x-data name="Nama" :value="$keluarga->nama_kepala_keluarga" />
+        <x-data name="Anggota Keluarga" :value="$keluarga->jumlah_keluarga" />
+        <x-data name="Alamat" :value="$keluarga->alamat" />
+        <x-data name="Pendapatan" :value="$pendapatan" />
+        <x-data name="Pengeluaran" :value="$pengeluaran" />
+        <x-data name="Ibu Hamil" :value="$keluarga->is_hamil" />
+        <x-data name="Ibu Menyusui" :value="$keluarga->is_menyusui" />
+        <x-data name="Balita" :value="$keluarga->is_balita" />
+    </article>
+</section>
+<section x-data="{ open: true }" class="mt-6 rounded-xl overflow-hidden shadow-xl bg-transparent border-0">
+    <div class="bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 flex justify-between items-center">
+        <h4 class="text-white text-xl font-bold mb-0">Pangan Keluarga</h4>
+        <button @click="open = !open" class="text-white text-xl">
+            <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
+            <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
+        </button>
     </div>
-</div>
+    <article x-show="open" class="cursor-default">
+        <div class="grid grid-cols-1 text-center font-medium text-base text-emerald-800 p-4 transition-all duration-200 lg:hover:bg-emerald-50/50 md:grid-cols-3">
+            <h5 class="flex items-center justify-center font-bold">
+                Jenis Pangan
+            </h5>
+            <h5 class="flex items-center justify-center font-bold">
+                Nama Pangan
+            </h5>
+            <h5 class="flex items-center justify-center font-bold">
+                URT
+            </h5>
+        </div>
+        <hr class="h-0.5 bg-emerald-700 rounded-full" />
+        @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
+            @foreach ($pangan_detail as $pangan)
+                <div class="grid grid-cols-1 font-medium p-4 text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50 md:grid-cols-3">
+                    <h5 class="flex items-center justify-center">
+                        {{ $pangan->jenis_pangan }}
+                    </h5>
+                    <h5 class="flex items-center justify-center">
+                        {{ $pangan->nama_pangan }}
+                    </h5>
+                    <h5 class="flex items-center justify-center">
+                        {{ $pangan->urt }}
+                    </h5>
+                </div>
+            @endforeach
+        @else
+            <div class="grid grid-cols-1 transition-all duration-200 lg:hover:bg-emerald-50/50 md:grid-cols-3">
+                <h5 class="flex items-center text-gray-400 md:justify-end p-4 md:p-5 md:text-right">
+                    —
+                </h5>
+                <h5 class="flex items-center text-gray-400 md:justify-end p-4 md:p-5 md:text-right">
+                    —
+                </h5>
+                <h5 class="flex items-center text-gray-400 md:justify-end p-4 md:p-5 md:text-right">
+                    —
+                </h5>
+            </div>
+        @endif
+        </article>
+</section>

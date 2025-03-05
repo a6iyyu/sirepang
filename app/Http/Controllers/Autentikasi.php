@@ -23,10 +23,7 @@ class Autentikasi extends Controller
                 'password.required' => 'Isi kata sandi terlebih dahulu!',
             ]);
 
-            $user = DB::table('users')
-                ->where('username', $request->username)
-                ->where('password', $request->password)
-                ->first();
+            $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
 
             if ($user) {
                 Auth::loginUsingId($user->id_user, true);
@@ -34,18 +31,12 @@ class Autentikasi extends Controller
             }
 
             Log::warning('Upaya masuk gagal dilakukan.', ['username' => $request->username]);
-            return back()
-                ->withErrors(['error' => 'Nama pengguna atau kata sandi salah.'])
-                ->withInput($request->except('password'));
+            return back()->withErrors(['error' => 'Nama pengguna atau kata sandi salah.'])->withInput($request->except('password'));
         } catch (ValidationException $validation) {
-            return back()
-                ->withErrors($validation->errors())
-                ->withInput($request->except('password'));
+            return back()->withErrors($validation->errors())->withInput($request->except('password'));
         } catch (Exception $exception) {
             Log::error("Terjadi kesalahan: ", ['error' => $exception->getMessage()]);
-            return back()
-                ->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])
-                ->withInput($request->except('password'));
+            return back()->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])->withInput($request->except('password'));
         }
     }
 

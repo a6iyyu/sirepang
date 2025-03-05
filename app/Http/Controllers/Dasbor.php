@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class Dasbor extends Controller
 {
-    /**
-     * Views
-     */
     public function show(): RedirectResponse|View
     {
         $user = Auth::user();
@@ -20,7 +16,6 @@ class Dasbor extends Controller
         if (!$user) return redirect()->route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');
 
-        $desa = $user->desa ?? collect();
         $keluarga = $user->keluarga ?? collect();
         $kecamatan = $user->kecamatan ?? collect();
         $data_keluarga = $keluarga->map(function ($item) {

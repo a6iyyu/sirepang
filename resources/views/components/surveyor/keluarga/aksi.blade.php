@@ -1,5 +1,5 @@
 <a
-   href="{{ route('keluarga.detail', $item->id) }}"
+    href="{{ route('keluarga.detail', $item->id) }}"
     class="cursor-pointer inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-md text-sm font-medium transition-colors duration-200 hover:bg-blue-700"
 >
     <i class="fa-solid fa-circle-info mr-2"></i>

@@ -10,7 +10,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "diglactic/laravel-breadcrumbs": "^9.0",
         "laravel/framework": "^11.31",
         "orangehill/iseed": "^3.1"
     },

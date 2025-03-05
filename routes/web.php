@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dasbor', [Dasbor::class, 'show'])->name('penyuluh');
 
-    Route::prefix('admin')->middleware('admin')->group(function () {
+    Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
         Route::get('/data-kecamatan', fn() => view('pages.admin.data-kecamatan'))->name('data-kecamatan');
         Route::get('/rekap-pangan', fn() => view('pages.admin.rekap-pangan'))->name('rekap-pangan');
@@ -33,10 +33,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id?}', [Keluarga::class, 'index'])->name('keluarga')->where('id', '[0-9]+');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
+        Route::get('/detail/{id}', [Keluarga::class, 'detail'])->name('keluarga.detail');
         Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
         Route::put('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
         Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
-        Route::get('/detail/{id}', [Keluarga::class, 'detail'])->name('keluarga.detail');
     });
 
 
