@@ -8,14 +8,14 @@ class Select extends Component
 {
     public string $name, $label;
     public array $options;
-    public ?bool $required;
+    public ?array $value;
 
-    public function __construct(string $name, string $label, array $options, ?bool $required = false)
+    public function __construct(string $name, string $label, array $options, ?array $value)
     {
         $this->name = $name;
         $this->label = $label;
         $this->options = $options;
-        $this->required = $required;
+        $this->value = $value;
     }
 
     public function render()

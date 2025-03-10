@@ -32,13 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('kader')->prefix('keluarga')->group(function () {
         Route::get('/{id?}', [Keluarga::class, 'index'])->name('keluarga')->where('id', '[0-9]+');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
-        Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
         Route::get('/detail/{id}', [Keluarga::class, 'detail'])->name('keluarga.detail');
         Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
+        Route::post('/tambah-data', [Keluarga::class, 'create'])->name('tambah-data-keluarga');
         Route::put('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
         Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
     });
-
 
     Route::get('/keluar', [Autentikasi::class, 'logout'])->name('keluar');
 });

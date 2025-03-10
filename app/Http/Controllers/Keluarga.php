@@ -62,10 +62,10 @@ class Keluarga extends Controller
         }
 
         return view('pages.surveyor.tambah-data-keluarga', [
-            'rentang_uang' => $rentang_uang,
             'desa' => $desa,
             'jenis_pangan' => $jenis_pangan,
             'nama_pangan' => $nama_pangan,
+            'rentang_uang' => $rentang_uang,
             'takaran' => $takaran,
         ]);
     }
@@ -116,8 +116,8 @@ class Keluarga extends Controller
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
                     PanganKeluargaModel::create([
-                        'id_pangan' => $pangan['nama_pangan'],
                         'id_keluarga' => $keluarga->id_keluarga,
+                        'id_pangan' => $pangan['nama_pangan'],
                         'urt' => $pangan['jumlah_urt']
                     ]);
                 }
@@ -135,7 +135,7 @@ class Keluarga extends Controller
     public function detail($id): RedirectResponse|View
     {
         try {
-            $keluarga = KeluargaModel::with('desa')->findOrFail($id);
+            $keluarga = KeluargaModel::with('desa')->find($id);
             $rentang_uang = RentangUangModel::all()->keyBy('id_rentang_uang');
             $pendapatan = $rentang_uang[$keluarga->rentang_pendapatan]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pendapatan]->batas_atas;
             $pengeluaran = $rentang_uang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pengeluaran]->batas_atas;
@@ -155,9 +155,9 @@ class Keluarga extends Controller
 
             return view('pages.surveyor.detail', [
                 'keluarga' => $keluarga,
+                'pangan_detail' => $pangan_detail,
                 'pendapatan' => $pendapatan,
                 'pengeluaran' => $pengeluaran,
-                'pangan_detail' => $pangan_detail,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -168,7 +168,29 @@ class Keluarga extends Controller
     public function edit($id): RedirectResponse|View
     {
         try {
-            return view('pages.surveyor.edit', ['keluarga' => KeluargaModel::findOrFail($id)]);
+            $keluarga = KeluargaModel::with('desa')->find($id);
+            $kader = User::find(Auth::user()->id_user)->kader;
+            $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->pluck('nama_desa', 'id_desa')->toArray();
+            $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
+            $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
+            $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
+            $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
+            $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+
+            $rentang_uang = [];
+            foreach ($batas_bawah as $id => $bawah) {
+                $atas = $batas_atas[$id] ?? null;
+                $rentang_uang[$id] = "$bawah - $atas";
+            }
+
+            return view('pages.surveyor.edit', [
+                'desa' => $desa,
+                'jenis_pangan' => $jenis_pangan,
+                'keluarga' => $keluarga,
+                'nama_pangan' => $nama_pangan,
+                'rentang_uang' => $rentang_uang,
+                'takaran' => $takaran,
+            ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);

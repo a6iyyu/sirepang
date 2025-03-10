@@ -1,9 +1,6 @@
 <fieldset class="flex w-full flex-col justify-between space-y-4">
     <label for="{{ $name }}" class="font-medium">
-        {{ $label }}
-        @if (!empty($required))
-            <span class="text-red-500">*</span>
-        @endif
+        {{ $label }} <span class="text-red-500">*</span>
     </label>
     <div class="relative">
         <select
@@ -12,7 +9,7 @@
             class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100"
             required
         >
-            <option value="" hidden>
+            <option value="{{ $value }}" hidden>
                 Pilih {{ $label }}
             </option>
             @if (is_array($options))

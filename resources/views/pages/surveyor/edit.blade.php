@@ -12,6 +12,6 @@
         class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        @include('components.surveyor.keluarga.edit')
+        @include('components.surveyor.edit-data-keluarga.keluarga')
     </main>
 @endsection
