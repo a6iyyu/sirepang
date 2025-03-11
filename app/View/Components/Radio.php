@@ -2,7 +2,9 @@
 
 namespace App\View\Components;
 
+use Closure;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Radio extends Component
 {
@@ -18,7 +20,7 @@ class Radio extends Component
         $this->value = $value;
     }
 
-    public function render()
+    public function render(): View|Closure|string
     {
         return view('shared.form.radio');
     }

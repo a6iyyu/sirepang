@@ -2,23 +2,25 @@
 
 namespace App\View\Components;
 
+use Closure;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Select extends Component
 {
-    public string $name, $label;
     public array $options;
-    public ?array $value;
+    public string $name, $label;
+    public ?string $value;
 
-    public function __construct(string $name, string $label, array $options, ?array $value)
+    public function __construct(array $options, string $name, string $label, ?string $value)
     {
+        $this->options = $options;
         $this->name = $name;
         $this->label = $label;
-        $this->options = $options;
         $this->value = $value;
     }
 
-    public function render()
+    public function render(): View|Closure|string
     {
         return view('shared.form.select');
     }

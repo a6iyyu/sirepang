@@ -13,8 +13,10 @@
                 Pilih {{ $label }}
             </option>
             @if (is_array($options))
-                @foreach ($options as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
+                @foreach ($options as $key => $text)
+                    <option value="{{ $key }}" @if(old($name, $value) == $key) selected @endif>
+                        {{ $text }}
+                    </option>
                 @endforeach
             @endif
         </select>

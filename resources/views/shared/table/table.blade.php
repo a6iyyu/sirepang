@@ -1,12 +1,12 @@
 @props(['headers', 'rows' => [], 'sortable' => null])
 
 <section class="overflow-x-auto whitespace-nowrap rounded-lg shadow relative">
-    <table class="border-collapse table-auto w-full whitespace-normal table-striped">
+    <table class="border-collapse cursor-default w-full table-fixed">
         <thead>
             <tr>
                 @foreach ($headers as $header)
-                    <th class="cursor-default">
-                        <div class="flex w-full items-center justify-center space-x-2 px-6 py-4 font-bold tracking-wider uppercase text-xs @if (Request::routeIs('tambah-data')) bg-green-700 text-white @endif">
+                    <th class="w-1/{{ count($headers) }} px-6 py-4 font-bold tracking-wider uppercase text-xs text-center @if (Request::routeIs('tambah-data')) bg-green-700 text-white @endif">
+                        <div class="flex items-center justify-center space-x-2">
                             <h6>{{ $header }}</h6>
                             @if (in_array(strtolower($header), array_map('strtolower', $sortable)))
                                 <i onclick="" class="fa-solid fa-sort cursor-pointer hover:text-green-dark"></i>
@@ -20,8 +20,8 @@
             @foreach ($rows as $row)
                 <tr class="border-b transition-all duration-200">
                     @foreach ($row as $cell)
-                        <td>
-                            <div class="cursor-default flex items-center justify-center space-x-3 px-6 py-4 text-center">
+                        <td class="w-1/{{ count($headers) }} px-6 py-4 text-center">
+                            <div class="cursor-default flex items-center justify-center space-x-3">
                                 {!! $cell !!}
                             </div>
                         </td>

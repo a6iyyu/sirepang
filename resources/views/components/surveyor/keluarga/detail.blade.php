@@ -26,7 +26,7 @@
         </button>
     </div>
     <article x-show="open" class="cursor-default">
-        <div class="grid grid-cols-1 text-center font-medium text-base text-emerald-800 p-4 transition-all duration-200 lg:hover:bg-emerald-50/50 md:grid-cols-3">
+        <div class="grid grid-cols-3 text-center font-medium text-base text-emerald-800 p-4 transition-all duration-200 lg:hover:bg-emerald-50/50">
             <h5 class="flex items-center justify-center font-bold">
                 Jenis Pangan
             </h5>
@@ -40,7 +40,7 @@
         <hr class="h-0.5 bg-emerald-700 rounded-full" />
         @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
             @foreach ($pangan_detail as $pangan)
-                <div class="grid grid-cols-1 font-medium p-4 text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50 md:grid-cols-3">
+                <div class="grid grid-cols-3 font-medium p-4 text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
                     <h5 class="flex items-center justify-center">
                         {{ $pangan->jenis_pangan }}
                     </h5>
@@ -65,5 +65,5 @@
                 </h5>
             </div>
         @endif
-        </article>
+    </article>
 </section>

@@ -3,17 +3,18 @@
         {{ $label }} <span class="text-red-500">*</span>
     </h5>
     <div class="flex items-center space-x-6">
-        @foreach ($options as $value => $text)
+        @foreach ($options as $key => $text)
             <span class="inline-flex items-center cursor-pointer">
                 <input
                     type="radio"
                     name="{{ $name }}"
-                    id="{{ $name . '_' . $value }}"
-                    value="{{ $value }}"
+                    id="{{ $name . '_' . $key }}"
+                    value="{{ $key }}"
                     class="h-4 w-4 cursor-pointer text-indigo-600 transition duration-150 ease-in-out"
                     required
+                    @if(old($name, $value) === $key) checked @endif
                 />
-                <label for="{{ $name . '_' . $value }}" class="ml-2 cursor-pointer">{{ $text }}</label>
+                <label for="{{ $name . '_' . $key }}" class="ml-2 cursor-pointer">{{ $text }}</label>
             </span>
         @endforeach
     </div>

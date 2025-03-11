@@ -7,10 +7,10 @@
     @include('shared.table.table', [
         'headers' => ['Nama', 'Desa', 'Aksi'],
         'sortable' => ['Desa'],
-        'rows' =>$data->map(fn($item) => [
+        'rows' => $data->map(fn($item) => [
             $item->nama,
             $item->desa,
-            view("components.surveyor.keluarga.aksi", ['item' => $item])->render(),
+            view('shared.form.action', ['item' => $item])->render(),
         ])->toArray(),
     ])
     @if ($data->isEmpty())
