@@ -5,7 +5,7 @@
                 <tr class="bg-green-dark">
                     <th class="px-6 py-4 text-left text-white font-semibold">Jenis Pangan</th>
                     <th class="px-6 py-4 text-left text-white font-semibold">Nama Pangan</th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">Takaran URT</th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">Takaran URT <span id="takaran-unit-header" class="ml-4 text-lg"></span></th>
                     <th class="px-6 py-4 text-left text-white font-semibold">Aksi</th>
                 </tr>
             </thead>
@@ -41,8 +41,7 @@
             </tbody>
         </table>
     </div>
-    <div id="hidden-pangan-inputs">
-    </div>
+    <div id="hidden-pangan-inputs"></div>
 </section>
 
 @push('skrip')
@@ -54,14 +53,20 @@
             const nama_jenis = document.getElementById('nama-jenis');
             const nama_pangan = document.getElementById('nama-pangan');
             const urt = document.getElementById('urt');
+            const takaran_unit_header = document.getElementById('takaran-unit-header');
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
 
-            let daftar_pangan = [];
+            // Use global daftar_pangan
+            if (!window.daftar_pangan) {
+                window.daftar_pangan = [];
+            }
+
+            const takaranData = @json($takaran);
 
             const update_hidden_inputs = () => {
                 hidden_inputs_container.innerHTML = '';
 
-                daftar_pangan.forEach((item, index) => {
+                window.daftar_pangan.forEach((item, index) => {
                     const jenis_pangan_input = document.createElement('input');
                     jenis_pangan_input.type = 'hidden';
                     jenis_pangan_input.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
@@ -85,14 +90,14 @@
 
             const perbarui_tabel = () => {
                 document.querySelectorAll('tr[data-pangan-row]').forEach(row => row.remove());
-                daftar_pangan.forEach((item, index) => {
+                window.daftar_pangan.forEach((item, index) => {
                     const row = document.createElement('tr');
                     row.setAttribute('data-pangan-row', '');
                     row.classList.add('transition-colors', 'duration-150');
                     row.innerHTML = `
                         <td class="px-6 py-4 text-gray-700">${item.jenis_pangan_text}</td>
                         <td class="px-6 py-4 text-gray-700">${item.nama_pangan_text}</td>
-                        <td class="px-6 py-4 text-gray-700">${item.urt}</td>
+                        <td class="px-6 py-4 text-gray-700">${item.urt} ${item.takaran || ''}</td>
                         <td class="flex px-6 py-4 items-center justify-center space-x-4">
                             <button type="button" data-delete="${index}" class="flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
                                 <i class="fa-solid fa-trash mr-3"></i> Hapus
@@ -108,7 +113,7 @@
 
             const hapus_pangan = (index) => {
                 if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                    daftar_pangan.splice(index, 1);
+                    window.daftar_pangan.splice(index, 1);
                     perbarui_tabel();
                 }
             };
@@ -117,6 +122,7 @@
                 nama_jenis.value = "";
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 urt.value = "";
+                takaran_unit_header.textContent = "";
             };
 
             const pilihan_nama_pangan = (jenis_id) => {
@@ -126,10 +132,17 @@
                         const option = document.createElement("option");
                         option.value = id;
                         option.textContent = nama;
+                        option.dataset.takaran = takaranData[id] || "";
                         nama_pangan.appendChild(option);
                     });
                 }
             };
+
+            nama_pangan.addEventListener("change", () => {
+                const selectedOption = nama_pangan.options[nama_pangan.selectedIndex];
+                const takaran = selectedOption.dataset.takaran || "";
+                takaran_unit_header.textContent = takaran ? `(${takaran})` : "";
+            });
 
             nama_jenis.addEventListener("change", () => pilihan_nama_pangan(nama_jenis.value));
 
@@ -139,15 +152,19 @@
                     return;
                 }
 
+                const selectedOption = nama_pangan.options[nama_pangan.selectedIndex];
+                const takaran = selectedOption.dataset.takaran || "";
+
                 const item = {
                     jenis_pangan: nama_jenis.value,
                     nama_pangan: nama_pangan.value,
                     urt: urt.value,
+                    takaran: takaran,
                     jenis_pangan_text: nama_jenis.options[nama_jenis.selectedIndex].text,
                     nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
                 };
 
-                daftar_pangan.push(item);
+                window.daftar_pangan.push(item);
                 reset_formulir();
                 perbarui_tabel();
             });

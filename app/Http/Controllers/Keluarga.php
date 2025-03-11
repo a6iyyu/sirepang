@@ -150,6 +150,7 @@ class Keluarga extends Controller
                     'nama_pangan' => $pangan_item->nama_pangan,
                     'jenis_pangan' => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
                     'urt' => $item->urt,
+                    'takaran' => $pangan_item->takaran, // Fetch takaran from pangan table
                 ];
             });
 

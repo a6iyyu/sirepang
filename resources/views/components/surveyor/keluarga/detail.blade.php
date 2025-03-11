@@ -34,7 +34,7 @@
                 Nama Pangan
             </h5>
             <h5 class="flex items-center justify-center font-bold">
-                URT
+                Takaran URT
             </h5>
         </div>
         <hr class="h-0.5 bg-emerald-700 rounded-full" />
@@ -48,7 +48,7 @@
                         {{ $pangan->nama_pangan }}
                     </h5>
                     <h5 class="flex items-center justify-center">
-                        {{ $pangan->urt }}
+                        {{ $pangan->urt }} {{ $pangan->takaran }}
                     </h5>
                 </div>
             @endforeach
