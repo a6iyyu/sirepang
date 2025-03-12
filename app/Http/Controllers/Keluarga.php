@@ -172,25 +172,45 @@ class Keluarga extends Controller
             $keluarga = KeluargaModel::with('desa')->find($id);
             $kader = User::find(Auth::user()->id_user)->kader;
             $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->pluck('nama_desa', 'id_desa')->toArray();
-            $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
-            $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
             $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
             $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
+            $gambar = $keluarga->gambar ? base64_decode($keluarga->gambar) : null;
+            $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
+            $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
             $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+
+            $prv_pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
+            $prv_jen_pang = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
+            $prv_nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
+            $prv_takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+            $prv_pangan_keluarga = $prv_pangan_keluarga->map(function ($item) use ($prv_nama_pangan, $prv_takaran, $prv_jen_pang) {
+                $pangan = PanganModel::find($item->id_pangan);
+                return (object) [
+                    'jenis_pangan' => $prv_jen_pang[$pangan->id_jenis_pangan],
+                    'nama_pangan' => $prv_nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan],
+                    'takaran' => $prv_takaran[$pangan->id_pangan],
+                    'jumlah_urt' => $item->urt,
+                ];
+            });
+            // dd($prv_pangan_keluarga);
 
             $rentang_uang = [];
             foreach ($batas_bawah as $id => $bawah) {
                 $atas = $batas_atas[$id] ?? null;
                 $rentang_uang[$id] = "$bawah - $atas";
             }
+            // dd($nama_pangan);
+
 
             return view('pages.surveyor.edit', [
                 'desa' => $desa,
-                'jenis_pangan' => $jenis_pangan,
                 'keluarga' => $keluarga,
-                'nama_pangan' => $nama_pangan,
                 'rentang_uang' => $rentang_uang,
+                'gambar' => $gambar,
+                'jenis_pangan' => $jenis_pangan,
+                'nama_pangan' => $nama_pangan,
                 'takaran' => $takaran,
+                'preview_pangan'=> $prv_pangan_keluarga,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -200,24 +220,43 @@ class Keluarga extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        try {
-            KeluargaModel::findOrFail($id)->update($request->validate([
-                'nama_kepala_keluarga' => 'required|string|max:255',
-                'id_desa' => 'required|string|max:255',
-                'alamat' => 'required|string|max:255',
-                'jumlah_keluarga' => 'required|integer|min:1|max:50',
-                'range_pendapatan' => 'required|string|max:255',
-                'range_pengeluaran' => 'required|string|max:255',
-                'is_hamil' => 'required|in:1,0',
-                'is_menyusui' => 'required|in:1,0',
-                'is_balita' => 'required|in:1,0',
-            ]));
+        // try {
+            $keluarga = KeluargaModel::findOrFail($id);
+            $data = $request->validate([
+            'nama_kepala_keluarga' => 'required|string|max:255',
+            'id_desa' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'jumlah_keluarga' => 'required|integer|min:1|max:50',
+            'range_pendapatan' => 'required|string|max:255',
+            'range_pengeluaran' => 'required|string|max:255',
+            'is_hamil' => 'required|in:Ya,Tidak',
+            'is_menyusui' => 'required|in:Ya,Tidak',
+            'is_balita' => 'required|in:Ya,Tidak',
+            ]);
 
-            return redirect()->route('keluarga')->with('success', 'Data keluarga hasil diperbarui!');
-        } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengedit data: ' . $exception->getMessage());
-            return back()->withErrors(['errors' => 'Gagal memperbarui data!']);
-        }
+            if ($request->hasFile('gambar')) {
+            $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            }
+
+            // $keluarga->update($data);
+            // if (!empty($data['detail_pangan_keluarga'])) {
+            //     PanganKeluargaModel::where('id_keluarga', $id)->delete();
+            //     foreach ($data['detail_pangan_keluarga'] as $pangan) {
+            //         PanganKeluargaModel::create([
+            //             'id_keluarga' => $id,
+            //             'id_pangan' => $pangan['nama_pangan'],
+            //             'urt' => $pangan['jumlah_urt']
+            //         ]);
+            //     }
+            // }
+
+            return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
+        // } catch (ModelNotFoundException $exception) {
+        //     return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
+        // } catch (Exception $exception) {
+        //     Log::error('Terjadi kesalahan saat mengedit data: ' . $exception->getMessage());
+        //     return back()->withErrors(['errors' => 'Gagal memperbarui data!']);
+        // }
     }
 
     public function delete($id): RedirectResponse

@@ -56,7 +56,8 @@
             const urt = document.getElementById('urt');
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
 
-            let daftar_pangan = [];
+            let daftar_pangan = @json($preview_pangan);
+            console.log(daftar_pangan); //cek array sdh ada, di field undefined
 
             const update_hidden_inputs = () => {
                 hidden_inputs_container.innerHTML = '';

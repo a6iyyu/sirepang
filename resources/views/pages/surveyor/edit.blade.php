@@ -12,7 +12,9 @@
         class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        <form action="{{ route('keluarga.tambah') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('keluarga.perbarui',$keluarga->id_keluarga) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             @csrf
             @include('components.surveyor.edit-data-keluarga.keluarga')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
