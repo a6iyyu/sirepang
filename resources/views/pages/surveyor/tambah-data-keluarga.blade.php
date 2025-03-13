@@ -39,6 +39,8 @@
             const form = document.getElementById('family-form');
             const submit_form = document.getElementById("submit-form");
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
+            const image_input = document.querySelector('input[type="file"]'); // Assuming the image input is of type file
+
             if (!window.daftar_pangan) {
                 window.daftar_pangan = [];
             }
@@ -71,6 +73,10 @@
                 updateHiddenInputs();
                 if (window.daftar_pangan.length === 0) {
                     alert("Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!");
+                    return;
+                }
+                if (!image_input.files.length) {
+                    alert("Harap unggah gambar sebelum mengirimkan formulir!");
                     return;
                 }
                 console.log("Daftar Pangan before submission:", window.daftar_pangan);

@@ -9,3 +9,14 @@
     <section id="image-preview" class="hidden p-4 rounded-lg border-2 border-[#2c5e4f] grid-cols-1 gap-6 lg:grid-cols-3"></section>
     <input type="file" name="gambar" id="gambar" accept="image/*" class="hidden" onchange="preview_image(event)" />
 </fieldset>
+
+<script>
+    function validateForm() {
+        const fileInput = document.getElementById('gambar');
+        if (!fileInput.value) {
+            alert('Mohon pilih gambar.');
+            return false;
+        }
+        return true;
+    }
+</script>
