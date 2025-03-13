@@ -183,24 +183,25 @@ class Keluarga extends Controller
             $prv_jen_pang = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
             $prv_nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
             $prv_takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+
+            // Fix: Map the preview data to match the expected structure in the view
             $prv_pangan_keluarga = $prv_pangan_keluarga->map(function ($item) use ($prv_nama_pangan, $prv_takaran, $prv_jen_pang) {
                 $pangan = PanganModel::find($item->id_pangan);
                 return (object) [
-                    'jenis_pangan' => $prv_jen_pang[$pangan->id_jenis_pangan],
-                    'nama_pangan' => $prv_nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan],
+                    'jenis_pangan' => $pangan->id_jenis_pangan, // ID of jenis pangan
+                    'nama_pangan' => $pangan->id_pangan, // ID of nama pangan
+                    'urt' => $item->urt, // Use 'urt' as the key
+                    'jenis_pangan_text' => $prv_jen_pang[$pangan->id_jenis_pangan], // Text of jenis
+                    'nama_pangan_text' => $prv_nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan], // Text of nama
                     'takaran' => $prv_takaran[$pangan->id_pangan],
-                    'jumlah_urt' => $item->urt,
                 ];
             });
-            // dd($prv_pangan_keluarga);
 
             $rentang_uang = [];
             foreach ($batas_bawah as $id => $bawah) {
                 $atas = $batas_atas[$id] ?? null;
                 $rentang_uang[$id] = "$bawah - $atas";
             }
-            // dd($nama_pangan);
-
 
             return view('pages.surveyor.edit', [
                 'desa' => $desa,
@@ -210,7 +211,7 @@ class Keluarga extends Controller
                 'jenis_pangan' => $jenis_pangan,
                 'nama_pangan' => $nama_pangan,
                 'takaran' => $takaran,
-                'preview_pangan'=> $prv_pangan_keluarga,
+                'preview_pangan' => $prv_pangan_keluarga, // Pass the corrected preview data
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());

@@ -39,7 +39,7 @@
             const form = document.getElementById('family-form');
             const submit_form = document.getElementById("submit-form");
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
-            const image_input = document.querySelector('input[type="file"]'); // Assuming the image input is of type file
+            const image_input = document.querySelector('input[type="file"]');
 
             if (!window.daftar_pangan) {
                 window.daftar_pangan = [];

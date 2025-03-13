@@ -43,6 +43,7 @@
     </div>
     <div id="hidden-pangan-inputs">
     </div>
+    <div id="pangan-error" class="text-red-500 mt-2 hidden">Minimal 1 data pangan harus diisi!</div>
 </section>
 
 @push('skrip')
@@ -55,9 +56,10 @@
             const nama_pangan = document.getElementById('nama-pangan');
             const urt = document.getElementById('urt');
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
+            const submitForm = document.getElementById('submit-form');
 
             let daftar_pangan = @json($preview_pangan);
-            console.log(daftar_pangan); //cek array sdh ada, di field undefined
+            console.log(daftar_pangan);
 
             const update_hidden_inputs = () => {
                 hidden_inputs_container.innerHTML = '';
@@ -151,6 +153,13 @@
                 daftar_pangan.push(item);
                 reset_formulir();
                 perbarui_tabel();
+            });
+            submitForm.addEventListener('click', (e) => {
+                if (daftar_pangan.length === 0) {
+                    e.preventDefault();
+                    alert("Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!");
+                    return false;
+                }
             });
 
             perbarui_tabel();

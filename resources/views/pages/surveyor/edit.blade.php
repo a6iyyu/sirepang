@@ -15,7 +15,6 @@
         <form action="{{ route('keluarga.perbarui',$keluarga->id_keluarga) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @csrf
             @include('components.surveyor.edit-data-keluarga.keluarga')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
             @include('components.surveyor.edit-data-keluarga.dokumentasi')
@@ -28,7 +27,7 @@
                     class="mt-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white lg:hover:bg-green-700"
                 >
                     <i class="fa-solid fa-paper-plane"></i>
-                    &emsp;Kirim
+                     Kirim
                 </button>
             </section>
         </form>
