@@ -30,13 +30,11 @@ class Keluarga extends Controller
             $kader = Auth::user()->kader->id_kader;
             $data = KeluargaModel::where('id_kader', $kader)
                 ->get()
-                ->map(function ($item) {
-                    return (object) [
-                        'id' => $item->id_keluarga,
-                        'nama' => $item->nama_kepala_keluarga,
-                        'desa' => $item->desa->nama_desa,
-                    ];
-                });
+                ->map(fn($item) => (object) [
+                    'id'   => $item->id_keluarga,
+                    'nama' => $item->nama_kepala_keluarga,
+                    'desa' => $item->desa->nama_desa,
+                ]);
 
             return view('pages.surveyor.keluarga', ['data' => $data, 'keluarga' => $id ? KeluargaModel::with('desa')->findOrFail($id) : null]);
         } catch (Exception $exception) {
@@ -62,11 +60,11 @@ class Keluarga extends Controller
         }
 
         return view('pages.surveyor.tambah-data-keluarga', [
-            'desa' => $desa,
-            'jenis_pangan' => $jenis_pangan,
-            'nama_pangan' => $nama_pangan,
-            'rentang_uang' => $rentang_uang,
-            'takaran' => $takaran,
+            'desa'          => $desa,
+            'jenis_pangan'  => $jenis_pangan,
+            'nama_pangan'   => $nama_pangan,
+            'rentang_uang'  => $rentang_uang,
+            'takaran'       => $takaran,
         ]);
     }
 
@@ -79,16 +77,16 @@ class Keluarga extends Controller
         DB::beginTransaction();
         try {
             $request->validate([
-                'nama_kepala_keluarga' => 'string|required|max:255',
-                'id_desa' => 'string|required|max:255',
-                'alamat' => 'string|required|max:255',
-                'jumlah_keluarga' => 'integer|required|min:1|max:50',
-                'range_pendapatan' => 'string|required|max:255',
-                'range_pengeluaran' => 'string|required|max:255',
-                'is_hamil' => 'in:Ya,Tidak|required',
-                'is_menyusui' => 'in:Ya,Tidak|required',
-                'is_balita' => 'in:Ya,Tidak|required',
-                'detail_pangan_keluarga' => 'array',
+                'nama_kepala_keluarga'      => 'string|required|max:255',
+                'id_desa'                   => 'string|required|max:255',
+                'alamat'                    => 'string|required|max:255',
+                'jumlah_keluarga'           => 'integer|required|min:1|max:50',
+                'range_pendapatan'          => 'string|required|max:255',
+                'range_pengeluaran'         => 'string|required|max:255',
+                'is_hamil'                  => 'in:Ya,Tidak|required',
+                'is_menyusui'               => 'in:Ya,Tidak|required',
+                'is_balita'                 => 'in:Ya,Tidak|required',
+                'detail_pangan_keluarga'    => 'array',
             ]);
 
             $data = $request->all();
@@ -116,9 +114,9 @@ class Keluarga extends Controller
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
                     PanganKeluargaModel::create([
-                        'id_keluarga' => $keluarga->id_keluarga,
-                        'id_pangan' => $pangan['nama_pangan'],
-                        'urt' => $pangan['jumlah_urt']
+                        'id_keluarga'   => $keluarga->id_keluarga,
+                        'id_pangan'     => $pangan['nama_pangan'],
+                        'urt'           => $pangan['jumlah_urt']
                     ]);
                 }
             }
@@ -127,7 +125,7 @@ class Keluarga extends Controller
             return response()->json(['redirect' => route('keluarga')]);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Error saat menyimpan data keluarga: ' . $e->getMessage());
+            Log::error('Kesalahan saat menyimpan data keluarga: ' . $e->getMessage());
             return response()->json(['errors' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
         }
     }
@@ -147,10 +145,10 @@ class Keluarga extends Controller
             $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
                 $pangan_item = $pangan->get($item->id_pangan);
                 return (object) [
-                    'nama_pangan' => $pangan_item->nama_pangan,
-                    'jenis_pangan' => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
-                    'urt' => $item->urt,
-                    'takaran' => $pangan_item->takaran, // Fetch takaran from pangan table
+                    'nama_pangan'   => $pangan_item->nama_pangan,
+                    'jenis_pangan'  => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
+                    'urt'           => $item->urt,
+                    'takaran'       => $pangan_item->takaran,
                 ];
             });
 
@@ -179,21 +177,15 @@ class Keluarga extends Controller
             $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
             $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
 
-            $prv_pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
-            $prv_jen_pang = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
-            $prv_nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-            $prv_takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
-
-            // Fix: Map the preview data to match the expected structure in the view
-            $prv_pangan_keluarga = $prv_pangan_keluarga->map(function ($item) use ($prv_nama_pangan, $prv_takaran, $prv_jen_pang) {
+            $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get()->map(function ($item) use ($nama_pangan, $takaran, $jenis_pangan) {
                 $pangan = PanganModel::find($item->id_pangan);
                 return (object) [
-                    'jenis_pangan' => $pangan->id_jenis_pangan, // ID of jenis pangan
-                    'nama_pangan' => $pangan->id_pangan, // ID of nama pangan
-                    'urt' => $item->urt, // Use 'urt' as the key
-                    'jenis_pangan_text' => $prv_jen_pang[$pangan->id_jenis_pangan], // Text of jenis
-                    'nama_pangan_text' => $prv_nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan], // Text of nama
-                    'takaran' => $prv_takaran[$pangan->id_pangan],
+                    'jenis_pangan'          => $pangan->id_jenis_pangan,
+                    'nama_pangan'           => $pangan->id_pangan,
+                    'urt'                   => $item->urt,
+                    'teks_jenis_pangan'     => $jenis_pangan[$pangan->id_jenis_pangan],
+                    'teks_nama_pangan'      => $nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan],
+                    'takaran'               => $takaran[$pangan->id_pangan],
                 ];
             });
 
@@ -203,15 +195,15 @@ class Keluarga extends Controller
                 $rentang_uang[$id] = "$bawah - $atas";
             }
 
-            return view('pages.surveyor.edit', [
-                'desa' => $desa,
-                'keluarga' => $keluarga,
-                'rentang_uang' => $rentang_uang,
-                'gambar' => $gambar,
-                'jenis_pangan' => $jenis_pangan,
-                'nama_pangan' => $nama_pangan,
-                'takaran' => $takaran,
-                'preview_pangan' => $prv_pangan_keluarga, // Pass the corrected preview data
+            return view('pages.admin.edit', [
+                'desa'              => $desa,
+                'keluarga'          => $keluarga,
+                'rentang_uang'      => $rentang_uang,
+                'gambar'            => $gambar,
+                'jenis_pangan'      => $jenis_pangan,
+                'nama_pangan'       => $nama_pangan,
+                'takaran'           => $takaran,
+                'pangan_keluarga'   => $pangan_keluarga,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -221,43 +213,27 @@ class Keluarga extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
-        // try {
-            $keluarga = KeluargaModel::findOrFail($id);
+        try {
+            $keluarga = KeluargaModel::find($id);
             $data = $request->validate([
-            'nama_kepala_keluarga' => 'required|string|max:255',
-            'id_desa' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'jumlah_keluarga' => 'required|integer|min:1|max:50',
-            'range_pendapatan' => 'required|string|max:255',
-            'range_pengeluaran' => 'required|string|max:255',
-            'is_hamil' => 'required|in:Ya,Tidak',
-            'is_menyusui' => 'required|in:Ya,Tidak',
-            'is_balita' => 'required|in:Ya,Tidak',
+                'nama_kepala_keluarga' => 'required|string|max:255',
+                'id_desa'              => 'required|string|max:255',
+                'alamat'               => 'required|string|max:255',
+                'jumlah_keluarga'      => 'required|integer|min:1|max:50',
+                'range_pendapatan'     => 'required|string|max:255',
+                'range_pengeluaran'    => 'required|string|max:255',
+                'is_hamil'             => 'required|in:Ya,Tidak',
+                'is_menyusui'          => 'required|in:Ya,Tidak',
+                'is_balita'            => 'required|in:Ya,Tidak',
             ]);
 
-            if ($request->hasFile('gambar')) {
-            $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-            }
-
-            // $keluarga->update($data);
-            // if (!empty($data['detail_pangan_keluarga'])) {
-            //     PanganKeluargaModel::where('id_keluarga', $id)->delete();
-            //     foreach ($data['detail_pangan_keluarga'] as $pangan) {
-            //         PanganKeluargaModel::create([
-            //             'id_keluarga' => $id,
-            //             'id_pangan' => $pangan['nama_pangan'],
-            //             'urt' => $pangan['jumlah_urt']
-            //         ]);
-            //     }
-            // }
-
+            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            $keluarga->update($data);
             return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
-        // } catch (ModelNotFoundException $exception) {
-        //     return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
-        // } catch (Exception $exception) {
-        //     Log::error('Terjadi kesalahan saat mengedit data: ' . $exception->getMessage());
-        //     return back()->withErrors(['errors' => 'Gagal memperbarui data!']);
-        // }
+        } catch (Exception $exception) {
+            Log::error("Terdapat kesalahan saat memperbarui data keluarga: " . $exception->getMessage());
+            return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
+        }
     }
 
     public function delete($id): RedirectResponse

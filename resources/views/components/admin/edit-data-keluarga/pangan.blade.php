@@ -3,10 +3,18 @@
         <table class="w-full border-collapse bg-transparent">
             <thead>
                 <tr class="bg-green-dark">
-                    <th class="px-6 py-4 text-left text-white font-semibold">Jenis Pangan</th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">Nama Pangan</th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">Takaran URT</th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">Aksi</th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">
+                        Jenis Pangan
+                    </th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">
+                        Nama Pangan
+                    </th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">
+                        Takaran URT <span id="takaran-unit-header" class="text-lg"></span>
+                    </th>
+                    <th class="px-6 py-4 text-left text-white font-semibold">
+                        Aksi
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +41,11 @@
                         />
                     </td>
                     <td class="px-6 py-4">
-                        <button type="button" id="tambah" class="cursor-pointer px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm">
+                        <button
+                            type="button"
+                            id="tambah"
+                            class="cursor-pointer px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm"
+                        >
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </td>
@@ -41,8 +53,7 @@
             </tbody>
         </table>
     </div>
-    <div id="hidden-pangan-inputs">
-    </div>
+    <div id="hidden-pangan-inputs"></div>
     <div id="pangan-error" class="text-red-500 mt-2 hidden">Minimal 1 data pangan harus diisi!</div>
 </section>
 
@@ -55,10 +66,11 @@
             const nama_jenis = document.getElementById('nama-jenis');
             const nama_pangan = document.getElementById('nama-pangan');
             const urt = document.getElementById('urt');
+            const takaran_unit_header = document.getElementById('takaran-unit-header');
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
-            const submitForm = document.getElementById('submit-form');
+            const submit_form = document.getElementById('submit-form');
 
-            let daftar_pangan = @json($preview_pangan);
+            let daftar_pangan = @json($pangan_keluarga);
             console.log(daftar_pangan);
 
             const update_hidden_inputs = () => {
@@ -93,11 +105,11 @@
                     row.setAttribute('data-pangan-row', '');
                     row.classList.add('transition-colors', 'duration-150');
                     row.innerHTML = `
-                        <td class="px-6 py-4 text-gray-700">${item.jenis_pangan_text}</td>
-                        <td class="px-6 py-4 text-gray-700">${item.nama_pangan_text}</td>
-                        <td class="px-6 py-4 text-gray-700">${item.urt}</td>
+                        <td class="cursor-default px-6 py-4 text-gray-700">${item.teks_jenis_pangan}</td>
+                        <td class="cursor-default px-6 py-4 text-gray-700">${item.teks_nama_pangan}</td>
+                        <td class="cursor-default px-6 py-4 text-gray-700">${item.urt}</td>
                         <td class="flex px-6 py-4 items-center justify-center space-x-4">
-                            <button type="button" data-delete="${index}" class="flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
+                            <button type="button" data-delete="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
                                 <i class="fa-solid fa-trash mr-3"></i> Hapus
                             </button>
                         </td>
@@ -120,6 +132,7 @@
                 nama_jenis.value = "";
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 urt.value = "";
+                takaran_unit_header.textContent = "";
             };
 
             const pilihan_nama_pangan = (jenis_id) => {
@@ -134,7 +147,13 @@
                 }
             };
 
-            nama_jenis.addEventListener("change", () => pilihan_nama_pangan(nama_jenis.value));
+            nama_pangan.addEventListener("change", () => {
+                const selected_option = nama_pangan.options[nama_pangan.selectedIndex];
+                const takaran = selected_option.dataset.takaran || "";
+                takaran_unit_header.textContent = takaran ? `(${takaran})` : "";
+            });
+
+            nama_jenis.addEventListener("change", () => pilihan_nama_pangan(nama_jenis.value));k
 
             tambah.addEventListener('click', () => {
                 if (!nama_jenis.value || !nama_pangan.value || !urt.value) {
@@ -146,15 +165,16 @@
                     jenis_pangan: nama_jenis.value,
                     nama_pangan: nama_pangan.value,
                     urt: urt.value,
-                    jenis_pangan_text: nama_jenis.options[nama_jenis.selectedIndex].text,
-                    nama_pangan_text: nama_pangan.options[nama_pangan.selectedIndex].text
+                    teks_jenis_pangan: nama_jenis.options[nama_jenis.selectedIndex].text,
+                    teks_nama_pangan: nama_pangan.options[nama_pangan.selectedIndex].text
                 };
 
                 daftar_pangan.push(item);
                 reset_formulir();
                 perbarui_tabel();
             });
-            submitForm.addEventListener('click', (e) => {
+
+            submit_form.addEventListener('click', (e) => {
                 if (daftar_pangan.length === 0) {
                     e.preventDefault();
                     alert("Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!");

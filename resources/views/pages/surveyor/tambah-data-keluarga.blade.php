@@ -8,10 +8,7 @@
 @endsection
 
 @section('konten')
-    <main
-        class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
-        style="background: url({{ asset('img/latar-belakang.svg') }})"
-    >
+    <main class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88" style="background: url({{ asset('img/latar-belakang.svg') }})">
         <form action="{{ route('keluarga.tambah') }}" method="POST" enctype="multipart/form-data" id="family-form">
             @csrf
             @include('components.surveyor.tambah-data-keluarga.keluarga')
@@ -25,8 +22,8 @@
                     id="submit-form"
                     class="mt-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white lg:hover:bg-green-700"
                 >
-                    <i class="fa-solid fa-paper-plane"></i>
-                     Kirim
+                    <i class="fa-solid fa-paper-plane mr-4"></i>
+                    Kirim
                 </button>
             </section>
         </form>
@@ -41,10 +38,8 @@
             const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
             const image_input = document.querySelector('input[type="file"]');
 
-            if (!window.daftar_pangan) {
-                window.daftar_pangan = [];
-            }
-            const updateHiddenInputs = () => {
+            if (!window.daftar_pangan) window.daftar_pangan = [];
+            const update_hidden_inputs = () => {
                 hidden_inputs_container.innerHTML = '';
                 window.daftar_pangan.forEach((item, index) => {
                     const jenis_pangan_input = document.createElement('input');
@@ -70,7 +65,7 @@
 
             form.addEventListener("submit", async e => {
                 e.preventDefault();
-                updateHiddenInputs();
+                update_hidden_inputs();
                 if (window.daftar_pangan.length === 0) {
                     alert("Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!");
                     return;
@@ -79,7 +74,6 @@
                     alert("Harap unggah gambar sebelum mengirimkan formulir!");
                     return;
                 }
-                console.log("Daftar Pangan before submission:", window.daftar_pangan);
 
                 submit_form.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>  Mengirim...`;
                 submit_form.disabled = true;
@@ -105,12 +99,12 @@
                         window.location.href = parse.redirect;
                     } else if (parse.error) {
                         alert(`Error: ${parse.error}`);
-                        submit_form.innerHTML = `<i class="fa-solid fa-paper-plane"></i>  Kirim`;
+                        submit_form.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
                         submit_form.disabled = false;
                     }
                 } catch (error) {
                     console.error("[ERROR] Terjadi kesalahan saat proses mengirim: ", error);
-                    submit_form.innerHTML = `<i class="fa-solid fa-paper-plane"></i>  Kirim`;
+                    submit_form.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
                     submit_form.disabled = false;
                 }
             });
