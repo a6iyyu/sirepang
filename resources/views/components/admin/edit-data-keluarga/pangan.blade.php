@@ -1,18 +1,18 @@
 <section id="formulir-pangan">
-    <div class="overflow-x-auto shadow-lg rounded-">
+    <div class="rounded- overflow-x-auto shadow-lg">
         <table class="w-full border-collapse bg-transparent">
             <thead>
                 <tr class="bg-green-dark">
-                    <th class="px-6 py-4 text-left text-white font-semibold">
+                    <th class="px-6 py-4 text-left font-semibold text-white">
                         Jenis Pangan
                     </th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">
+                    <th class="px-6 py-4 text-left font-semibold text-white">
                         Nama Pangan
                     </th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">
+                    <th class="px-6 py-4 text-left font-semibold text-white">
                         Takaran URT <span id="takaran-unit-header" class="text-lg"></span>
                     </th>
-                    <th class="px-6 py-4 text-left text-white font-semibold">
+                    <th class="px-6 py-4 text-left font-semibold text-white">
                         Aksi
                     </th>
                 </tr>
@@ -20,23 +20,23 @@
             <tbody>
                 <tr id="baris-tabel-formulir-pangan">
                     <td class="px-6 py-4">
-                        <select id="nama-jenis" class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100">
-                            <option value="" selected disabled>Pilih Jenis Pangan</option>
+                        <select id="nama-jenis" class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none">
+                            <option selected disabled>Pilih Jenis Pangan</option>
                             @foreach ($jenis_pangan as $id => $jenis)
                                 <option value="{{ $id }}">{{ $jenis }}</option>
                             @endforeach
                         </select>
                     </td>
                     <td class="px-6 py-4">
-                        <select id="nama-pangan" class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100">
-                            <option value="" selected disabled>Pilih Nama Pangan</option>
+                        <select id="nama-pangan" class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none">
+                            <option selected disabled>Pilih Nama Pangan</option>
                         </select>
                     </td>
                     <td class="px-6 py-4">
                         <input
                             type="number"
                             id="urt"
-                            class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100"
+                            class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
                             placeholder="Cth. 1"
                         />
                     </td>
@@ -44,7 +44,7 @@
                         <button
                             type="button"
                             id="tambah"
-                            class="cursor-pointer px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-150 shadow-sm"
+                            class="cursor-pointer rounded-lg bg-green-600 px-4 py-2.5 text-white shadow-sm transition-colors duration-150 hover:bg-green-700"
                         >
                             <i class="fa-solid fa-plus"></i>
                         </button>
@@ -54,12 +54,12 @@
         </table>
     </div>
     <div id="hidden-pangan-inputs"></div>
-    <div id="pangan-error" class="text-red-500 mt-2 hidden">Minimal 1 data pangan harus diisi!</div>
+    <div id="pangan-error" class="mt-2 hidden text-red-500">Minimal 1 data pangan harus diisi!</div>
 </section>
 
 @push('skrip')
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const formulir_pangan = document.getElementById('formulir-pangan');
             const baris_tabel_formulir_pangan = document.getElementById('baris-tabel-formulir-pangan');
             const tambah = document.getElementById('tambah');
@@ -99,7 +99,7 @@
             };
 
             const perbarui_tabel = () => {
-                document.querySelectorAll('tr[data-pangan-row]').forEach(row => row.remove());
+                document.querySelectorAll('tr[data-pangan-row]').forEach((row) => row.remove());
                 daftar_pangan.forEach((item, index) => {
                     const row = document.createElement('tr');
                     row.setAttribute('data-pangan-row', '');
@@ -129,17 +129,17 @@
             };
 
             const reset_formulir = () => {
-                nama_jenis.value = "";
+                nama_jenis.value = '';
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
-                urt.value = "";
-                takaran_unit_header.textContent = "";
+                urt.value = '';
+                takaran_unit_header.textContent = '';
             };
 
             const pilihan_nama_pangan = (jenis_id) => {
                 nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
                 if (@json($nama_pangan)[jenis_id]) {
                     Object.entries(@json($nama_pangan)[jenis_id]).forEach(([id, nama]) => {
-                        const option = document.createElement("option");
+                        const option = document.createElement('option');
                         option.value = id;
                         option.textContent = nama;
                         nama_pangan.appendChild(option);
@@ -147,17 +147,17 @@
                 }
             };
 
-            nama_pangan.addEventListener("change", () => {
+            nama_pangan.addEventListener('change', () => {
                 const selected_option = nama_pangan.options[nama_pangan.selectedIndex];
-                const takaran = selected_option.dataset.takaran || "";
-                takaran_unit_header.textContent = takaran ? `(${takaran})` : "";
+                const takaran = selected_option.dataset.takaran || '';
+                takaran_unit_header.textContent = takaran ? `(${takaran})` : '';
             });
 
-            nama_jenis.addEventListener("change", () => pilihan_nama_pangan(nama_jenis.value));k
+            nama_jenis.addEventListener('change', () => pilihan_nama_pangan(nama_jenis.value));
 
             tambah.addEventListener('click', () => {
                 if (!nama_jenis.value || !nama_pangan.value || !urt.value) {
-                    alert("Semua bidang harus diisi!");
+                    alert('Semua bidang harus diisi!');
                     return;
                 }
 
@@ -166,7 +166,7 @@
                     nama_pangan: nama_pangan.value,
                     urt: urt.value,
                     teks_jenis_pangan: nama_jenis.options[nama_jenis.selectedIndex].text,
-                    teks_nama_pangan: nama_pangan.options[nama_pangan.selectedIndex].text
+                    teks_nama_pangan: nama_pangan.options[nama_pangan.selectedIndex].text,
                 };
 
                 daftar_pangan.push(item);
@@ -177,7 +177,7 @@
             submit_form.addEventListener('click', (e) => {
                 if (daftar_pangan.length === 0) {
                     e.preventDefault();
-                    alert("Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!");
+                    alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
                     return false;
                 }
             });

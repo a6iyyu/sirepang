@@ -1,14 +1,14 @@
-<i id="hamburger-menu" class="fa-solid fa-bars cursor-pointer fixed flex top-10 right-10 z-20 p-2 rounded-lg bg-green-dark text-white transition-opacity duration-300 text-xl lg:!hidden"></i>
-<aside id="mobile" class="fixed z-30 top-0 left-0 min-h-screen bg-green-dark transform -translate-x-full space-y-4 p-6 rounded-r-2xl shadow-2xl transition-transform duration-300 ease-in-out">
+<i id="hamburger-menu" class="fa-solid fa-bars bg-green-dark fixed top-10 right-10 z-20 flex cursor-pointer rounded-lg p-2 text-xl text-white transition-opacity duration-300 lg:!hidden"></i>
+<aside id="mobile" class="bg-green-dark fixed top-0 left-0 z-30 min-h-screen -translate-x-full transform space-y-4 rounded-r-2xl p-6 shadow-2xl transition-transform duration-300 ease-in-out">
     <section class="flex space-x-8">
-        <div class="cursor-default flex items-center space-x-4">
+        <div class="flex cursor-default items-center space-x-4">
             <img src="{{ asset('img/logo.webp') }}" alt="Logo" class="h-12 w-12 object-cover" />
             <span id="mobile-sidebar-menu">
                 <h5 class="text-xl font-bold tracking-tight text-white">SIREPANG</h5>
-                <h6 class="text-sm italic text-white">Sistem Rekam Pangan</h6>
+                <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
             </span>
         </div>
-        <i id="mobile-close" class="fa-solid fa-xmark cursor-pointer mt-1.5 h-fit text-lg text-white"></i>
+        <i id="mobile-close" class="fa-solid fa-xmark mt-1.5 h-fit cursor-pointer text-lg text-white"></i>
     </section>
     <hr class="mt-2 h-0.5 w-full text-emerald-800" />
     <nav class="mt-2 space-y-4">

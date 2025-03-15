@@ -6,12 +6,10 @@
         <select
             name="{{ $name }}"
             id="{{ $name }}"
-            class="appearance-none w-full px-4 py-3 border-2 border-gray-700 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-100"
+            class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
             required
         >
-            <option value="{{ $value }}" hidden>
-                Pilih {{ $label }}
-            </option>
+            <option value="{{ $value }}" hidden>Pilih {{ $label }}</option>
             @if (is_array($options))
                 @foreach ($options as $key => $text)
                     <option value="{{ $key }}" @if(old($name, $value) == $key) selected @endif>

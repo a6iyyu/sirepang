@@ -4,7 +4,7 @@
     </h5>
     <div class="flex items-center space-x-6">
         @foreach ($options as $key => $text)
-            <span class="inline-flex items-center cursor-pointer">
+            <span class="inline-flex cursor-pointer items-center">
                 <input
                     type="radio"
                     name="{{ $name }}"

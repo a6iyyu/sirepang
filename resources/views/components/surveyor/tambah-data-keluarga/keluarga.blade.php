@@ -1,8 +1,6 @@
-<h3 class="mb-6 cursor-default font-bold text-3xl text-[#2c5e4f]">
-    Masukkan Data Keluarga
-</h3>
+<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">Masukkan Data Keluarga</h3>
 @if ($errors->any())
-    <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
+    <ul class="my-5 list-inside list-disc rounded-lg border border-red-500 bg-red-50 p-4 text-sm text-red-500">
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
@@ -16,12 +14,8 @@
     value="{{ old('nama_kepala_keluarga') }}"
     required
 />
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
-    <x-select
-        name="id_desa"
-        label="Desa"
-        :options="$desa"
-    />
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
+    <x-select name="id_desa" label="Desa" :options="$desa" />
     <x-input
         name="alamat"
         label="Alamat"
@@ -31,7 +25,7 @@
         required
     />
 </section>
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-input
         name="jumlah_keluarga"
         label="Jumlah Anggota"
@@ -42,18 +36,10 @@
         value="{{ old('jumlah_keluarga') }}"
         required
     />
-    <x-select
-        name="range_pendapatan"
-        label="Pendapatan Keluarga"
-        :options="$rentang_uang"
-    />
-    <x-select
-        name="range_pengeluaran"
-        label="Pengeluaran Keluarga"
-        :options="$rentang_uang"
-    />
+    <x-select name="range_pendapatan" label="Pendapatan Keluarga" :options="$rentang_uang" />
+    <x-select name="range_pengeluaran" label="Pengeluaran Keluarga" :options="$rentang_uang" />
 </section>
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-radio
         name="is_hamil"
         label="Apakah Ada Ibu Hamil?"

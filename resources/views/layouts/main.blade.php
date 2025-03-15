@@ -30,7 +30,7 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
-<body class="overflow-x-hidden min-h-screen h-full bg-[#fff8eb]">
+<body class="h-full min-h-screen overflow-x-hidden bg-[#fff8eb]">
     @auth
         @include('shared.navigation.hamburger-menu')
         @include('shared.navigation.sidebar')

@@ -9,7 +9,7 @@
 @endsection
 
 @section('konten')
-    <main class="min-h-screen w-full relative flex flex-grow">
+    <main class="relative flex min-h-screen w-full flex-grow">
         @include('components.auth.gambar')
         @include('components.auth.formulir')
     </main>

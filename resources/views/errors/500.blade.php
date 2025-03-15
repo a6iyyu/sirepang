@@ -9,9 +9,7 @@
 @endsection
 
 @section('konten')
-    <main class="min-h-screen flex h-full w-full flex-col items-center justify-center">
-        <h1 class="cursor-default font-bold text-lg lg:text-3xl">
-            500 | Kesalahan Server Internal
-        </h1>
+    <main class="flex h-full min-h-screen w-full flex-col items-center justify-center">
+        <h1 class="cursor-default text-lg font-bold lg:text-3xl">500 | Kesalahan Server Internal</h1>
     </main>
 @endsection

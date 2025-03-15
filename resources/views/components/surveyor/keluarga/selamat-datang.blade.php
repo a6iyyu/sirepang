@@ -1,11 +1,7 @@
 <section class="flex flex-col justify-between lg:flex-row">
-    <div class="cursor-default text-green-dark">
-        <h2 class="font-bold text-2xl lg:text-3xl">
-            Data Keluarga
-        </h2>
-        <h5 class="mt-2 italic text-sm lg:text-base">
-            Silakan Masukkan Data Keluarga
-        </h5>
+    <div class="text-green-dark cursor-default">
+        <h2 class="text-2xl font-bold lg:text-3xl">Data Keluarga</h2>
+        <h5 class="mt-2 text-sm italic lg:text-base">Silakan Masukkan Data Keluarga</h5>
     </div>
     <x-menu
         icon="fa-solid fa-plus"

@@ -1,13 +1,11 @@
 <section class="flex flex-col justify-between lg:flex-row">
-    <div class="cursor-default text-green-dark">
-        <h2 class="font-bold text-2xl lg:text-3xl">
+    <div class="text-green-dark cursor-default">
+        <h2 class="text-2xl font-bold lg:text-3xl">
             Selamat datang,
             <br class="inline lg:hidden" />
             Penyuluh {{ ucfirst(strtolower(Auth::user()->users->username)) }}!
         </h2>
-        <h5 class="mt-2 italic text-sm lg:text-base">
-            Apa yang bisa dibantu?
-        </h5>
+        <h5 class="mt-2 text-sm italic lg:text-base">Apa yang bisa dibantu?</h5>
     </div>
     <x-menu
         icon="fa-solid fa-right-to-bracket mr-2"

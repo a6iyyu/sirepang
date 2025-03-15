@@ -20,7 +20,7 @@ class Dasbor extends Controller
             'id'    => $item->id_keluarga,
             'nama'  => $item->nama_kepala_keluarga,
             'desa'  => $item->desa->nama_desa,
-        ]);
+        ])->links();
 
         if (!$user) return redirect()->route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');

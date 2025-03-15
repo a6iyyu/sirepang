@@ -1,11 +1,15 @@
 {
-    "plugins": ["@shufo/prettier-plugin-blade", "prettier-plugin-tailwindcss"],
+    "plugins": ["prettier-plugin-blade", "prettier-plugin-tailwindcss"],
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "all",
     "overrides": [
         {
             "files": ["*.blade.php"],
             "options": {
-                "parser": "blade",
-                "tabWidth": 4
+                "parser": "blade"
             }
         }
     ]
