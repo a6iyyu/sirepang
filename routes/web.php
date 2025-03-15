@@ -13,7 +13,7 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', fn(): RedirectResponse => match (Auth::user()->role ?? null) {
+    Route::get('/', fn(): RedirectResponse => match (Auth::user()->tipe) {
         'admin' => redirect()->route('admin'),
         'kader' => redirect()->route('penyuluh'),
         default => redirect()->route('keluar'),

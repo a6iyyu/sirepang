@@ -6,7 +6,7 @@
     @endif
     @include('shared.table.table', [
         'headers' => ['Nama', 'Desa', 'Aksi'],
-        'sortable' => ['Desa'],
+        'sortable' => ['Nama', 'Desa'],
         'rows' => $data->map(fn($item) => [
             $item->nama,
             $item->desa,

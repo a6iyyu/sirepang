@@ -15,30 +15,26 @@ class Dasbor extends Controller
     public function show(): RedirectResponse|View
     {
         $user = Auth::user();
-        $kecamatan = $user->kecamatan ?? collect();
-        $keluarga = $user->keluarga ?? collect();
-        $data = KeluargaModel::where('id_kader', $user->kader->id_kader)
-            ->get()
-            ->map(fn($item) => (object) [
-                'id'    => $item->id_keluarga,
-                'nama'  => $item->nama_kepala_keluarga,
-                'desa'  => $item->desa->nama_desa,
-            ]);
+        $data = KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->paginate(request()->input('per_page', 10));
+        $data->through(fn($item) => (object) [
+            'id'    => $item->id_keluarga,
+            'nama'  => $item->nama_kepala_keluarga,
+            'desa'  => $item->desa->nama_desa,
+        ]);
 
         if (!$user) return redirect()->route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');
 
         return match ($user->tipe) {
             'admin' => view('pages.admin.dasbor', [
-                'jumlah_kecamatan'  => $kecamatan->count(),
-                'jumlah_keluarga'   => $keluarga->count(),
-                'jumlah_desa'       => $keluarga->unique('id_desa')->count(),
+                'jumlah_desa'       => KeluargaModel::distinct('id_desa')->count('id_desa'),
+                'jumlah_kecamatan'  => KeluargaModel::distinct('id_kecamatan')->count('id_kecamatan'),
+                'jumlah_keluarga'   => KeluargaModel::count(),
             ]),
             'kader' => view('pages.surveyor.dasbor', [
                 'data'                  => $data,
-                'jumlah_desa'           => $keluarga->unique('id_desa')->count(),
-                'jumlah_keluarga'       => $keluarga->count(),
-                'penomoran_halaman'     => '',
+                'jumlah_desa'           => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->distinct('id_desa')->count('id_desa'),
+                'jumlah_keluarga'       => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->count(),
             ]),
             default => abort(403),
         };

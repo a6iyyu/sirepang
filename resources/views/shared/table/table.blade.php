@@ -5,9 +5,9 @@
                 @foreach ($headers as $header)
                     <th class="w-1/{{ count($headers) }} px-6 py-4 font-bold tracking-wider uppercase text-xs text-center">
                         <div class="flex items-center justify-center space-x-2 whitespace-nowrap">
-                            <h6>{{ $header }}</h6>
+                            <h5>{{ $header }}</h5>
                             @if (in_array(strtolower($header), array_map('strtolower', $sortable)))
-                                <i onclick="" class="fa-solid fa-sort cursor-pointer hover:text-green-dark"></i>
+                                <i id="sort" class="fa-solid fa-sort cursor-pointer hover:text-green-dark"></i>
                             @endif
                         </div>
                     </th>
@@ -19,9 +19,9 @@
                 <tr class="border-b transition-all duration-200">
                     @foreach ($row as $cell)
                         <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <div class="cursor-default flex items-center justify-center space-x-3">
+                            <h5 class="cursor-default flex items-center justify-center space-x-3">
                                 {!! $cell !!}
-                            </div>
+                            </h5>
                         </td>
                     @endforeach
                 </tr>
@@ -29,3 +29,30 @@
         </tbody>
     </table>
 </section>
+{{ $data->links() }}
+
+@push('skrip')
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("#sort").forEach((sort, index) => {
+                let ascending = true;
+
+                sort.addEventListener("click", () => {
+                    const tbody = document.getElementById("table-body");
+                    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+                    const sorted_rows = rows.sort((a, b) => {
+                        const a_text = a.querySelectorAll("td")[index].textContent.trim().toLowerCase();
+                        const b_text = b.querySelectorAll("td")[index].textContent.trim().toLowerCase();
+                        return ascending ? a_text.localeCompare(b_text) : b_text.localeCompare(a_text);
+                    });
+
+                    ascending = !ascending;
+
+                    tbody.innerHTML = "";
+                    sorted_rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
+@endpush

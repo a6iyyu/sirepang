@@ -12,6 +12,7 @@ use App\Models\RentangUang as RentangUangModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,17 +25,16 @@ class Keluarga extends Controller
     /**
      * Views
      */
-    public function index($id = null): View|RedirectResponse
+    public function index($id = null): RedirectResponse|View
     {
         try {
             $kader = Auth::user()->kader->id_kader;
-            $data = KeluargaModel::where('id_kader', $kader)
-                ->get()
-                ->map(fn($item) => (object) [
-                    'id'   => $item->id_keluarga,
-                    'nama' => $item->nama_kepala_keluarga,
-                    'desa' => $item->desa->nama_desa,
-                ]);
+            $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', 10));
+            $data->through(fn($item) => (object) [
+                'id'   => $item->id_keluarga,
+                'nama' => $item->nama_kepala_keluarga,
+                'desa' => $item->desa->nama_desa,
+            ]);
 
             return view('pages.surveyor.keluarga', ['data' => $data, 'keluarga' => $id ? KeluargaModel::with('desa')->findOrFail($id) : null]);
         } catch (Exception $exception) {
@@ -72,7 +72,7 @@ class Keluarga extends Controller
     /**
      * Controllers
      */
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         DB::beginTransaction();
         try {
