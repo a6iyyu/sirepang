@@ -14,5 +14,6 @@
     >
         @include('components.admin.dasbor.selamat-datang')
         @include('components.admin.dasbor.jumlah-kecamatan-keluarga-dan-desa')
+        @include('components.admin.dasbor.bar-admin')
     </main>
 @endsection
