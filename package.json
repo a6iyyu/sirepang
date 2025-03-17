@@ -7,8 +7,8 @@
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.1",
+        "apexcharts": "^4.5.0",
         "axios": "^1.7.4",
-        "chart.js": "^4.4.8",
         "concurrently": "^9.0.1",
         "gsap": "^3.12.7",
         "laravel-vite-plugin": "^1.2.0",
@@ -20,8 +20,5 @@
     },
     "overrides": {
         "esbuild": "^0.25.0"
-    },
-    "dependencies": {
-        "apexcharts": "^3.46.0"
     }
 }

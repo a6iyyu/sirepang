@@ -1,6 +1,6 @@
 <section class="bg-gradient-to-lr flex w-full flex-col items-center justify-center from-[#a9d6ff] to-[#edf2f7] bg-cover bg-center bg-no-repeat text-black lg:w-1/2 lg:px-4" style="background: url({{ asset('img/latar-belakang.svg') }})">
     <h3 class="cursor-default text-xl font-bold text-[#1a4167] lg:text-3xl">Selamat Datang</h3>
-    <h5 class="mt-1 mb-6 cursor-default text-sm text-gray-600 lg:text-base">Silakan masuk ke akun Anda.</h5>
+    <h5 class="mt-1 cursor-default text-sm text-gray-600 lg:mb-6 lg:text-base">Silakan masuk ke akun Anda.</h5>
     <form action="{{ route('masuk') }}" method="POST" class="w-3/4 lg:w-[65%]">
         @csrf
         @if ($errors->any())

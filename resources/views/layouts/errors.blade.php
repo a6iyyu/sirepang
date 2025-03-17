@@ -27,17 +27,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
 <body class="h-full min-h-screen overflow-x-hidden bg-[#fff8eb]">
-    @auth
-        @include('shared.navigation.hamburger-menu')
-        @include('shared.navigation.sidebar')
-    @endauth
     @yield('konten')
-    @stack('skrip')
 </body>
 
 </html>

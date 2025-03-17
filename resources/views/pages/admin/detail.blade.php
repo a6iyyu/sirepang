@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('judul')
-    Dasbor
+    Detail Keluarga {{ $keluarga->nama_kepala_keluarga }}
 @endsection
 
 @section('deskripsi')
@@ -12,8 +12,6 @@
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        @include('components.admin.dasbor.selamat-datang')
-        @include('components.admin.dasbor.jumlah-kecamatan-keluarga-dan-desa')
-        @include('components.admin.dasbor.grafik-data-kecamatan')
+        @include('components.admin.data-kecamatan.detail')
     </main>
 @endsection

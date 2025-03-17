@@ -17,13 +17,3 @@
         </div>
     @endif
 </section>
-
-@push('skrip')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('success').style.display = 'none';
-            }, 3000);
-        });
-    </script>
-@endpush

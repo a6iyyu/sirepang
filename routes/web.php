@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Autentikasi;
 use App\Http\Controllers\Dasbor;
 use App\Http\Controllers\Keluarga;
@@ -21,11 +22,13 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
-        Route::get('/data-kecamatan', fn() => view('pages.admin.data-kecamatan'))->name('data-kecamatan');
-        Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
-        Route::get('/rekap-pangan', fn() => view('pages.admin.rekap-pangan'))->name('rekap-pangan');
-        Route::get('/rekap-pph', fn() => view('pages.admin.rekap-pph'))->name('rekap-pph');
-        Route::put('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
+        Route::get('/data-kecamatan', [Admin::class, 'index'])->name('data-kecamatan');
+        Route::get('/detail/{id}', [Admin::class, 'detail'])->name('admin.detail');
+        Route::get('/edit/{id}', [Admin::class, 'edit'])->name('admin.edit');
+        Route::get('/rekap-pangan', [Admin::class, 'foods'])->name('rekap-pangan');
+        Route::get('/rekap-pph', [Admin::class, 'pph'])->name('rekap-pph');
+        Route::put('/edit/{id}', [Admin::class, 'update'])->name('admin.perbarui');
+        Route::delete('/hapus/{id}', [Admin::class, 'delete'])->name('admin.hapus');
     });
 
     Route::middleware('kader')->prefix('dasbor')->group(function () {

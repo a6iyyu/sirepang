@@ -1,20 +1,23 @@
-<fieldset class="flex w-full flex-col justify-between space-y-4">
+<fieldset class="@if ($required) flex w-full flex-col justify-between space-y-4 @endif">
     <label for="{{ $name }}" class="font-medium">
-        {{ $label }} <span class="text-red-500">*</span>
+        @if ($required)
+            {{ $label }}
+            <span class="text-red-500">*</span>
+        @endif
     </label>
     <div class="relative">
         <select
             name="{{ $name }}"
             id="{{ $name }}"
-            class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
+            class="{{ $class }}"
             required
         >
-            <option value="{{ $value }}" hidden>Pilih {{ $label }}</option>
+            <option value="" hidden>
+                Pilih {{ $label }}
+            </option>
             @if (is_array($options))
-                @foreach ($options as $key => $text)
-                    <option value="{{ $key }}" @if(old($name, $value) == $key) selected @endif>
-                        {{ $text }}
-                    </option>
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
             @endif
         </select>

@@ -73,12 +73,13 @@
                     alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
                     return;
                 }
+
                 if (!image_input.files.length) {
                     alert('Harap unggah gambar sebelum mengirimkan formulir!');
                     return;
                 }
 
-                submit_form.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...`;
+                submit_form.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...`;
                 submit_form.disabled = true;
                 let form_data = new FormData(form);
 

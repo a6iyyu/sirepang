@@ -53,8 +53,7 @@
                                     <form action="${row.hapus}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit"
-                                            class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium transition hover:bg-red-700">
+                                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium transition hover:bg-red-700">
                                             <i class="fa-solid fa-trash mr-2"></i> Hapus
                                         </button>
                                     </form>

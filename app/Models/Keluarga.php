@@ -15,12 +15,12 @@ class Keluarga extends Model
 
     public function rentang_pendapatan(): BelongsTo
     {
-        return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pendapatan');
+        return $this->belongsTo(RentangUang::class, 'rentang_pendapatan', 'id_rentang_uang');
     }
 
     public function rentang_pengeluaran(): BelongsTo
     {
-        return $this->belongsTo(RentangUang::class, 'id_rentang_uang', 'id_rentang_pengeluaran');
+        return $this->belongsTo(RentangUang::class, 'rentang_pengeluaran', 'id_rentang_uang');
     }
 
     public function kecamatan(): BelongsTo

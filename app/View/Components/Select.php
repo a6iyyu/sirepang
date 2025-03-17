@@ -9,14 +9,17 @@ use Illuminate\View\View;
 class Select extends Component
 {
     public array $options;
-    public string $name, $label;
+    public ?bool $required;
+    public string $class, $label, $name;
     public ?string $value;
 
-    public function __construct(array $options, string $name, string $label, ?string $value)
+    public function __construct(array $options, ?bool $required, string $class, string $label, string $name, ?string $value)
     {
         $this->options = $options;
-        $this->name = $name;
+        $this->required = $required;
+        $this->class = $class;
         $this->label = $label;
+        $this->name = $name;
         $this->value = $value;
     }
 

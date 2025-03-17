@@ -29,7 +29,7 @@ class Keluarga extends Controller
     {
         try {
             $kader = Auth::user()->kader->id_kader;
-            $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', 10));
+            $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', default: 10));
             $data->through(fn($item) => (object) [
                 'id'   => $item->id_keluarga,
                 'nama' => $item->nama_kepala_keluarga,
@@ -153,10 +153,10 @@ class Keluarga extends Controller
             });
 
             return view('pages.surveyor.detail', [
-                'keluarga' => $keluarga,
+                'keluarga'      => $keluarga,
                 'pangan_detail' => $pangan_detail,
-                'pendapatan' => $pendapatan,
-                'pengeluaran' => $pengeluaran,
+                'pendapatan'    => $pendapatan,
+                'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());

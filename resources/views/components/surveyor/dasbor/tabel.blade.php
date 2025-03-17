@@ -4,12 +4,9 @@
     </ul>
 @endif
 <section class="mt-2 mb-8">
-    @include(
-        'shared.table.table',
-        [
-            'headers' => ['Nama', 'Desa'],
-            'sortable' => ['Nama', 'Desa'],
-            'rows' => $data->map(fn ($item) => [$item->nama, $item->desa])->toArray(),
-        ]
-    )
+    @include('shared.table.table', [
+        'headers' => ['Nama', 'Desa'],
+        'sortable' => ['Nama', 'Desa'],
+        'rows' => $data->map(fn ($item) => [$item->nama, $item->desa])->toArray(),
+    ])
 </section>

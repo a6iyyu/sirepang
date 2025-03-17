@@ -15,13 +15,19 @@
     required
 />
 <section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
-    <x-select name="id_desa" label="Desa" :options="$desa" />
+    <x-select
+        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
+        name="id_desa"
+        label="Desa"
+        :options="$desa"
+        :required="true"
+    />
     <x-input
         name="alamat"
         label="Alamat"
         icon="fa-solid fa-address-book"
         placeholder="Cth. Perumahan Alasia"
-        value="{{ old('alamat') }}"
+        :value="old('alamat')"
         required
     />
 </section>
@@ -33,11 +39,23 @@
         icon="fa-solid fa-address-book"
         type="number"
         placeholder="Cth. 18"
-        value="{{ old('jumlah_keluarga') }}"
+        :value="old('jumlah_keluarga')"
         required
     />
-    <x-select name="range_pendapatan" label="Pendapatan Keluarga" :options="$rentang_uang" />
-    <x-select name="range_pengeluaran" label="Pengeluaran Keluarga" :options="$rentang_uang" />
+    <x-select
+        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
+        name="range_pendapatan"
+        label="Pendapatan Keluarga"
+        :options="$rentang_uang"
+        :required="true"
+    />
+    <x-select
+        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
+        name="range_pengeluaran"
+        label="Pengeluaran Keluarga"
+        :options="$rentang_uang"
+        :required="true"
+    />
 </section>
 <section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-radio

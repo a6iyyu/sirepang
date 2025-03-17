@@ -21,7 +21,7 @@
                 <tr id="baris-tabel-formulir-pangan">
                     <td class="px-6 py-4">
                         <select id="nama-jenis" class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none">
-                            <option selected disabled>Pilih Jenis Pangan</option>
+                            <option value="" selected disabled>Pilih Jenis Pangan</option>
                             @foreach ($jenis_pangan as $id => $jenis)
                                 <option value="{{ $id }}">{{ $jenis }}</option>
                             @endforeach
