@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('desa', function (Blueprint $table) {
             $table->integer('id_desa', true)->unique('id_desa_unique');
+            $table->string('kode_wilayah');
             $table->string('nama_desa');
             $table->integer('id_kecamatan')->index('fk_desa_kecamatan_idx');
 
