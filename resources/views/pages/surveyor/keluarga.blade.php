@@ -14,7 +14,7 @@
     >
         @include('components.surveyor.keluarga.selamat-datang')
         @include('components.surveyor.keluarga.sortir')
-        @include('components.surveyor.keluarga.tabel', ['data' => $data])
+        @include('components.surveyor.keluarga.tabel')
     </main>
 @endsection
 

@@ -31,9 +31,4 @@ class User extends Authenticable
     {
         return $this->hasMany(Keluarga::class, 'id_kader', 'id_kader');
     }
-
-    public function users(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
-    }
 }

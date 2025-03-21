@@ -3,7 +3,7 @@
         <h2 class="text-2xl font-bold lg:text-3xl">
             Selamat datang,
             <br class="inline lg:hidden" />
-            Penyuluh {{ ucfirst(strtolower(Auth::user()->users->username)) }}!
+            {{ ucfirst(strtolower(Auth::user()->kader->nama)) }}!
         </h2>
         <h5 class="mt-2 text-sm italic lg:text-base">Apa yang bisa dibantu?</h5>
     </div>

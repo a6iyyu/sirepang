@@ -38,6 +38,7 @@
                             id="urt"
                             class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
                             placeholder="Cth. 1"
+                            min="0"
                         />
                     </td>
                     <td class="px-6 py-4">

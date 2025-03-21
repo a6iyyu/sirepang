@@ -7,12 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Desa extends Seeder
 {
-
-    /**
-     * Auto generated seed file
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('desa')->delete();

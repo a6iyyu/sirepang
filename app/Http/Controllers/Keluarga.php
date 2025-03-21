@@ -46,12 +46,7 @@ class Keluarga extends Controller
     public function show(): View
     {
         $kader = User::find(Auth::user()->id_user)->kader;
-        $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah];
-            })
-            ->toArray();
+        $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
         $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
         $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
         $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
@@ -174,12 +169,7 @@ class Keluarga extends Controller
         try {
             $keluarga = KeluargaModel::with('desa')->find($id);
             $kader = User::find(Auth::user()->id_user)->kader;
-            $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)
-                ->get()
-                ->mapWithKeys(function ($item) {
-                    return [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah];
-                })
-                ->toArray();
+            $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
             $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
             $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
             $gambar = $keluarga->gambar ? base64_decode($keluarga->gambar) : null;
