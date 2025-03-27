@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
             RentangUang::class,
             Users::class,
         ]);
+        $this->call(PanganTableSeeder::class);
     }
 }

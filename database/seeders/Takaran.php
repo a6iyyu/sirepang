@@ -93,6 +93,7 @@ class Takaran extends Seeder
                 [
                     'nama_takaran' => 'Porsi | 5 Tusuk'
                 ],
+                21=>['nama_takaran' => '200 Mililiter'],
             ]
         );
     }
