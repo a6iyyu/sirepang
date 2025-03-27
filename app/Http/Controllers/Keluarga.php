@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Desa as DesaModel;
-use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
 use App\Models\PanganKeluarga as PanganKeluargaModel;
@@ -23,9 +22,6 @@ use Illuminate\View\View;
 
 class Keluarga extends Controller
 {
-    /**
-     * Views
-     */
     public function index($id = null): RedirectResponse|View
     {
         try {
@@ -67,10 +63,6 @@ class Keluarga extends Controller
         ]);
     }
 
-
-    /**
-     * Controllers
-     */
     public function create(Request $request): JsonResponse
     {
         DB::beginTransaction();
@@ -189,7 +181,7 @@ class Keluarga extends Controller
                 $rentang_uang[$id] = "$bawah - $atas";
             }
 
-            return view('pages.admin.edit', [
+            return view('pages.surveyor.edit', [
                 'desa'              => $desa,
                 'keluarga'          => $keluarga,
                 'rentang_uang'      => $rentang_uang,

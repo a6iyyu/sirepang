@@ -7,7 +7,7 @@
     @include('shared.table.table', [
         'headers' => ['Nama', 'Desa', 'Aksi'],
         'sortable' => ['Nama', 'Desa'],
-        'rows' => $data->map(fn ($item) => [$item->nama, $item->desa, view('shared.form.action', ['item' => $item])->render()])->toArray(),
+        'rows' => $data->map(fn ($item) => [$item->nama, $item->desa, view('components.surveyor.keluarga.aksi', ['item' => $item])->render()])->toArray(),
     ])
     @if ($data->isEmpty())
         <div class="flex flex-col items-center justify-center rounded-lg py-20">

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('judul')
-    Detail Keluarga {{ $keluarga->nama_kepala_keluarga }}
+    Detail Kecamatan {{ $kecamatan }}
 @endsection
 
 @section('deskripsi')

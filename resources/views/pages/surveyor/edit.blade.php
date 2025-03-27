@@ -16,11 +16,11 @@
         <form action="{{ route('keluarga.perbarui', $keluarga->id_keluarga) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @include('components.admin.edit-data-keluarga.keluarga')
+            @include('components.surveyor.edit-data-keluarga.keluarga')
             <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
-            @include('components.admin.edit-data-keluarga.dokumentasi')
+            @include('components.surveyor.edit-data-keluarga.dokumentasi')
             <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
-            @include('components.admin.edit-data-keluarga.pangan')
+            @include('components.surveyor.edit-data-keluarga.pangan')
             <section class="flex justify-end">
                 <button
                     type="submit"
@@ -34,14 +34,3 @@
         </form>
     </main>
 @endsection
-
-@push('skrip')
-    <script>
-        const form = document.getElementById('family-form');
-        const submit_form = document.getElementById('submit-form');
-        const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
-        const image_input = document.querySelector('input[type="file"]');
-
-        submit_form.addEventListener('click', () => {});
-    </script>
-@endpush

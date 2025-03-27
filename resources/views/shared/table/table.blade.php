@@ -3,9 +3,7 @@
         <thead class="bg-green-700 text-white">
             <tr>
                 @foreach ($headers as $header)
-                    <th
-                        class="w-1/{{ count($headers) }} px-6 py-4 text-center text-xs font-bold tracking-wider uppercase"
-                    >
+                    <th class="w-1/{{ count($headers) }} px-6 py-4 text-center text-xs font-bold tracking-wider uppercase">
                         <div class="flex items-center justify-center space-x-2 whitespace-nowrap">
                             <h5>{{ $header }}</h5>
                             @if (in_array(strtolower($header), array_map('strtolower', $sortable)))

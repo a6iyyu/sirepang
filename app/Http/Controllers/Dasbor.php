@@ -32,9 +32,9 @@ class Dasbor extends Controller
                 'jumlah_keluarga'   => KeluargaModel::count(),
             ]),
             'kader' => view('pages.surveyor.dasbor', [
-                'data'                  => $data,
-                'jumlah_desa'           => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->distinct('id_desa')->count('id_desa'),
-                'jumlah_keluarga'       => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->count(),
+                'data'              => $data,
+                'jumlah_desa'       => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->distinct('id_desa')->count('id_desa'),
+                'jumlah_keluarga'   => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->count(),
             ]),
             default => abort(403),
         };

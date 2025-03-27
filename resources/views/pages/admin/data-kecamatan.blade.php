@@ -14,8 +14,8 @@
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
         <h1 class="text-green-dark cursor-default text-3xl font-bold">Data Kecamatan</h1>
-        <h5 class="text-green-medium mt-1 mb-6 cursor-default text-base italic">
-            Pencatatan URT (Ukuran Rumah Tangga) tiap keluarga dalam satu kecamatan.
+        <h5 class="text-green-medium mt-2 mb-6 cursor-default text-base italic">
+            Daftar kecamatan yang ada di wilayah Kabupaten Malang, Provinsi Jawa Timur.
         </h5>
         @include('components.admin.data-kecamatan.tabel')
     </main>

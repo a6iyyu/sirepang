@@ -6,7 +6,6 @@
         @endforeach
     </ul>
 @endif
-
 <x-input
     name="nama_kepala_keluarga"
     label="Nama Kepala Keluarga"
