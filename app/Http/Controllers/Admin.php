@@ -44,13 +44,11 @@ class Admin extends Controller
             $pangan_keluarga = PanganKeluarga::where('id_keluarga', $id)->get();
             $pangan_id = $pangan_keluarga->pluck('id_pangan');
             $pangan = Pangan::whereIn('id_pangan', $pangan_id)->get()->keyBy('id_pangan');
-            $jenis_pangan = JenisPangan::whereIn('id_jenis_pangan', $pangan->pluck('id_jenis_pangan'))->get()->keyBy('id_jenis_pangan');
 
-            $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
+            $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan) {
                 $pangan_item = $pangan->get($item->id_pangan);
                 return (object) [
                     'nama_pangan'   => $pangan_item->nama_pangan,
-                    'jenis_pangan'  => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
                     'urt'           => $item->urt,
                     'takaran'       => $pangan_item->takaran,
                 ];

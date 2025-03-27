@@ -27,7 +27,6 @@
     </div>
     <article x-show="open" class="cursor-default">
         <div class="grid grid-cols-3 p-4 text-center text-base font-medium text-emerald-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
-            <h5 class="flex items-center justify-center font-bold">Jenis Pangan</h5>
             <h5 class="flex items-center justify-center font-bold">Nama Pangan</h5>
             <h5 class="flex items-center justify-center font-bold">Takaran URT</h5>
         </div>
@@ -35,9 +34,6 @@
         @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
             @foreach ($pangan_detail as $pangan)
                 <div class="grid grid-cols-3 p-4 font-medium text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
-                    <h5 class="flex items-center justify-center">
-                        {{ $pangan->jenis_pangan }}
-                    </h5>
                     <h5 class="flex items-center justify-center">
                         {{ $pangan->nama_pangan }}
                     </h5>

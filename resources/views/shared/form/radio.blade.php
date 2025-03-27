@@ -1,14 +1,13 @@
-
 <fieldset class="flex w-full flex-col justify-between space-y-4">
     <h5 class="font-medium">
         {{ $label }}
-        @if (!empty($required))
+        @if (! empty($required))
             <span class="text-red-500">*</span>
         @endif
     </h5>
     <div class="flex items-center space-x-6">
         @foreach ($options as $value => $text)
-            <span class="inline-flex items-center cursor-pointer">
+            <span class="inline-flex cursor-pointer items-center">
                 <input
                     type="radio"
                     name="{{ $name }}"

@@ -6,15 +6,8 @@
         @endif
     </label>
     <div class="relative">
-        <select
-            name="{{ $name }}"
-            id="{{ $name }}"
-            class="{{ $class }}"
-            required
-        >
-            <option value="" hidden>
-                Pilih {{ $label }}
-            </option>
+        <select name="{{ $name }}" id="{{ $name }}" class="{{ $class }}" required>
+            <option value="" hidden>Pilih {{ $label }}</option>
             @if (is_array($options))
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}">{{ $label }}</option>

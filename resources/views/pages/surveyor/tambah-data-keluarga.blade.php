@@ -5,6 +5,7 @@
 @endsection
 
 @section('deskripsi')
+    
 @endsection
 
 @section('konten')
@@ -12,7 +13,7 @@
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        <form action="{{ route('keluarga.tambah') }}" method="POST" enctype="multipart/form-data" id="family-form">
+        <form action="{{ route('keluarga.tambah') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('components.surveyor.tambah-data-keluarga.keluarga')
             <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
@@ -36,52 +37,20 @@
 @push('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('family-form');
-            const submit_form = document.getElementById('submit-form');
-            const hidden_inputs_container = document.getElementById('hidden-pangan-inputs');
-            const image_input = document.querySelector('input[type="file"]');
+            const formulir = document.querySelector('form');
+            const tombol_kirim = document.getElementById('submit-form');
+            const data_pangan_tersembunyi = document.getElementById('data-pangan-tersembunyi');
+            const gambar = document.querySelector('input[type="file"]');
 
-            if (!window.daftar_pangan) window.daftar_pangan = [];
-            const update_hidden_inputs = () => {
-                hidden_inputs_container.innerHTML = '';
-                window.daftar_pangan.forEach((item, index) => {
-                    const jenis_pangan_input = document.createElement('input');
-                    jenis_pangan_input.type = 'hidden';
-                    jenis_pangan_input.name = `detail_pangan_keluarga[${index}][jenis_pangan]`;
-                    jenis_pangan_input.value = item.jenis_pangan;
-
-                    const pangan_input = document.createElement('input');
-                    pangan_input.type = 'hidden';
-                    pangan_input.name = `detail_pangan_keluarga[${index}][nama_pangan]`;
-                    pangan_input.value = item.nama_pangan;
-
-                    const urt_input = document.createElement('input');
-                    urt_input.type = 'hidden';
-                    urt_input.name = `detail_pangan_keluarga[${index}][jumlah_urt]`;
-                    urt_input.value = item.urt;
-
-                    hidden_inputs_container.appendChild(jenis_pangan_input);
-                    hidden_inputs_container.appendChild(pangan_input);
-                    hidden_inputs_container.appendChild(urt_input);
-                });
-            };
-
-            form.addEventListener('submit', async (e) => {
+            formulir.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                update_hidden_inputs();
-                if (window.daftar_pangan.length === 0) {
-                    alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
-                    return;
-                }
+                perbarui_data_tersembunyi();
+                if (window.daftar_pangan.length === 0) return alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
+                if (!gambar.files.length) return alert('Harap unggah gambar sebelum mengirimkan formulir!');
 
-                if (!image_input.files.length) {
-                    alert('Harap unggah gambar sebelum mengirimkan formulir!');
-                    return;
-                }
-
-                submit_form.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...`;
-                submit_form.disabled = true;
-                let form_data = new FormData(form);
+                tombol_kirim.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...`;
+                tombol_kirim.disabled = true;
+                let form_data = new FormData(formulir);
 
                 try {
                     let response = await fetch('{{ route('keluarga.tambah') }}', {
@@ -101,13 +70,13 @@
                         window.location.href = parse.redirect;
                     } else if (parse.error) {
                         alert(`Error: ${parse.error}`);
-                        submit_form.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
-                        submit_form.disabled = false;
+                        tombol_kirim.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
+                        tombol_kirim.disabled = false;
                     }
                 } catch (error) {
                     console.error('[ERROR] Terjadi kesalahan saat proses mengirim: ', error);
-                    submit_form.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
-                    submit_form.disabled = false;
+                    tombol_kirim.innerHTML = `<i class="fa-solid fa-paper-plane mr-4"></i> Kirim`;
+                    tombol_kirim.disabled = false;
                 }
             });
         });

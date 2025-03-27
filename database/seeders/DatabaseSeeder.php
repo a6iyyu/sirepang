@@ -14,11 +14,10 @@ class DatabaseSeeder extends Seeder
             Desa::class,
             Takaran::class,
             JenisPangan::class,
-            // Pangan::class,
+            Pangan::class,
             Kader::class,
             RentangUang::class,
             Users::class,
         ]);
-        $this->call(PanganTableSeeder::class);
     }
 }

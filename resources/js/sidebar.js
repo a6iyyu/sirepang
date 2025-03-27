@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
         open.classList.add("!lg:inline");
         open.classList.remove("!hidden");
         route.style.width = "fit-content";
-        route_icon.forEach(item => item.style.marginRight = "0");
-        sidebar_menu.forEach(item => item.style.display = "none");
+        route_icon.forEach((item) => (item.style.marginRight = "0"));
+        sidebar_menu.forEach((item) => (item.style.display = "none"));
     });
 
     open.addEventListener("click", () => {
@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
         open.classList.add("!hidden");
         open.classList.remove("!lg:inline");
         route.style.width = "";
-        sidebar_menu.forEach(menu => menu.style.display = "inline");
+        sidebar_menu.forEach((menu) => (menu.style.display = "inline"));
     });
 
-    menu_items.forEach(item => {
+    menu_items.forEach((item) => {
         item.addEventListener("click", () => {
-            menu_items.forEach(menu => {
+            menu_items.forEach((menu) => {
                 menu.classList.remove("bg-primary", "text-green-dark");
                 menu.classList.add("text-white");
             });

@@ -1,4 +1,6 @@
-<aside class="bg-green-dark fixed z-30 hidden h-full flex-col space-y-4 rounded-r-2xl p-6 shadow-2xl transition-all duration-300 ease-in-out lg:flex">
+<aside
+    class="bg-green-dark fixed z-30 hidden h-full flex-col space-y-4 rounded-r-2xl p-6 shadow-2xl transition-all duration-300 ease-in-out lg:flex"
+>
     <section class="flex space-x-8">
         <div class="flex cursor-default items-center space-x-4">
             <img src="{{ asset('img/logo.webp') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
@@ -28,6 +30,7 @@
                 :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
             />
         @endif
+
         @if (Auth::check() && Auth::user()->tipe == 'admin')
             <x-menu
                 icon="fa-solid fa-user-shield"

@@ -4,7 +4,6 @@
             {{ session('success') }}
         </div>
     @endif
-
     @include('shared.table.table', [
         'headers' => ['Nama', 'Desa', 'Aksi'],
         'sortable' => ['Nama', 'Desa'],

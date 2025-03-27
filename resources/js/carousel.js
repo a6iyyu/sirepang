@@ -32,17 +32,8 @@ export class Carousel {
         this.indicators[this.current_index].classList.remove("bg-white");
         this.indicators[index].classList.add("bg-white");
 
-        gsap.to(this.images[this.current_index], {
-            opacity: 0,
-            duration: this.duration,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(this.images[index], {
-            opacity: 1,
-            duration: this.duration,
-            ease: "power2.inOut",
-        });
+        gsap.to(this.images[this.current_index], { duration: this.duration, ease: "power2.inOut", opacity: 0 });
+        gsap.to(this.images[index], { duration: this.duration, ease: "power2.inOut", opacity: 1 });
 
         this.current_index = index;
         this.resetAutoPlay();
@@ -54,10 +45,7 @@ export class Carousel {
     }
 
     start_auto_play() {
-        this.interval = setInterval(
-            () => this.next_slide(),
-            this.auto_play_delay * 1000,
-        );
+        this.interval = setInterval(() => this.next_slide(), this.auto_play_delay * 1000);
     }
 
     resetAutoPlay() {
@@ -67,8 +55,6 @@ export class Carousel {
 
     destroy() {
         clearInterval(this.interval);
-        this.indicators.forEach((indicator) => {
-            indicator.removeEventListener("click", () => this.go_to_slide(index));
-        });
+        this.indicators.forEach((indicator) => indicator.removeEventListener("click", () => this.go_to_slide(index)));
     }
 }

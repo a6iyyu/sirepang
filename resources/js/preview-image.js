@@ -1,5 +1,3 @@
-"use strict";
-
 let debounce;
 
 export const PreviewImage = (event) => {

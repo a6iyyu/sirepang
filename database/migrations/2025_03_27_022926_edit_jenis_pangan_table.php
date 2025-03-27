@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->decimal('skor_maks_jenis', 9)->nullable();
             $table->index('id_jenis_pangan', 'fk_id_jenis_pangan');
         });
+
         // Schema::create('jenis_pangan', function (Blueprint $table) {
         //     $table->integer('id_jenis_pangan', true)->unique('id_jenis_pangan_unique');
         //     $table->integer('parent')->nullable()->index('fk_jenis_pangan');
@@ -26,7 +27,5 @@ return new class extends Migration {
         // });
     }
 
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

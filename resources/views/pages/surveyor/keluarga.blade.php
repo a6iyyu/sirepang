@@ -5,6 +5,7 @@
 @endsection
 
 @section('deskripsi')
+    
 @endsection
 
 @section('konten')
@@ -39,9 +40,9 @@
                         if (!response.ok) throw new Error(`Status kesalahan HTTP: ${response.status}`);
                         return response.json();
                     })
-                    .then(data => {
+                    .then((data) => {
                         table.innerHTML = '';
-                        data.forEach(row => {
+                        data.forEach((row) => {
                             let tr = document.createElement('tr');
                             tr.innerHTML = `
                                 <td class="px-6 py-4 text-center whitespace-nowrap">${row.nama}</td>
@@ -63,7 +64,7 @@
                             table.appendChild(tr);
                         });
                     })
-                    .catch(e => console.error(e));
+                    .catch((e) => console.error(e));
             });
         });
     </script>

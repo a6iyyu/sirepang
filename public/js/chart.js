@@ -1,24 +1,24 @@
 export const Options = {
-    colors: ['#f4f1e8'],
+    colors: ["#f4f1e8"],
     series: [
         {
-            name: '2025',
-            color: '#f4f1e8',
+            name: "2025",
+            color: "#f4f1e8",
             data: [
-                { x: 'Pakis', y: 231 },
-                { x: 'Singosari', y: 122 },
-                { x: 'Kepanjen', y: 63 },
-                { x: 'Lawang', y: 421 },
-                { x: 'Dau', y: 122 },
-                { x: 'Pakisaji', y: 323 },
-                { x: 'Pasir', y: 111 },
+                { x: "Pakis", y: 231 },
+                { x: "Singosari", y: 122 },
+                { x: "Kepanjen", y: 63 },
+                { x: "Lawang", y: 421 },
+                { x: "Dau", y: 122 },
+                { x: "Pakisaji", y: 323 },
+                { x: "Pasir", y: 111 },
             ],
         },
     ],
     chart: {
-        type: 'bar',
-        height: '320px',
-        fontFamily: 'plus jakarta sans, sans-serif',
+        type: "bar",
+        height: "320px",
+        fontFamily: "plus jakarta sans, sans-serif",
         toolbar: {
             show: false,
         },
@@ -26,8 +26,8 @@ export const Options = {
     plotOptions: {
         bar: {
             horizontal: false,
-            columnWidth: '70%',
-            borderRadiusApplication: 'end',
+            columnWidth: "70%",
+            borderRadiusApplication: "end",
             borderRadius: 8,
         },
     },
@@ -35,13 +35,13 @@ export const Options = {
         shared: true,
         intersect: false,
         style: {
-            fontFamily: 'plus jakarta sans, sans-serif',
+            fontFamily: "plus jakarta sans, sans-serif",
         },
     },
     states: {
         hover: {
             filter: {
-                type: 'lighten',
+                type: "lighten",
                 value: 1,
             },
         },
@@ -49,7 +49,7 @@ export const Options = {
     stroke: {
         show: true,
         width: 0,
-        colors: ['transparent'],
+        colors: ["transparent"],
     },
     grid: {
         show: false,
@@ -71,8 +71,8 @@ export const Options = {
         labels: {
             show: true,
             style: {
-                fontFamily: 'plus jakarta sans, sans-serif',
-                cssClass: 'text-xs font-normal fill-white dark:fill-white',
+                fontFamily: "plus jakarta sans, sans-serif",
+                cssClass: "text-xs font-normal fill-white dark:fill-white",
             },
         },
         axisBorder: {

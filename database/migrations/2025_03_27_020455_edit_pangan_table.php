@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->integer('id_takaran')->index('fk_takaran');
             $table->foreign(['id_takaran'], 'fk_takaran')->references(['id_takaran'])->on('takaran')->onUpdate('no action')->onDelete('no action');
         });
+
         // Schema::create('pangan', function (Blueprint $table) {
         //     $table->integer('id_pangan', true)->unique('id_pangan_unique');
         //     $table->string('nama_pangan');

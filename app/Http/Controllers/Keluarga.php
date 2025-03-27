@@ -9,6 +9,7 @@ use App\Models\Keluarga as KeluargaModel;
 use App\Models\Pangan as PanganModel;
 use App\Models\PanganKeluarga as PanganKeluargaModel;
 use App\Models\RentangUang as RentangUangModel;
+use App\Models\Takaran as TakaranModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -47,11 +48,10 @@ class Keluarga extends Controller
     {
         $kader = User::find(Auth::user()->id_user)->kader;
         $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
-        $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
-        $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-        $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
-        $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
-        $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+        $nama_pangan = PanganModel::pluck('nama_pangan');
+        $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
+        $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
+        $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
 
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
@@ -61,7 +61,6 @@ class Keluarga extends Controller
 
         return view('pages.surveyor.tambah-data-keluarga', [
             'desa'          => $desa,
-            'jenis_pangan'  => $jenis_pangan,
             'nama_pangan'   => $nama_pangan,
             'rentang_uang'  => $rentang_uang,
             'takaran'       => $takaran,
@@ -140,13 +139,11 @@ class Keluarga extends Controller
             $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
             $pangan_id = $pangan_keluarga->pluck('id_pangan');
             $pangan = PanganModel::whereIn('id_pangan', $pangan_id)->get()->keyBy('id_pangan');
-            $jenis_pangan = JenisPanganModel::whereIn('id_jenis_pangan', $pangan->pluck('id_jenis_pangan'))->get()->keyBy('id_jenis_pangan');
 
-            $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan, $jenis_pangan) {
+            $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan) {
                 $pangan_item = $pangan->get($item->id_pangan);
                 return (object) [
                     'nama_pangan'   => $pangan_item->nama_pangan,
-                    'jenis_pangan'  => $jenis_pangan->get($pangan_item->id_jenis_pangan)->nama_jenis,
                     'urt'           => $item->urt,
                     'takaran'       => $pangan_item->takaran,
                 ];
@@ -170,20 +167,17 @@ class Keluarga extends Controller
             $keluarga = KeluargaModel::with('desa')->find($id);
             $kader = User::find(Auth::user()->id_user)->kader;
             $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
-            $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
-            $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
+            $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
+            $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
             $gambar = $keluarga->gambar ? base64_decode($keluarga->gambar) : null;
-            $jenis_pangan = JenisPanganModel::all()->pluck('nama_jenis', 'id_jenis_pangan')->toArray();
-            $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-            $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
+            $nama_pangan = PanganModel::groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
+            $takaran = PanganModel::pluck('takaran', 'id_pangan')->toArray();
 
-            $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get()->map(function ($item) use ($nama_pangan, $takaran, $jenis_pangan) {
+            $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get()->map(function ($item) use ($nama_pangan, $takaran) {
                 $pangan = PanganModel::find($item->id_pangan);
                 return (object) [
-                    'jenis_pangan'          => $pangan->id_jenis_pangan,
                     'nama_pangan'           => $pangan->id_pangan,
                     'urt'                   => $item->urt,
-                    'teks_jenis_pangan'     => $jenis_pangan[$pangan->id_jenis_pangan],
                     'teks_nama_pangan'      => $nama_pangan[$pangan->id_jenis_pangan][$pangan->id_pangan],
                     'takaran'               => $takaran[$pangan->id_pangan],
                 ];
@@ -200,7 +194,6 @@ class Keluarga extends Controller
                 'keluarga'          => $keluarga,
                 'rentang_uang'      => $rentang_uang,
                 'gambar'            => $gambar,
-                'jenis_pangan'      => $jenis_pangan,
                 'nama_pangan'       => $nama_pangan,
                 'takaran'           => $takaran,
                 'pangan_keluarga'   => $pangan_keluarga,
