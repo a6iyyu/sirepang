@@ -44,7 +44,7 @@ class Keluarga extends Controller
     {
         $kader = User::find(Auth::user()->id_user)->kader;
         $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
-        $nama_pangan = PanganModel::pluck('nama_pangan');
+        $nama_pangan = PanganModel::select('nama_pangan', 'id_takaran')->get();
         $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
