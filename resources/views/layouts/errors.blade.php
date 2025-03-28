@@ -19,7 +19,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>@yield('judul') | Sirepang</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-        <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" />
         <link rel="icon" href="{{ asset('img/logo.webp') }}" type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

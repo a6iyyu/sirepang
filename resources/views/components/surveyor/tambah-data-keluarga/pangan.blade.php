@@ -65,7 +65,6 @@
 
             pilihan_nama_pangan.addEventListener('change', () => {
                 judul_takaran_unit.textContent = `(${pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex].dataset.takaran})`;
-                console.log(pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex]);
             });
 
             const atur_ulang_formulir = () => {

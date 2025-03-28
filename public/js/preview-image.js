@@ -20,8 +20,7 @@ export const PreviewImage = (event) => {
                 image_preview.appendChild(img);
                 image_preview.classList.remove("hidden");
             };
-
-            console.log(reader.readAsDataURL(file));
+            reader.readAsDataURL(file);
         } else {
             image_preview.classList.add("hidden");
         }

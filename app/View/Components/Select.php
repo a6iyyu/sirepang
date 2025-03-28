@@ -10,10 +10,10 @@ class Select extends Component
 {
     public array $options;
     public ?bool $required;
-    public string $class, $label, $name;
-    public ?string $value;
+    public string $label, $name;
+    public ?string $class, $value;
 
-    public function __construct(array $options, ?bool $required, string $class, string $label, string $name, ?string $value)
+    public function __construct(array $options, ?bool $required, ?string $class, string $label, string $name, ?string $value)
     {
         $this->options = $options;
         $this->required = $required;

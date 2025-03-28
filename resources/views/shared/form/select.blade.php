@@ -10,7 +10,7 @@
             <option value="" hidden>Pilih {{ $label }}</option>
             @if (is_array($options))
                 @foreach ($options as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
+                    <option value="{{ $value }}" {{ $value == old($name, $value) ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             @endif
         </select>

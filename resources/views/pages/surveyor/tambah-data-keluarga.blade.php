@@ -44,7 +44,6 @@
 
             formulir.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                perbarui_data_tersembunyi();
                 if (window.daftar_pangan.length === 0) return alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
                 if (!gambar.files.length) return alert('Harap unggah gambar sebelum mengirimkan formulir!');
 
@@ -57,7 +56,7 @@
                         method: 'POST',
                         body: form_data,
                         headers: {
-                            Accept: 'application/json',
+                            'Accept': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                         },
                     });
