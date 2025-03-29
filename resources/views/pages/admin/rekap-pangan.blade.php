@@ -18,7 +18,7 @@
             Daftar rekap pangan yang diambil oleh kader tiap keluarga di Kabupaten Malang, Provinsi Jawa Timur.
         </h5>
         @include('shared.table.table', [
-            'headers'  => ['Nama Keluarga', 'Desa', 'Aksi'],
+            'headers' => ['Nama Keluarga', 'Desa', 'Aksi'],
             'sortable' => ['Nama Keluarga', 'Desa'],
             'rows' => $data ?? 0,
         ])

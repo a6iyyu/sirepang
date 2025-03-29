@@ -52,8 +52,6 @@
             const tombol_tambah = document.getElementById('tombol-tambah');
             const nama_pangan = @json($nama_pangan);
             const takaran = @json($takaran);
-            console.log(nama_pangan);
-            // console.log(takaran);
 
             if (!window.daftar_pangan) window.daftar_pangan = [];
 
@@ -63,7 +61,6 @@
                 opsi.textContent = `${nama.nama_pangan} `;
                 opsi.dataset.takaran = takaran[nama.id_takaran] || '';
                 pilihan_nama_pangan.appendChild(opsi);
-                // console.log(opsi);
             });
 
             pilihan_nama_pangan.addEventListener('change', () => {

@@ -21,6 +21,7 @@
         label="Desa"
         :options="$desa"
         :required="true"
+        :value="old('id_desa')"
     />
     <x-input
         name="alamat"

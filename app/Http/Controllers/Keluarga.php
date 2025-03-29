@@ -11,6 +11,7 @@ use App\Models\RentangUang as RentangUangModel;
 use App\Models\Takaran as TakaranModel;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -102,6 +103,7 @@ class Keluarga extends Controller
             if (isset($data['gambar'])) $keluarga->gambar = $data['gambar'];
             $keluarga->save();
 
+            
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
                     PanganKeluargaModel::create([
@@ -129,8 +131,7 @@ class Keluarga extends Controller
             $pendapatan = $rentang_uang[$keluarga->rentang_pendapatan]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pendapatan]->batas_atas;
             $pengeluaran = $rentang_uang[$keluarga->rentang_pengeluaran]->batas_bawah . ' - ' . $rentang_uang[$keluarga->rentang_pengeluaran]->batas_atas;
             $pangan_keluarga = PanganKeluargaModel::where('id_keluarga', $id)->get();
-            $pangan_id = $pangan_keluarga->pluck('id_pangan');
-            $pangan = PanganModel::whereIn('id_pangan', $pangan_id)->get()->keyBy('id_pangan');
+            $pangan = PanganModel::whereIn('id_pangan', $pangan_keluarga->pluck('id_pangan'))->get()->keyBy('id_pangan');
 
             $pangan_detail = $pangan_keluarga->map(function ($item) use ($pangan) {
                 $pangan_item = $pangan->get($item->id_pangan);
@@ -156,28 +157,22 @@ class Keluarga extends Controller
     public function edit($id): RedirectResponse|View
     {
         try {
-            $kader = User::find(Auth::user()->id_user)->kader;
-            $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
+            $kader = $this->kader();
+            $desa = $this->desa($kader->kecamatan->id_kecamatan);
+            $detail_pangan = $this->detail_pangan($id);
             $gambar = KeluargaModel::find($id)->gambar;
             $keluarga = KeluargaModel::with('desa')->find($id);
-            $nama_pangan = PanganModel::all()->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-            $batas_bawah = RentangUangModel::all()->pluck('batas_bawah', 'id_rentang_uang')->toArray();
-            $batas_atas = RentangUangModel::all()->pluck('batas_atas', 'id_rentang_uang')->toArray();
-            $takaran = PanganModel::all()->pluck('takaran', 'id_pangan')->toArray();
-
-            $rentang_uang = [];
-            foreach ($batas_bawah as $id => $bawah) {
-                $atas = $batas_atas[$id] ?? null;
-                $rentang_uang[$id] = "$bawah - $atas";
-            }
+            $pangan = $this->pangan();
+            $rentang_uang = $this->rentang_uang();
 
             return view('pages.surveyor.edit', [
                 'desa'          => $desa,
+                'detail_pangan' => $detail_pangan,
                 'gambar'        => $gambar,
                 'keluarga'      => $keluarga,
-                'nama_pangan'   => $nama_pangan,
+                'nama_pangan'   => $pangan['nama_pangan'],
                 'rentang_uang'  => $rentang_uang,
-                'takaran'       => $takaran,
+                'takaran'       => $pangan['takaran'],
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -222,5 +217,46 @@ class Keluarga extends Controller
             Log::error('Terjadi kesalahan saat menghapus data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Gagal menghapus data!']);
         }
+    }
+
+    private function kader(): mixed
+    {
+        return User::with('kader.kecamatan')->findOrFail(Auth::user()->id_user)->kader;
+    }
+
+    private function desa($id_kecamatan): array
+    {
+        return DesaModel::where('id_kecamatan', $id_kecamatan)->select('id_desa', 'nama_desa', 'kode_wilayah')->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();    
+    }
+
+    private function detail_pangan($id_keluarga)
+    {
+        $pangan_keluarga = PanganKeluargaModel::with('pangan')->where('id_keluarga', $id_keluarga)->select('id_pangan', 'id_keluarga', 'urt')->get();
+    
+        $hasil = [];
+        foreach ($pangan_keluarga as $data) {
+            $hasil[] = [
+                'id_pangan' => $data->id_pangan,
+                'id_keluarga' => $data->id_keluarga,
+                'urt' => $data->urt,
+                'pangan_nama' => $data->pangan->nama_pangan ?? 'Tidak ditemukan'
+            ];
+        }
+
+        return $hasil;
+    }
+
+    private function pangan(): array
+    {
+        $pangan = PanganModel::with('takaran')->select('id_pangan', 'id_jenis_pangan', 'nama_pangan', 'id_takaran')->get();
+        $nama_pangan = $pangan->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
+        $takaran = $pangan->mapWithKeys(fn($item) => [$item->id_pangan => $item->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray();
+        
+        return ['nama_pangan' => $nama_pangan, 'takaran' => $takaran];
+    }
+
+    private function rentang_uang(): array
+    {
+        return RentangUangModel::select('id_rentang_uang', 'batas_bawah', 'batas_atas')->get()->mapWithKeys(fn($item) => [$item->id_rentang_uang => "$item->batas_bawah - $item->batas_atas"])->toArray();
     }
 }

@@ -1,5 +1,5 @@
 <h3 class="mb-6 cursor-default font-bold text-3xl text-[#2c5e4f]">
-    Masukkan Data Keluarga
+    Edit Data Keluarga {{ $keluarga->nama_kepala_keluarga }}
 </h3>
 @if ($errors->any())
     <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
@@ -19,11 +19,11 @@
 <section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
     <x-select
         class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
-        name="id_desa"
         label="Desa"
+        name="id_desa"
         :options="$desa"
         :required="true"
-        :value="old('id_desa', $keluarga->id_desa)"
+        :selected="old('id_desa', $keluarga->id_desa)"
     />
     <x-input
         name="alamat"
@@ -47,19 +47,19 @@
     />
     <x-select
         class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
-        name="range_pendapatan"
         label="Pendapatan Keluarga"
+        name="range_pendapatan"
         :options="$rentang_uang"
         :required="true"
-        :value="old('rentang_pendapatan', $keluarga->rentang_pendapatan)"
+        :selected="old('rentang_pendapatan', $keluarga->rentang_pendapatan)"
     />
     <x-select
         class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
-        name="range_pengeluaran"
         label="Pengeluaran Keluarga"
+        name="range_pengeluaran"
         :options="$rentang_uang"
         :required="true"
-        :value="old('rentang_pengeluaran', $keluarga->rentang_pengeluaran)"
+        :selected="old('rentang_pengeluaran', $keluarga->rentang_pengeluaran)"
     />
 </section>
 {{-- <section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
