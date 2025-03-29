@@ -1,6 +1,6 @@
 <section class="relative w-full overflow-x-auto rounded-lg shadow">
     <table class="w-full min-w-max table-auto border-collapse cursor-default">
-        <thead class="bg-green-700 text-white">
+        <thead class="bg-green-medium text-white">
             <tr>
                 @foreach ($headers as $header)
                     <th class="w-1/{{ count($headers) }} px-6 py-4 text-center text-xs font-bold tracking-wider uppercase">

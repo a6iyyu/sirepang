@@ -1,47 +1,60 @@
 @if ($paginator->hasPages())
-    <section class="bg-green-medium mt-4 flex w-full items-center justify-between overflow-x-scroll rounded-lg px-4 py-3 whitespace-nowrap shadow sm:px-6" role="navigation">
-        <select
-            id="per_page"
-            name="per_page"
-            onchange="update_per_page(this.value)"
-            class="mr-4 rounded-md py-2 pr-10 pl-3 text-white focus:outline-none sm:text-sm"
-        >
-            @foreach ([5, 10, 25, 50, 100] as $perPageOption)
-                <option
-                    value="{{ $perPageOption }}"
-                    class="text-black"
-                    {{ Request::input('per_page', 10) == $perPageOption ? 'selected' : '' }}
-                >
-                    {{ $perPageOption }} per halaman
-                </option>
-            @endforeach
-        </select>
-        <h5 class="cursor-default text-sm text-white">
-            {!! __('Menampilkan') !!}
-            <span class="font-medium">{{ $paginator->firstItem() ?? $paginator->count() }}</span>
-            {!! __('sampai') !!}
-            <span class="font-medium">{{ $paginator->lastItem() }}</span>
-            {!! __('dari') !!}
-            <span class="font-medium">{{ $paginator->total() }}</span>
-            {!! __('data') !!}
-        </h5>
-        <span class="ml-20 inline-flex rounded-md shadow-sm">
-            <a href="{{ $paginator->previousPageUrl() }}" class="{{ $paginator->onFirstPage() ? 'cursor-not-allowed text-emerald-300' : 'hover:bg-emerald-50' }} border border-emerald-300 bg-white px-2 py-2 text-emerald-500">
-                <i class="fas fa-chevron-left"></i>
+    <section class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-green-medium rounded-lg p-4 shadow-sm border border-emerald-100 mt-6" role="navigation">
+        <div class="flex items-center">
+            <label for="per_page" class="text-sm text-white mr-3">Show:</label>
+            <select
+                id="per_page"
+                name="per_page"
+                onchange="update_per_page(this.value)"
+                class="rounded-md border border-gray-200 py-1.5 px-3 text-sm text-white bg-green-medium focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"
+            >
+                @foreach ([5, 10, 25, 50, 100] as $perPageOption)
+                    <option
+                        value="{{ $perPageOption }}"
+                        {{ Request::input('per_page', 10) == $perPageOption ? 'selected' : '' }}
+                    >
+                        {{ $perPageOption }}
+                    </option>
+                @endforeach
+            </select>
+            <span class="text-sm text-white ml-2">per page</span>
+        </div>
+
+        <div class="text-sm text-white hidden md:block">
+            Showing <span class="font-medium text-white">{{ $paginator->firstItem() ?? $paginator->count() }}</span> to
+            <span class="font-medium text-white">{{ $paginator->lastItem() }}</span> of
+            <span class="font-medium text-white">{{ $paginator->total() }}</span> results
+        </div>
+
+        <div class="flex items-center space-x-1">
+            <!-- Previous Page -->
+            <a href="{{ $paginator->previousPageUrl() }}"
+               class="{{ $paginator->onFirstPage() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-50' }}
+                     flex items-center justify-center h-8 w-8 rounded-md border border-gray-200 bg-white text-white-600 transition-colors"
+               {{ $paginator->onFirstPage() ? 'aria-disabled="true"' : '' }}>
+                <i class="fas fa-chevron-left text-xs"></i>
             </a>
+
             @foreach ($elements as $element)
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
-                        <a href="{{ $url }}" class="{{ $page == $paginator->currentPage() ? 'border-emerald-500 bg-emerald-50 text-emerald-600' : 'border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50' }} border px-4 py-2">
+                        <a href="{{ $url }}"
+                           class="{{ $page == $paginator->currentPage()
+                                ? 'bg-emerald-600 text-white border-emerald-600'
+                                : 'bg-white text-white-700 border-gray-200 hover:bg-emerald-50' }}
+                                flex items-center justify-center h-8 min-w-[2rem] rounded-md border text-sm transition-colors">
                             {{ $page }}
                         </a>
                     @endforeach
                 @endif
             @endforeach
-            <a href="{{ $paginator->nextPageUrl() }}" class="{{ $paginator->hasMorePages() ? 'hover:bg-emerald-50' : 'cursor-not-allowed text-emerald-300' }} border border-emerald-300 bg-white px-2 py-2 text-emerald-500">
-                <i class="fas fa-chevron-right"></i>
+            <a href="{{ $paginator->nextPageUrl() }}"
+               class="{{ $paginator->hasMorePages() ? 'hover:bg-emerald-50' : 'opacity-50 cursor-not-allowed' }}
+                     flex items-center justify-center h-8 w-8 rounded-md border border-gray-200 bg-white text-white-600 transition-colors"
+               {{ $paginator->hasMorePages() ? '' : 'aria-disabled="true"' }}>
+                <i class="fas fa-chevron-right text-xs"></i>
             </a>
-        </span>
+        </div>
     </section>
 @endif
 
