@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.31",
+        "maatwebsite/excel": "^3.1",
         "orangehill/iseed": "^3.1"
     },
     "require-dev": {

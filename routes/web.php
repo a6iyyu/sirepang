@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::get('/verifikasi-data', [Verifikasi::class, 'index'])->name('verifikasi-data');
+        Route::get('/rekap-pph/export/{tahun}', [Pph::class, 'export'])->name('pph-export');
 
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
@@ -47,7 +48,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('keluarga.tambah');
-        Route::put('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
         Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
     });
 
