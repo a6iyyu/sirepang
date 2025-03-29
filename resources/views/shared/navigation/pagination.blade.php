@@ -6,7 +6,7 @@
                 id="per_page"
                 name="per_page"
                 onchange="update_per_page(this.value)"
-                class="bg-green-medium rounded-md border border-gray-200 px-3 py-1.5 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                class="bg-green-medium appearance-none rounded-md border border-gray-200 px-3 py-1.5 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             >
                 @foreach ([5, 10, 25, 50, 100] as $perPageOption)
                     <option value="{{ $perPageOption }}" {{ Request::input('per_page', 10) == $perPageOption ? 'selected' : '' }}>

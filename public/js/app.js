@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("pagehide", () => carousel.destroy());
 
     // Success Message
-    setTimeout(() => document.getElementById("success").style.display = "none", 3000);
+    const success = document.getElementById("success");
+    success ? setTimeout(() => success.style.display = "none", 3000) : console.warn("No element with ID 'success' found in the DOM.");
 
     // Chart
     if (document.getElementById("column-chart") && typeof ApexCharts !== "undefined") {

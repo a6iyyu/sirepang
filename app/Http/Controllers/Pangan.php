@@ -10,18 +10,18 @@ class Pangan extends Controller
 {
     public function index(): View
     {
-        $data = Keluarga::all()->map(fn($item) => (object) [
-            'id'            => $item->id_keluarga,
-            'nama_keluarga' => $item->nama_kepala_keluarga,
-            'nama_desa'     => $item->desa->nama_desa,
+        $data = Keluarga::paginate(10);
+        $data->getCollection()->transform(fn($item) => (object) [
+            'id'    => $item->id_keluarga,
+            'nama'  => $item->nama_kepala_keluarga,
+            'desa'  => $item->desa->nama_desa,
         ]);
 
         return view('pages.admin.rekap-pangan', ['data' => $data]);
     }
 
-    public function detail($id)
+    public function detail($id): View
     {
-        $data = Keluarga::find($id);
-        return view('pages.admin.detail-pangan', ['data' => $data]);
+        return view('pages.admin.detail-pangan', ['keluarga' => Keluarga::find($id)]);
     }
 }

@@ -20,7 +20,7 @@
         @include('shared.table.table', [
             'headers' => ['Nama Keluarga', 'Desa', 'Aksi'],
             'sortable' => ['Nama Keluarga', 'Desa'],
-            'rows' => $data ?? 0,
+            'rows' => $data->map(fn ($item) => [$item->nama, $item->desa, view('components.admin.rekap-pangan.aksi', ['item' => $item])->render()])->toArray(),
         ])
     </main>
 @endsection
