@@ -2,12 +2,12 @@
     <table class="w-full border-collapse bg-transparent">
         <thead>
             <tr class="bg-green-dark">
-                <th class="w-3/7 px-6 py-4 text-left font-semibold text-white">Nama Pangan</th>
-                <th class="w-3/7 px-6 py-4 text-left font-semibold text-white">
+                <th class="w-3/7 px-6 py-4 text-center font-semibold text-white">Nama Pangan</th>
+                <th class="w-3/7 px-6 py-4 text-center font-semibold text-white">
                     Takaran URT
                     <span id="judul-takaran-unit" class="text-lg"></span>
                 </th>
-                <th class="w-1/7 px-6 py-4 text-left font-semibold text-white">Aksi</th>
+                <th class="w-1/7 px-6 py-4 text-center font-semibold text-white">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -52,14 +52,22 @@
             const tombol_tambah = document.getElementById('tombol-tambah');
             const data_takaran = @json($takaran);
             const nama_pangan = @json($nama_pangan);
-            
-            if (!window.daftar_pangan) window.daftar_pangan = [];
+            const pangan_detail = @json($pangan_detail ?? []);
 
-            Object.entries(nama_pangan).forEach(([id, nama]) => {
-                let opsi = document.createElement('option');
-                opsi.value = id;
-                opsi.textContent = nama;
-                pilihan_nama_pangan.appendChild(opsi);
+            if (!window.daftar_pangan) window.daftar_pangan = [];
+            
+            Object.values(nama_pangan).forEach(kategori => {
+                Object.entries(kategori).forEach(([id, nama]) => {
+                    let opsi = document.createElement('option');
+                    opsi.value = id;
+                    opsi.textContent = nama;
+                    opsi.dataset.takaran = data_takaran[id] || '';
+                    pilihan_nama_pangan.appendChild(opsi);
+                });
+            });
+
+            pilihan_nama_pangan.addEventListener('change', () => {
+                judul_takaran_unit.textContent =  `(${pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex].dataset.takaran})`;
             });
 
             const perbarui_data_tersembunyi = () => {
@@ -79,14 +87,21 @@
                     data_pangan_tersembunyi.appendChild(masukan_nama_pangan);
                     data_pangan_tersembunyi.appendChild(masukan_jumlah_urt);
                 });
-            };
+            }
+
+            const hapus_pangan = (indeks) => {
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                    window.daftar_pangan.splice(indeks, 1);
+                    perbarui_tabel();
+                }
+            }
 
             const perbarui_tabel = () => {
-                document.querySelectorAll('tr[data_baris_pangan]').forEach((baris) => baris.remove());
+                document.querySelectorAll('tr[data_baris_pangan]').forEach(baris => baris.remove());
+
                 window.daftar_pangan.forEach((item, indeks) => {
                     const baris = document.createElement('tr');
                     baris.setAttribute('data_baris_pangan', '');
-                    baris.classList.add('transition-colors', 'duration-150');
                     baris.innerHTML = `
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.teks_nama_pangan}</td>
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.jumlah_urt} ${item.takaran || ''}</td>
@@ -99,34 +114,26 @@
                     baris_tabel_formulir_pangan.parentNode.insertBefore(baris, baris_tabel_formulir_pangan);
                 });
 
-                document.querySelectorAll('button[data_hapus]').forEach((tombol) => tombol.addEventListener('click', () => hapus_pangan(parseInt(tombol.getAttribute('data_hapus')))));
+                document.querySelectorAll('button[data_hapus]').forEach(tombol =>  tombol.addEventListener('click', () => hapus_pangan(parseInt(tombol.getAttribute('data_hapus')))));
                 perbarui_data_tersembunyi();
-            };
-
-            const hapus_pangan = (indeks) => {
-                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                    window.daftar_pangan.splice(indeks, 1);
-                    perbarui_tabel();
-                }
-            };
+            }
 
             const atur_ulang_formulir = () => {
-                pilihan_nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
+                pilihan_nama_pangan.selectedIndex = 0;
                 jumlah_urt.value = '';
                 judul_takaran_unit.textContent = '';
-            };
+            }
 
             tombol_tambah.addEventListener('click', () => {
                 if (!pilihan_nama_pangan.value || !jumlah_urt.value) return alert('Semua bidang harus diisi!');
 
                 const opsi_terpilih = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
-                const takaran = opsi_terpilih.dataset.takaran || '';
 
                 const item = {
                     nama_pangan: pilihan_nama_pangan.value,
                     jumlah_urt: jumlah_urt.value,
-                    takaran: takaran,
-                    teks_nama_pangan: pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex].text,
+                    takaran: opsi_terpilih.dataset.takaran || '',
+                    teks_nama_pangan: opsi_terpilih.text,
                 };
 
                 window.daftar_pangan.push(item);

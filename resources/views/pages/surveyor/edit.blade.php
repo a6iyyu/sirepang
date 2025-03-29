@@ -19,7 +19,7 @@
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
             @include('components.surveyor.edit-data-keluarga.dokumentasi')
             <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
-            {{-- @include('components.surveyor.edit-data-keluarga.pangan') --}}
+            @include('components.surveyor.edit-data-keluarga.pangan')
             <section class="flex justify-end">
                 <button
                     type="submit"

@@ -37,7 +37,7 @@
                     <h5 class="flex items-center justify-center">
                         {{ $pangan->nama_pangan }}
                     </h5>
-                    <h5 class="flex items-center justify-center">{{ $pangan->urt }} {{ $pangan->takaran }}</h5>
+                    <h5 class="flex items-center justify-center">{{ $pangan->urt }}</h5>
                 </div>
             @endforeach
         @else
