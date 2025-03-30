@@ -103,7 +103,6 @@ class Keluarga extends Controller
             if (isset($data['gambar'])) $keluarga->gambar = $data['gambar'];
             $keluarga->save();
 
-            
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
                     PanganKeluargaModel::create([
@@ -162,8 +161,13 @@ class Keluarga extends Controller
             $detail_pangan = $this->detail_pangan($id);
             $gambar = KeluargaModel::find($id)->gambar;
             $keluarga = KeluargaModel::with('desa')->find($id);
-            $pangan = $this->pangan();
+            $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
+            $pangan = [
+                'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [$item->id_pangan => $item->pangan->nama_pangan ?? 'Tidak ditemukan'])->toArray(),
+                'takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [$item->id_pangan => $item->pangan->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray(),
+            ];
             $rentang_uang = $this->rentang_uang();
+            // dd($pangan);
 
             return view('pages.surveyor.edit', [
                 'desa'          => $desa,
@@ -226,13 +230,13 @@ class Keluarga extends Controller
 
     private function desa($id_kecamatan): array
     {
-        return DesaModel::where('id_kecamatan', $id_kecamatan)->select('id_desa', 'nama_desa', 'kode_wilayah')->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();    
+        return DesaModel::where('id_kecamatan', $id_kecamatan)->select('id_desa', 'nama_desa', 'kode_wilayah')->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();
     }
 
     private function detail_pangan($id_keluarga)
     {
         $pangan_keluarga = PanganKeluargaModel::with('pangan')->where('id_keluarga', $id_keluarga)->select('id_pangan', 'id_keluarga', 'urt')->get();
-    
+
         $hasil = [];
         foreach ($pangan_keluarga as $data) {
             $hasil[] = [
@@ -251,7 +255,7 @@ class Keluarga extends Controller
         $pangan = PanganModel::with('takaran')->select('id_pangan', 'id_jenis_pangan', 'nama_pangan', 'id_takaran')->get();
         $nama_pangan = $pangan->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
         $takaran = $pangan->mapWithKeys(fn($item) => [$item->id_pangan => $item->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray();
-        
+
         return ['nama_pangan' => $nama_pangan, 'takaran' => $takaran];
     }
 
