@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [Keluarga::class, 'edit'])->name('keluarga.edit');
         Route::get('/tambah-data', [Keluarga::class, 'show'])->name('tambah-data');
         Route::post('/tambah-data', [Keluarga::class, 'create'])->name('keluarga.tambah');
-        Route::post('/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
+        Route::match(['put', 'post'], '/edit/{id}', [Keluarga::class, 'update'])->name('keluarga.perbarui');
         Route::delete('/hapus/{id}', [Keluarga::class, 'delete'])->name('keluarga.hapus');
     });
 

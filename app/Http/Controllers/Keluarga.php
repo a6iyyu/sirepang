@@ -11,7 +11,6 @@ use App\Models\RentangUang as RentangUangModel;
 use App\Models\Takaran as TakaranModel;
 use App\Models\User;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +33,11 @@ class Keluarga extends Controller
                 'desa' => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
             ]);
 
-            return view('pages.surveyor.keluarga', ['data' => $data, 'keluarga' => $id ? KeluargaModel::with('desa')->findOrFail($id) : null]);
+            return view('pages.surveyor.keluarga', [
+                'data' => $data,
+                'keluarga' => isset($id) ? KeluargaModel::with('desa')->findOrFail($id) : null,
+                'name' => Auth::user()->name ?? 'Guest', // Ensure $name is passed to the view
+            ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
@@ -162,21 +165,43 @@ class Keluarga extends Controller
             $gambar = KeluargaModel::find($id)->gambar;
             $keluarga = KeluargaModel::with('desa')->find($id);
             $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
+            $all_nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')
+                ->get()
+                ->mapWithKeys(fn($item) => [
+                    $item->id_pangan => [
+                        'nama_pangan' => $item->nama_pangan,
+                        'id_takaran' => $item->id_takaran
+                    ]
+                ])->toArray();
+
+            $all_takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
             $pangan = [
-                'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [$item->id_pangan => $item->pangan->nama_pangan ?? 'Tidak ditemukan'])->toArray(),
-                'takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [$item->id_pangan => $item->pangan->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray(),
+                'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                    $item->id_pangan => [
+                        'nama_pangan' => $item->pangan->nama_pangan ?? 'Tidak ditemukan',
+                        'id_takaran' => $item->pangan->id_takaran ?? null
+                    ]
+                ])->toArray(),
+                'takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                    $item->id_pangan => $item->pangan->takaran->nama_takaran ?? 'Takaran tidak ditemukan'
+                ])->toArray(),
+                'jumlah_takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                    $item->id_pangan => $item->urt
+                ])->toArray(),
             ];
             $rentang_uang = $this->rentang_uang();
-            // dd($pangan);
 
             return view('pages.surveyor.edit', [
-                'desa'          => $desa,
-                'detail_pangan' => $detail_pangan,
-                'gambar'        => $gambar,
-                'keluarga'      => $keluarga,
-                'nama_pangan'   => $pangan['nama_pangan'],
-                'rentang_uang'  => $rentang_uang,
-                'takaran'       => $pangan['takaran'],
+                'desa'            => $desa,
+                'detail_pangan'   => $detail_pangan,
+                'gambar'          => $gambar,
+                'keluarga'        => $keluarga,
+                'all_nama_pangan' => $all_nama_pangan,
+                'all_takaran'     => $all_takaran,
+                'nama_pangan'     => $pangan['nama_pangan'],
+                'takaran'         => $pangan['takaran'],
+                'jumlah_takaran'  => $pangan['jumlah_takaran'],
+                'rentang_uang'    => $rentang_uang,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -187,8 +212,10 @@ class Keluarga extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         try {
-            $keluarga = KeluargaModel::find($id);
-            $data = $request->validate([
+            $keluarga = KeluargaModel::findOrFail($id);
+
+            // Validate and update KeluargaModel
+            $keluargaData = $request->validate([
                 'nama_kepala_keluarga' => 'required|string|max:255',
                 'id_desa'              => 'required|string|max:255',
                 'alamat'               => 'required|string|max:255',
@@ -200,8 +227,28 @@ class Keluarga extends Controller
                 'is_balita'            => 'required|in:Ya,Tidak',
             ]);
 
-            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-            $keluarga->update($data);
+            if ($request->hasFile('gambar')) {
+                $keluargaData['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            }
+
+            $keluarga->update($keluargaData);
+
+            // Handle PanganKeluargaModel updates
+            $panganData = $request->input('detail_pangan_keluarga', []);
+            if (!empty($panganData)) {
+                // Delete existing records for this family to avoid duplicates
+                PanganKeluargaModel::where('id_keluarga', $id)->delete();
+
+                // Insert new records
+                foreach ($panganData as $item) {
+                    PanganKeluargaModel::create([
+                        'id_keluarga' => $id,
+                        'id_pangan'   => $item['nama_pangan'],
+                        'urt'         => $item['jumlah_urt'],
+                    ]);
+                }
+            }
+
             return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
         } catch (Exception $exception) {
             Log::error("Terdapat kesalahan saat memperbarui data keluarga: " . $exception->getMessage());

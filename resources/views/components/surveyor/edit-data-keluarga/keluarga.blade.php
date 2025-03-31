@@ -62,7 +62,7 @@
         :selected="old('rentang_pengeluaran', $keluarga->rentang_pengeluaran)"
     />
 </section>
-{{-- <section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
     <x-radio
         name="is_hamil"
         label="Apakah Ada Ibu Hamil?"
@@ -90,4 +90,4 @@
         ]"
         :value="old('is_balita', $keluarga->is_balita)"
     />
-</section> --}}
+</section>
