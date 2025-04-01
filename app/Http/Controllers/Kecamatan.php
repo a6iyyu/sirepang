@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Desa;
+use App\Models\Desa as DesaModel;
 use App\Models\Kecamatan as KecamatanModel;
 use Illuminate\View\View;
 
@@ -11,7 +11,7 @@ class Kecamatan extends Controller
 {
     public function index(): View
     {
-        $data = Desa::selectRaw('id_kecamatan, COUNT(*) as jumlah_desa')
+        $data = DesaModel::selectRaw('id_kecamatan, COUNT(*) as jumlah_desa')
             ->with('kecamatan:id_kecamatan,nama_kecamatan')
             ->groupBy('id_kecamatan')
             ->paginate(request('per_page', 7))
@@ -26,9 +26,11 @@ class Kecamatan extends Controller
 
     public function detail($id): View
     {
+        $desa = DesaModel::where('id_kecamatan', $id)->select('nama_desa', 'kode_wilayah')->get();
         $kecamatan = KecamatanModel::find($id);
 
         return view('pages.admin.detail-kecamatan', [
+            'desa'      => $desa,
             'kecamatan' => $kecamatan->nama_kecamatan,
         ]);
     }

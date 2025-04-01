@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('cari-kepala-keluarga');
     const table = document.getElementById('table-body');
 
+    if (!search) return console.warn("No element with ID 'search' found in the DOM.");
+
     search.addEventListener('click', () => {
         container.classList.add('flex');
         container.classList.remove('hidden');

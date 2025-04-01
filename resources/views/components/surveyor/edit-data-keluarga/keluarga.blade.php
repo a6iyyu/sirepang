@@ -1,8 +1,8 @@
-<h3 class="mb-6 cursor-default font-bold text-3xl text-[#2c5e4f]">
+<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">
     Edit Data Keluarga {{ $keluarga->nama_kepala_keluarga }}
 </h3>
 @if ($errors->any())
-    <ul class="my-5 p-4 rounded-lg bg-red-50 border border-red-500 list-disc list-inside text-sm text-red-500">
+    <ul class="my-5 list-inside list-disc rounded-lg border border-red-500 bg-red-50 p-4 text-sm text-red-500">
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
@@ -16,7 +16,7 @@
     :value="old('nama_kepala_keluarga', $keluarga->nama_kepala_keluarga)"
     required
 />
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-select
         class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
         label="Desa"
@@ -34,7 +34,7 @@
         required
     />
 </section>
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-input
         name="jumlah_keluarga"
         label="Jumlah Anggota"
@@ -62,7 +62,7 @@
         :selected="old('rentang_pengeluaran', $keluarga->rentang_pengeluaran)"
     />
 </section>
-<section class="mt-6 space-y-6 flex flex-col justify-between lg:space-x-6 lg:space-y-0 lg:flex-row">
+<section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-radio
         name="is_hamil"
         label="Apakah Ada Ibu Hamil?"

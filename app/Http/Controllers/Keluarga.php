@@ -165,22 +165,16 @@ class Keluarga extends Controller
             $gambar = KeluargaModel::find($id)->gambar;
             $keluarga = KeluargaModel::with('desa')->find($id);
             $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
-            $all_nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')
+            $rentang_uang = $this->rentang_uang();
+            $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
+            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')
                 ->get()
-                ->mapWithKeys(fn($item) => [
-                    $item->id_pangan => [
-                        'nama_pangan' => $item->nama_pangan,
-                        'id_takaran' => $item->id_takaran
-                    ]
-                ])->toArray();
+                ->mapWithKeys(fn($item) => [$item->id_pangan => ['nama_pangan' => $item->nama_pangan, 'id_takaran' => $item->id_takaran]])
+                ->toArray();
 
-            $all_takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
             $pangan = [
                 'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [
-                    $item->id_pangan => [
-                        'nama_pangan' => $item->pangan->nama_pangan ?? 'Tidak ditemukan',
-                        'id_takaran' => $item->pangan->id_takaran ?? null
-                    ]
+                    $item->id_pangan => ['nama_pangan' => $item->pangan->nama_pangan ?? 'Tidak ditemukan', 'id_takaran' => $item->pangan->id_takaran ?? null]
                 ])->toArray(),
                 'takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
                     $item->id_pangan => $item->pangan->takaran->nama_takaran ?? 'Takaran tidak ditemukan'
@@ -189,19 +183,18 @@ class Keluarga extends Controller
                     $item->id_pangan => $item->urt
                 ])->toArray(),
             ];
-            $rentang_uang = $this->rentang_uang();
 
             return view('pages.surveyor.edit', [
-                'desa'            => $desa,
-                'detail_pangan'   => $detail_pangan,
-                'gambar'          => $gambar,
-                'keluarga'        => $keluarga,
-                'all_nama_pangan' => $all_nama_pangan,
-                'all_takaran'     => $all_takaran,
-                'nama_pangan'     => $pangan['nama_pangan'],
-                'takaran'         => $pangan['takaran'],
-                'jumlah_takaran'  => $pangan['jumlah_takaran'],
-                'rentang_uang'    => $rentang_uang,
+                'desa'              => $desa,
+                'detail_pangan'     => $detail_pangan,
+                'gambar'            => $gambar,
+                'keluarga'          => $keluarga,
+                'semua_nama_pangan'   => $nama_pangan,
+                'semua_takaran'       => $takaran,
+                'nama_pangan'       => $pangan['nama_pangan'],
+                'takaran'           => $pangan['takaran'],
+                'jumlah_takaran'    => $pangan['jumlah_takaran'],
+                'rentang_uang'      => $rentang_uang,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
@@ -214,37 +207,29 @@ class Keluarga extends Controller
         try {
             $keluarga = KeluargaModel::findOrFail($id);
 
-            // Validate and update KeluargaModel
-            $keluargaData = $request->validate([
-                'nama_kepala_keluarga' => 'required|string|max:255',
-                'id_desa'              => 'required|string|max:255',
-                'alamat'               => 'required|string|max:255',
-                'jumlah_keluarga'      => 'required|integer|min:1|max:50',
-                'range_pendapatan'     => 'required|string|max:255',
-                'range_pengeluaran'    => 'required|string|max:255',
-                'is_hamil'             => 'required|in:Ya,Tidak',
-                'is_menyusui'          => 'required|in:Ya,Tidak',
-                'is_balita'            => 'required|in:Ya,Tidak',
+            $edit_keluarga = $request->validate([
+                'nama_kepala_keluarga'  => 'required|string|max:255',
+                'id_desa'               => 'required|string|max:255',
+                'alamat'                => 'required|string|max:255',
+                'jumlah_keluarga'       => 'required|integer|min:1|max:50',
+                'range_pendapatan'      => 'required|string|max:255',
+                'range_pengeluaran'     => 'required|string|max:255',
+                'is_hamil'              => 'required|in:Ya,Tidak',
+                'is_menyusui'           => 'required|in:Ya,Tidak',
+                'is_balita'             => 'required|in:Ya,Tidak',
             ]);
 
-            if ($request->hasFile('gambar')) {
-                $keluargaData['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-            }
+            if ($request->hasFile('gambar')) $edit_keluarga['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            $keluarga->update($edit_keluarga);
 
-            $keluarga->update($keluargaData);
+            $pangan = $request->input('detail_pangan_keluarga', []);
+            if (!empty($pangan)) { PanganKeluargaModel::where('id_keluarga', $id)->delete();
 
-            // Handle PanganKeluargaModel updates
-            $panganData = $request->input('detail_pangan_keluarga', []);
-            if (!empty($panganData)) {
-                // Delete existing records for this family to avoid duplicates
-                PanganKeluargaModel::where('id_keluarga', $id)->delete();
-
-                // Insert new records
-                foreach ($panganData as $item) {
+                foreach ($pangan as $item) {
                     PanganKeluargaModel::create([
-                        'id_keluarga' => $id,
-                        'id_pangan'   => $item['nama_pangan'],
-                        'urt'         => $item['jumlah_urt'],
+                        'id_keluarga'   => $id,
+                        'id_pangan'     => $item['nama_pangan'],
+                        'urt'           => $item['jumlah_urt'],
                     ]);
                 }
             }
@@ -259,9 +244,10 @@ class Keluarga extends Controller
     public function delete($id): RedirectResponse
     {
         try {
+            $keluarga = KeluargaModel::findOrFail($id);
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
             KeluargaModel::where('id_keluarga', $id)->firstOrFail()->delete();
-            return redirect()->route('keluarga')->with('success', 'Data keluarga berhasil dihapus!');
+            return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
         } catch (ModelNotFoundException $exception) {
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         } catch (Exception $exception) {
@@ -280,17 +266,17 @@ class Keluarga extends Controller
         return DesaModel::where('id_kecamatan', $id_kecamatan)->select('id_desa', 'nama_desa', 'kode_wilayah')->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();
     }
 
-    private function detail_pangan($id_keluarga)
+    private function detail_pangan($id_keluarga): array
     {
         $pangan_keluarga = PanganKeluargaModel::with('pangan')->where('id_keluarga', $id_keluarga)->select('id_pangan', 'id_keluarga', 'urt')->get();
 
         $hasil = [];
         foreach ($pangan_keluarga as $data) {
             $hasil[] = [
-                'id_pangan' => $data->id_pangan,
-                'id_keluarga' => $data->id_keluarga,
-                'urt' => $data->urt,
-                'pangan_nama' => $data->pangan->nama_pangan ?? 'Tidak ditemukan'
+                'id_pangan'     => $data->id_pangan,
+                'id_keluarga'   => $data->id_keluarga,
+                'urt'           => $data->urt,
+                'pangan_nama'   => $data->pangan->nama_pangan ?? 'Tidak ditemukan'
             ];
         }
 

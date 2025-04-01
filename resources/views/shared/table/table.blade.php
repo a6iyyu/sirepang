@@ -29,4 +29,6 @@
         </tbody>
     </table>
 </section>
-{{ $data }}
+@if (isset($data) && !$data->isEmpty())
+    {{ $data }}
+@endif

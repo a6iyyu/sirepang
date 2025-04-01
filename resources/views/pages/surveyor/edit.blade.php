@@ -5,26 +5,27 @@
 @endsection
 
 @section('deskripsi')
+    
 @endsection
 
 @section('konten')
     <main
-        class="min-h-screen h-full p-10 bg-center bg-cover bg-no-repeat transition-all duration-300 ease-in-out lg:pl-88"
+        class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
         <form action="{{ route('keluarga.perbarui', ['id' => $keluarga->id_keluarga]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             @include('components.surveyor.edit-data-keluarga.keluarga')
-            <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
+            <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
             @include('components.surveyor.edit-data-keluarga.dokumentasi')
-            <hr class="my-6 h-0.25 bg-green-dark text-transparent" />
+            <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
             @include('components.surveyor.edit-data-keluarga.pangan')
             <section class="flex justify-end">
                 <button
                     type="submit"
                     id="submit-form"
-                    class="mt-6 flex items-center cursor-pointer h-fit rounded-lg px-5 py-3 transition-all transform duration-300 ease-in-out bg-[#2c5e4f] text-white lg:hover:bg-green-700"
+                    class="mt-6 flex h-fit transform cursor-pointer items-center rounded-lg bg-[#2c5e4f] px-5 py-3 text-white transition-all duration-300 ease-in-out lg:hover:bg-green-700"
                 >
                     <i class="fa-solid fa-paper-plane"></i>
                     &emsp;Kirim
@@ -33,3 +34,18 @@
         </form>
     </main>
 @endsection
+
+@push('skrip')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formulir = document.querySelector('form');
+            const tombol_kirim = document.getElementById('submit-form');
+
+            formulir.addEventListener('submit', () => {
+                if (window.daftar_pangan.length === 0) return alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
+                tombol_kirim.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Memperbarui...`;
+                tombol_kirim.disabled = true;
+            });
+        });
+    </script>
+@endpush
