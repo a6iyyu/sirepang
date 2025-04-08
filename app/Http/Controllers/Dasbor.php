@@ -57,4 +57,6 @@ class Dasbor extends Controller
         if ($data->isEmpty()) return redirect()->back()->withInput()->with('message', 'Data tidak ditemukan!');
         return response()->json($data);
     }
+
+    public function chart() {}
 }
