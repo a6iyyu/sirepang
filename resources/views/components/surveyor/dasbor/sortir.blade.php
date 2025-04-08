@@ -1,4 +1,7 @@
-<section id="sort-container" class="bg-green-medium mt-8 flex items-center justify-between gap-10 overflow-x-auto rounded-xl px-6 py-5 whitespace-nowrap">
+<section
+    id="sort-container"
+    class="bg-green-medium mt-8 flex items-center justify-between gap-10 overflow-x-auto rounded-xl px-6 py-5 whitespace-nowrap"
+>
     <h3 class="inline cursor-default font-bold text-white lg:text-xl">Riwayat Data Keluarga</h3>
     <i id="search-icon" class="fa-solid fa-search text-green-medium cursor-pointer rounded-lg bg-white p-2"></i>
     <span id="search-container" class="relative hidden items-center">

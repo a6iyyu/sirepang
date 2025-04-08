@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Keluarga as KeluargaModel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 
 class Dasbor extends Controller
@@ -17,17 +19,13 @@ class Dasbor extends Controller
         $user = Auth::user();
         $data = KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->paginate(request()->input('per_page', 10));
         $data->through(fn($item) => (object) [
-            'id'    => $item->id_keluarga,
-            'nama'  => $item->nama_kepala_keluarga,
-            'desa'  => $item->desa->nama_desa,
+            'id' => $item->id_keluarga,
+            'nama' => $item->nama_kepala_keluarga,
+            'desa' => $item->desa->nama_desa,
         ])->links();
-        $tahun_tombol = KeluargaModel::selectRaw('DISTINCT YEAR(created_date) as tahun')
-            ->orderBy('tahun', 'desc')
-            ->pluck('tahun');
 
+        $tahun = KeluargaModel::selectRaw('DISTINCT YEAR(created_date) as tahun')->orderBy('tahun', 'desc')->pluck('tahun');
         $kecamatan = $this->filter_per_tahun(2025); //ganti parameter ya ntar
-        // dd($kecamatan);
-
 
         if (!$user) return redirect()->route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');
@@ -37,9 +35,9 @@ class Dasbor extends Controller
                 'jumlah_desa'       => KeluargaModel::distinct('id_desa')->count('id_desa'),
                 'jumlah_kecamatan'  => KeluargaModel::distinct('id_kecamatan')->count('id_kecamatan'),
                 'jumlah_keluarga'   => KeluargaModel::count(),
-                'tahun'             => $tahun_tombol,
-                'kecamatan'         => $kecamatan,//ntar hapus
-                'chart_data'        => $kecamatan->map(fn($item) => [
+                'tahun'             => $tahun,
+                'kecamatan'         => $kecamatan, //ntar hapus
+                'data_grafik'       => $kecamatan->map(fn($item) => [
                     'x' => $item->nama_kecamatan,
                     'y' => 10, //sementara statis
                 ]),
@@ -53,7 +51,7 @@ class Dasbor extends Controller
         };
     }
 
-    public function filter_per_tahun($tahun)
+    public function filter_per_tahun($tahun): Collection
     {
         return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
             ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan')
@@ -70,13 +68,15 @@ class Dasbor extends Controller
             ->get()
             ->map(fn($item) => [
                 'id'        => $item->id_keluarga,
-                'nama'      => $item->nama_kepala_keluarga,
                 'desa'      => $item->desa->nama_desa,
                 'detail'    => route('keluarga.detail', $item->id_keluarga),
+                'edit'      => route('keluarga.edit', $item->id_keluarga),
                 'hapus'     => route('keluarga.hapus', $item->id_keluarga),
+                'nama'      => $item->nama_kepala_keluarga,
+                'status'    => $item->status,
             ]);
 
-        if ($data->isEmpty()) return redirect()->back()->withInput()->with('message', 'Data tidak ditemukan!');
+        if ($data->isEmpty()) return Response::json([], 200);
         return response()->json($data);
     }
 

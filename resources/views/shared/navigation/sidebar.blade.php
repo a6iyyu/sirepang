@@ -1,7 +1,7 @@
 <aside class="bg-green-dark fixed z-30 hidden h-full flex-col space-y-4 rounded-r-2xl p-6 shadow-2xl transition-all duration-300 ease-in-out lg:flex">
     <section class="flex space-x-8">
         <div class="flex cursor-default items-center space-x-4">
-            <img src="{{ asset('img/logo.webp') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
+            <img src="{{ asset('logo.webp') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
             <span id="sidebar-menu">
                 <h5 class="text-xl font-bold tracking-tight text-white">SIREPANG</h5>
                 <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>

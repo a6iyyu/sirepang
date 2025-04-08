@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->integer('id_kader')->index('fk_keluarga_kader1_idx');
             $table->integer('rentang_pendapatan')->nullable()->index('fk_rentang_pendapatan');
             $table->integer('rentang_pengeluaran')->nullable()->index('fk_rentang_pengeluaran');
-            $table->enum('status', ['BELUM TERVERIFIKASI', 'TERVERIFIKASI'])->default('BELUM TERVERIFIKASI');
+            $table->enum('status', ['MENUNGGU', 'DITERIMA', 'DITOLAK'])->default('MENUNGGU');
             $table->dateTime('created_date')->useCurrent()->useCurrentOnUpdate();
             $table->primary(['id_keluarga']);
         });

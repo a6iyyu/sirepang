@@ -11,7 +11,7 @@
 @section('konten')
     <main
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
-        style="background: url({{ asset('img/latar-belakang.svg') }})"
+        style="background: url({{ asset('latar-belakang.svg') }})"
     >
         <form action="{{ route('keluarga.tambah') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -37,15 +37,43 @@
 @push('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const formulir = document.querySelector('form');
-            const tombol_kirim = document.getElementById('submit-form');
             const data_pangan_tersembunyi = document.getElementById('data-pangan-tersembunyi');
+            const formulir = document.querySelector('form');
             const gambar = document.querySelector('input[type="file"]');
+            const tombol_kirim = document.getElementById('submit-form');
+            let sudah_diisi = false;
 
-            formulir.addEventListener('submit', async (e) => {
+            formulir.addEventListener("input", () => sudah_diisi = true);
+
+            window.addEventListener("beforeunload", (e) => {
+                if (sudah_diisi) {
+                    e.preventDefault();
+                    e.returnValue = "";
+                }
+            });
+
+            formulir.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                if (window.daftar_pangan.length === 0) return alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
-                if (!gambar.files.length) return alert('Harap unggah gambar sebelum mengirimkan formulir!');
+
+                const masukan = formulir.querySelectorAll('input:not([type="file"]):not([type="hidden"]), select, textarea');
+                for (let isian of masukan) {
+                    if (!isian.value.trim()) {
+                        alert("Anda harus melengkapi formulir sebelum mengirimkan!");
+                        return;
+                    }
+                }
+
+                if (window.daftar_pangan.length === 0) {
+                    alert('Harap tambahkan setidaknya satu item pangan ke dalam tabel sebelum mengirimkan formulir!');
+                    return;
+                }
+
+                if (!gambar.files.length) {
+                    alert('Harap unggah gambar sebelum mengirimkan formulir!');
+                    return;
+                }
+
+                sudah_diisi = false;
 
                 tombol_kirim.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...`;
                 tombol_kirim.disabled = true;

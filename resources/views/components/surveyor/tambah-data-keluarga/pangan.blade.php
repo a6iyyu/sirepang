@@ -1,4 +1,4 @@
-<div class="w-full relative overflow-x-scroll rounded shadow-lg">
+<div class="relative w-full overflow-x-scroll rounded shadow-lg">
     <table class="w-full min-w-[600px] table-auto border-collapse bg-transparent">
         <thead>
             <tr class="bg-green-dark">
