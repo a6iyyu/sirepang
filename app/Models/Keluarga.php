@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,9 @@ class Keluarga extends Model
     protected $table = 'keluarga';
     protected $primaryKey = 'id_keluarga';
     protected $guarded = ['id_keluarga'];
+    protected $casts = [
+        'status' => Status::class
+    ];
     public $timestamps = false;
 
     public function desa(): BelongsTo
