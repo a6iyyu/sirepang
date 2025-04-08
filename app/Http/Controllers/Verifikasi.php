@@ -7,8 +7,9 @@ use Illuminate\View\View;
 
 class Verifikasi extends Controller
 {
-    public function index(): View
-    {
-        return view('pages.admin.verifikasi-data');
-    }
+    public function approved() {}
+
+    public function detail() {}
+
+    public function rejected() {}
 }

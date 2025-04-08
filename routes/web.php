@@ -28,12 +28,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
-        Route::get('/verifikasi-data', [Verifikasi::class, 'index'])->name('verifikasi-data');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
-
+        
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
+        });
+        
+        Route::prefix('verifikasi-data')->group(function () {
+            Route::get('/', fn() => view('pages.admin.verifikasi-data'))->name('verifikasi-data');
+            Route::get('/detail', [Verifikasi::class, 'detail'])->name('verifikasi.detail');
+            Route::post('/disetujui', [Verifikasi::class, 'approved'])->name('verifikasi.disetujui');
+            Route::post('/ditolak', [Verifikasi::class, 'rejected'])->name('verifikasi.ditolak');
         });
     });
 

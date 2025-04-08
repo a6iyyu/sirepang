@@ -1,4 +1,4 @@
-<section x-data="{ open: true }" class="cursor-default overflow-hidden rounded-xl border-0 shadow-xl">
+<section x-data="{ open: true }" class="cursor-default mt-6 overflow-hidden rounded-xl border-0 shadow-xl">
     <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5">
         <h4 class="mb-0 text-xl font-bold text-white">Data Keluarga</h4>
         <button @click="open = !open" class="text-xl text-white">

@@ -18,7 +18,6 @@
 />
 <section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">
     <x-select
-        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
         label="Desa"
         name="id_desa"
         :options="$desa"
@@ -46,7 +45,6 @@
         required
     />
     <x-select
-        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
         label="Pendapatan Keluarga"
         name="range_pendapatan"
         :options="$rentang_uang"
@@ -54,7 +52,6 @@
         :selected="old('rentang_pendapatan', $keluarga->rentang_pendapatan)"
     />
     <x-select
-        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
         label="Pengeluaran Keluarga"
         name="range_pengeluaran"
         :options="$rentang_uang"
