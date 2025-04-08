@@ -14,6 +14,7 @@ class Keluarga extends Model
     protected $table = 'keluarga';
     protected $primaryKey = 'id_keluarga';
     protected $guarded = ['id_keluarga'];
+    protected $fillable = ['created_date'];
     public $timestamps = false;
 
     public function desa(): BelongsTo

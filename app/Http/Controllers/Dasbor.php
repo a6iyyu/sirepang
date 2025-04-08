@@ -21,6 +21,13 @@ class Dasbor extends Controller
             'nama'  => $item->nama_kepala_keluarga,
             'desa'  => $item->desa->nama_desa,
         ])->links();
+        $tahun_tombol = KeluargaModel::selectRaw('DISTINCT YEAR(created_date) as tahun')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        $kecamatan = $this->filter_per_tahun(2025); //ganti parameter ya ntar
+        // dd($kecamatan);
+
 
         if (!$user) return redirect()->route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');
@@ -30,6 +37,12 @@ class Dasbor extends Controller
                 'jumlah_desa'       => KeluargaModel::distinct('id_desa')->count('id_desa'),
                 'jumlah_kecamatan'  => KeluargaModel::distinct('id_kecamatan')->count('id_kecamatan'),
                 'jumlah_keluarga'   => KeluargaModel::count(),
+                'tahun'             => $tahun_tombol,
+                'kecamatan'         => $kecamatan,//ntar hapus
+                'chart_data'        => $kecamatan->map(fn($item) => [
+                    'x' => $item->nama_kecamatan,
+                    'y' => 10, //sementara statis
+                ]),
             ]),
             'kader' => view('pages.surveyor.dasbor', [
                 'data'              => $data,
@@ -38,6 +51,15 @@ class Dasbor extends Controller
             ]),
             default => abort(403),
         };
+    }
+
+    public function filter_per_tahun($tahun)
+    {
+        return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
+            ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan')
+            ->whereYear('keluarga.created_date', $tahun)
+            ->groupBy('kecamatan.id_kecamatan', 'kecamatan.nama_kecamatan')
+            ->get();
     }
 
     public function search(Request $request): JsonResponse|RedirectResponse

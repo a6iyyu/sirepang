@@ -29,12 +29,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
-        
+
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
         });
-        
+
         Route::prefix('verifikasi-data')->group(function () {
             Route::get('/', [Verifikasi::class, 'index'])->name('verifikasi-data');
             Route::get('/detail/{id}', [Verifikasi::class, 'detail'])->name('verifikasi.detail');

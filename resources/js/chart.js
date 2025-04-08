@@ -4,15 +4,7 @@ export const Options = {
         {
             name: "2025",
             color: "#f4f1e8",
-            data: [
-                { x: "Pakis", y: 231 },
-                { x: "Singosari", y: 122 },
-                { x: "Kepanjen", y: 63 },
-                { x: "Lawang", y: 421 },
-                { x: "Dau", y: 122 },
-                { x: "Pakisaji", y: 323 },
-                { x: "Pasir", y: 111 },
-            ],
+            data: window.chartData ?? [], // <-- ambil dari backend
         },
     ],
     chart: {
