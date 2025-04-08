@@ -12,7 +12,10 @@
         style="background: url({{ asset('img/latar-belakang.svg') }})">
         <section>
             <p></p>
-            @dd($data)
+            {{-- @dd($data) --}}
+            @foreach ($data as $item)
+                <a class="text-blue-400" href="{{route('verifikasi.detail', ['id'=> $item->id])}}">{{$item->nama}}</a>
+            @endforeach
         </section>
     </main>
 @endsection
