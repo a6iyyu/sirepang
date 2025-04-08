@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             Kader::class,
             RentangUang::class,
             Users::class,
+            Keluarga::class
         ]);
     }
 }

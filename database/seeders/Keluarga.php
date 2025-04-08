@@ -21,8 +21,8 @@ class Keluarga extends Seeder
                 'id_kader' => rand(1, 5),
                 'rentang_pendapatan' => rand(1, 4),
                 'rentang_pengeluaran' => rand(1, 4),
-                'status' => 'BELUM TERVERIFIKASI', // atau kamu bisa gunakan enum Status jika ada enum class
-                'nama_kepala_keluarga' => rand(1, 100),
+                'status' => 'MENUNGGU', // atau kamu bisa gunakan enum Status jika ada enum class
+                'nama_kepala_keluarga' => "BAPAK" . rand(1, 100),
                 'jumlah_keluarga' => rand(1, 5),
                 'alamat' => 'Mekarsari',
                 'gambar' => 'jfbnhsdbfushaifbua'
