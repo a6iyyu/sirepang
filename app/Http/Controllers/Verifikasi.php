@@ -22,7 +22,7 @@ class Verifikasi extends Controller
         try {
             // $kader = Auth::user()->kader->id_kader;
             // $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', default: 10));
-            $data = KeluargaModel::paginate(request()->input('per_page', default: 10));
+            $data = KeluargaModel::where('status', Status::BELUM_TERVERIFIKASI)->paginate(request()->input('per_page', default: 10));
             $data->through(fn($item) => (object) [
                 'id'   => $item->id_keluarga,
                 'nama' => $item->nama_kepala_keluarga,

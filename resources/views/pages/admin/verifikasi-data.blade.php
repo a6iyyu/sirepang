@@ -14,7 +14,10 @@
             <p></p>
             {{-- @dd($data) --}}
             @foreach ($data as $item)
-                <a class="text-blue-400" href="{{route('verifikasi.detail', ['id'=> $item->id])}}">{{$item->nama}}</a>
+                <p>
+                    <a class="text-blue-400" href="{{route('verifikasi.detail', ['id'=> $item->id])}}">{{$item->nama}}</a>
+                </p>
+
             @endforeach
         </section>
     </main>
