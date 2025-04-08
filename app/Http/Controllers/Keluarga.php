@@ -28,15 +28,15 @@ class Keluarga extends Controller
             $kader = Auth::user()->kader->id_kader;
             $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', default: 10));
             $data->through(fn($item) => (object) [
-                'id'   => $item->id_keluarga,
-                'nama' => $item->nama_kepala_keluarga,
-                'desa' => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
+                'id'     => $item->id_keluarga,
+                'nama'   => $item->nama_kepala_keluarga,
+                'desa'   => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
+                'status' => $item->status,
             ]);
 
             return view('pages.surveyor.keluarga', [
-                'data' => $data,
-                'keluarga' => isset($id) ? KeluargaModel::with('desa')->findOrFail($id) : null,
-                'name' => Auth::user()->name ?? 'Guest', // Ensure $name is passed to the view
+                'data'      => $data,
+                'keluarga'  => isset($id) ? KeluargaModel::with('desa')->findOrFail($id) : null,
             ]);
         } catch (Exception $exception) {
             Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());

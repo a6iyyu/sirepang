@@ -6,7 +6,6 @@ import "select2";
 import "select2/dist/css/select2.min.css";
 import "./bootstrap";
 import "./hamburger-menu";
-import "./search";
 import "./sidebar";
 import "./sorting";
 
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Success Message
     const success = document.getElementById("success");
-    success ? setTimeout(() => success.style.display = "none", 3000) : null;
+    success ? setTimeout(() => (success.style.display = "none"), 3000) : null;
 
     // Chart
     if (document.getElementById("column-chart") && typeof ApexCharts !== "undefined") {
