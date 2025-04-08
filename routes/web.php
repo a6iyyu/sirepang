@@ -15,7 +15,6 @@ Route::middleware('guest')->group(function (): void {
     Route::get('/masuk', fn() => view('pages.auth.masuk'))->name('masuk');
     Route::post('/masuk', [Autentikasi::class, 'login'])->name('login');
 });
-
 Route::middleware('auth')->group(function () {
     Route::get('/', fn(): RedirectResponse => match (Auth::user()->tipe) {
         'admin' => redirect()->route('admin'),
@@ -29,17 +28,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
-        
+
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
         });
-        
+
         Route::prefix('verifikasi-data')->group(function () {
-            Route::get('/', fn() => view('pages.admin.verifikasi-data'))->name('verifikasi-data');
+            Route::get('/', [Verifikasi::class, 'index'])->name('verifikasi-data');
             Route::get('/detail', [Verifikasi::class, 'detail'])->name('verifikasi.detail');
-            Route::post('/disetujui', [Verifikasi::class, 'approved'])->name('verifikasi.disetujui');
-            Route::post('/ditolak', [Verifikasi::class, 'rejected'])->name('verifikasi.ditolak');
+            Route::post('/setujui', [Verifikasi::class, 'approve'])->name('verifikasi.setujui');
+            Route::post('/tolak', [Verifikasi::class, 'reject'])->name('verifikasi.tolak');
         });
     });
 
