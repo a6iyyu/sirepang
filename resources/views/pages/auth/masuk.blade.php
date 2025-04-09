@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    Selamat datang!
+    Masuk ke SIREPANG untuk mulai pantau dan catat data pangan keluarga di Kabupaten Malang dengan mudah dan cepat.
 @endsection
 
 @section('konten')

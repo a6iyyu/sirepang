@@ -9,6 +9,7 @@ use App\Models\Pangan;
 use App\Models\PanganKeluarga;
 use App\Models\RentangUang;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,17 +17,15 @@ use Illuminate\View\View;
 
 class Verifikasi extends Controller
 {
-    public function index()
+    public function index(): RedirectResponse|View
     {
         try {
-            // $kader = Auth::user()->kader->id_kader;
-            // $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', default: 10));
             $data = KeluargaModel::where('status', Status::MENUNGGU)->paginate(request()->input('per_page', default: 10));
             $data->through(fn($item) => (object) [
-                'id'   => $item->id_keluarga,
-                'nama' => $item->nama_kepala_keluarga,
-                'desa' => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
-                'kader' => $item->kader->nama,
+                'id'     => $item->id_keluarga,
+                'nama'   => $item->nama_kepala_keluarga,
+                'desa'   => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
+                'kader'  => $item->kader->nama,
                 'status' => $item->status
             ]);
 
@@ -59,7 +58,7 @@ class Verifikasi extends Controller
                 ];
             });
 
-            return view('pages.admin.verifikasi.detail', [
+            return view('pages.admin.detail-verifikasi-data', [
                 'keluarga'      => $keluarga,
                 'pangan_detail' => $pangan_detail,
                 'pendapatan'    => $pendapatan,
@@ -71,14 +70,14 @@ class Verifikasi extends Controller
         }
     }
 
-    public function approve(Request $request)
+    public function approve(Request $request): JsonResponse
     {
         $keluarga = KeluargaModel::find($request->id);
         $keluarga->status = Status::DITERIMA;
         $keluarga->save();
         return response()->json(['redirect' => route('verifikasi-data')]);
     }
-    public function reject(Request $request)
+    public function reject(Request $request): JsonResponse
     {
         $keluarga = KeluargaModel::find($request->id);
         $keluarga->status = Status::DITOLAK;

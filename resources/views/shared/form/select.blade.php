@@ -25,7 +25,7 @@
             <button
                 type="button"
                 class="select-selected flex w-full cursor-pointer items-center justify-between rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 text-left"
-                onclick="toggleDropdown('{{ $name }}')"
+                onclick="toggle_dropdown('{{ $name }}', event)"
             >
                 <span class="selected-text max-w-[210px] truncate">
                     @if (old($name, $selected ?? '') && is_array($options))
@@ -46,9 +46,9 @@
                         type="text"
                         class="search-input w-full rounded-md border border-gray-300 px-4 py-2 focus:border-gray-500 focus:outline-none"
                         placeholder="Cari..."
-                        oninput="filterOptions('{{ $name }}')"
+                        oninput="filter_options('{{ $name }}', event)"
                     />
-                    <i class="fa-solid fa-search absolute top-3 right-3 text-gray-400"></i>
+                    <i class="fa-solid fa-search absolute top-3 right-6 translate-y-1/2 text-gray-400"></i>
                 </li>
                 @if (is_array($options))
                     @foreach ($options as $optionValue => $optionLabel)
@@ -57,7 +57,7 @@
                             class="option-item {{ old($name, $selected ?? '') == $optionValue ? 'bg-gray-100' : '' }} cursor-pointer px-4 py-3 hover:bg-gray-100"
                             data-value="{{ $optionValue }}"
                             data-label="{{ $optionLabel }}"
-                            onclick="selectOption('{{ $name }}', '{{ $optionValue }}', this.getAttribute('data-label'))"
+                            onclick="select_option('{{ $name }}', '{{ $optionValue }}', this.getAttribute('data-label'))"
                         >
                             {{ $optionLabel }}
                         </li>
@@ -79,38 +79,5 @@
                 });
             });
         }
-
-        const toggleDropdown = (name) => {
-            const dropdown = document.getElementById(`dropdown-${name}`);
-            dropdown.classList.toggle('hidden');
-            event.stopPropagation();
-        };
-
-        const filterOptions = (name) => {
-            const input = event.target;
-            const filter = input.value.toLowerCase();
-            const dropdown = document.getElementById(`dropdown-${name}`);
-            const options = dropdown.querySelectorAll('.option-item');
-
-            options.forEach((option) => {
-                const text = option.getAttribute('data-label').toLowerCase();
-                text.indexOf(filter) > -1 ? (option.style.display = '') : (option.style.display = 'none');
-            });
-        };
-
-        const selectOption = (name, value, label) => {
-            const select = document.getElementById(name);
-            select.value = value;
-
-            const event = new Event('change', { bubbles: true });
-            select.dispatchEvent(event);
-
-            const container = select.closest('.search-select-container');
-            const displayText = container.querySelector('.selected-text');
-            displayText.textContent = label;
-
-            const dropdown = document.getElementById(`dropdown-${name}`);
-            dropdown.classList.add('hidden');
-        };
     </script>
 @endpush

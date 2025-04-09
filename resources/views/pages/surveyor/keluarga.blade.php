@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Lihat daftar keluarga yang sudah dicatat di desa. Kelola data pangan dengan efisien lewat SIREPANG.
 @endsection
 
 @section('konten')

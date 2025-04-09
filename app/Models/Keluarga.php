@@ -15,9 +15,7 @@ class Keluarga extends Model
     protected $table = 'keluarga';
     protected $primaryKey = 'id_keluarga';
     protected $guarded = ['id_keluarga'];
-    protected $casts = [
-        'status' => Status::class
-    ];
+    protected $casts = ['status' => Status::class];
     public $timestamps = false;
 
     public function desa(): BelongsTo

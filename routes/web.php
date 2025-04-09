@@ -15,6 +15,7 @@ Route::middleware('guest')->group(function (): void {
     Route::get('/masuk', fn() => view('pages.auth.masuk'))->name('masuk');
     Route::post('/masuk', [Autentikasi::class, 'login'])->name('login');
 });
+
 Route::middleware('auth')->group(function () {
     Route::get('/', fn(): RedirectResponse => match (Auth::user()->tipe) {
         'admin' => redirect()->route('admin'),

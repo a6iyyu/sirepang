@@ -48,17 +48,14 @@ class Keluarga extends Controller
     {
         $kader = User::find(Auth::user()->id_user)->kader;
         $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
-        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')
-    ->get()
-    ->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
-        'id_pangan' => $item->id_pangan,
-        'nama_pangan' => $item->nama_pangan,
-        'id_takaran' => $item->id_takaran
-    ]])
-    ->toArray();
         $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
+        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
+            'id_pangan' => $item->id_pangan,
+            'nama_pangan' => $item->nama_pangan,
+            'id_takaran' => $item->id_takaran
+        ]])->toArray();
 
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
@@ -76,6 +73,11 @@ class Keluarga extends Controller
 
     public function create(Request $request): JsonResponse
     {
+        Log::info($request->all());
+        Log::info('Headers:', $request->headers->all());
+        Log::info('Request method: ' . $request->method());
+        Log::info('Request content type: ' . $request->header('Content-Type'));
+        Log::info('Raw content: ' . $request->getContent());
         DB::beginTransaction();
         try {
             $request->validate([
@@ -174,10 +176,10 @@ class Keluarga extends Controller
             $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
             $rentang_uang = $this->rentang_uang();
             $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
-            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')
-                ->get()
-                ->mapWithKeys(fn($item) => [$item->id_pangan => ['nama_pangan' => $item->nama_pangan, 'id_takaran' => $item->id_takaran]])
-                ->toArray();
+            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')->get()->mapWithKeys(fn($item) => [$item->id_pangan => [
+                'nama_pangan' => $item->nama_pangan,
+                'id_takaran'  => $item->id_takaran
+            ]])->toArray();
 
             $pangan = [
                 'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [
@@ -196,8 +198,8 @@ class Keluarga extends Controller
                 'detail_pangan'     => $detail_pangan,
                 'gambar'            => $gambar,
                 'keluarga'          => $keluarga,
-                'semua_nama_pangan'   => $nama_pangan,
-                'semua_takaran'       => $takaran,
+                'semua_nama_pangan' => $nama_pangan,
+                'semua_takaran'     => $takaran,
                 'nama_pangan'       => $pangan['nama_pangan'],
                 'takaran'           => $pangan['takaran'],
                 'jumlah_takaran'    => $pangan['jumlah_takaran'],

@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Pantau dan kelola data pangan keluarga di desa. Bantu wujudkan ketahanan pangan di Kabupaten Malang bersama SIREPANG.
 @endsection
 
 @section('konten')

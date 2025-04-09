@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Edit data keluarga {{ $keluarga->nama_kepala_keluarga }} yang sudah tercatat. Perbarui data pangan dengan mudah.
 @endsection
 
 @section('konten')
