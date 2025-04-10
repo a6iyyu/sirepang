@@ -1,32 +1,5 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_expires.c>
-        ExpiresActive On
-        ExpiresDefault "access plus 1 month"
-        ExpiresByType text/css "access plus 1 day"
-        ExpiresByType text/javascript "access plus 1 day"
-        ExpiresByType application/javascript "access plus 1 day"
-        ExpiresByType image/png "access plus 1 week"
-        ExpiresByType image/jpeg "access plus 1 week"
-        ExpiresByType image/gif "access plus 1 week"
-    </IfModule>
-    <IfModule mod_headers.c>
-        <FilesMatch "\.(css|js|png|jpg|jpeg|gif)$">
-            Header set Cache-Control "no-store"
-            Header set Pragma "no-cache"
-            Header set Expires 0
-        </FilesMatch>
-    </IfModule>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
     RewriteEngine On
-    RewriteCond %{REQUEST_URI} ^/build/
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    RewriteCond %{HTTP:x-xsrf-token} .
-    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
