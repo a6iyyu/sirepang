@@ -21,7 +21,7 @@ class Keluarga extends Seeder
                 'nama_kepala_keluarga'  => "BAPAK" . rand(1, 100),
                 'jumlah_keluarga'       => rand(1, 5),
                 'alamat'                => 'Mekarsari',
-                'gambar'                => base64_encode(file_get_contents(public_path('favicon.ico'))),
+                'gambar'                => base64_encode(file_get_contents(public_path('img/logo.webp'))),
             ]);
         }
     }

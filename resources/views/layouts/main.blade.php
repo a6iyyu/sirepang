@@ -12,13 +12,14 @@
         <meta name="description" content="@yield('deskripsi')" />
         <meta property="og:title" content="@yield('judul') | Sirepang" />
         <meta property="og:description" content="@yield('deskripsi')" />
-        <meta property="og:image" content="{{ asset('logo.webp') }}" />
+        <meta property="og:image" content="{{ asset('img/logo.webp') }}" />
         <meta name="twitter:title" content="@yield('judul') | Sirepang" />
         <meta name="twitter:description" content="@yield('deskripsi')" />
-        <meta name="twitter:image" content="{{ asset('logo.webp') }}" />
+        <meta name="twitter:image" content="{{ asset('img/logo.webp') }}" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>@yield('judul') | Sirepang</title>
-        <link rel="icon" href="{{ asset('logo.webp') }}" />
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="icon" href="{{ asset('img/logo.webp') }}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
@@ -28,7 +29,7 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-        @vite(['resources/js/app.js', 'resources/css/app.css'])
+        @vite(['resources/css/app.css'])
     </head>
     <body class="h-full min-h-screen overflow-x-hidden bg-[#fff8eb]">
         @auth
@@ -37,5 +38,7 @@
         @endauth
         @yield('konten')
         @stack('skrip')
+        @vite(['resources/js/app.js'])
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
