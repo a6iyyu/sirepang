@@ -14,18 +14,18 @@
     <nav class="mt-2 space-y-4">
         @if (Auth::check() && Auth::user()->tipe == 'kader')
             <x-menu
-                icon="fa-solid fa-gauge-high"
-                label="Dasbor"
-                route="penyuluh"
-                sidebar="{{ true }}"
-                :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('dasbor') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+            icon="fa-solid fa-gauge-high"
+            label="Dasbor"
+            route="penyuluh"
+            sidebar="{{ true }}"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('penyuluh') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
             />
             <x-menu
-                icon="fa-solid fa-users"
-                label="Keluarga"
-                route="keluarga"
-                sidebar="{{ true }}"
-                :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('Keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
+            icon="fa-solid fa-users"
+            label="Keluarga"
+            route="keluarga"
+            sidebar="{{ true }}"
+            :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
             />
         @endif
         @if (Auth::check() && Auth::user()->tipe == 'admin')
