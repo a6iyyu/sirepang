@@ -15,7 +15,14 @@
     </div>
     <hr class="mb-8 h-1 w-full min-w-[800px] text-white" />
     <div class="w-full overflow-x-auto">
-        <div id="column-chart" class="w-fit min-w-[800px]"></div>
+        @if (count($grafik_kecamatan) > 0)
+            <div id="column-chart" class="w-fit min-w-[800px]"></div>
+        @else
+            <div class="flex flex-col items-center justify-center p-6 text-center text-white">
+                <i class="fa-solid fa-check-double mb-10 text-5xl"></i>
+                <h4 class="text-lg font-semibold">Belum ada data keluarga yang terverifikasi.</h4>
+            </div>
+        @endif
     </div>
 </section>
 

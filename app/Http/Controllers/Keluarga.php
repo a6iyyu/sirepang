@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Models\Desa as DesaModel;
 use App\Models\Keluarga as KeluargaModel;
@@ -41,7 +42,6 @@ class Keluarga extends Controller
                 'keluarga'  => isset($id) ? KeluargaModel::with('desa')->findOrFail($id) : null,
             ]);
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -76,13 +76,7 @@ class Keluarga extends Controller
 
     public function create(Request $request): JsonResponse
     {
-        Log::info($request->all());
-        Log::info('Headers:', $request->headers->all());
-        Log::info('Request method: ' . $request->method());
-        Log::info('Request content type: ' . $request->header('Content-Type'));
-        Log::info('Raw content: ' . $request->getContent());
         DB::beginTransaction();
-
         try {
             $request->validate([
                 'nama_kepala_keluarga'      => 'string|required|max:255',
@@ -133,7 +127,6 @@ class Keluarga extends Controller
             return response()->json(['redirect' => route('keluarga')]);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Kesalahan saat menyimpan data keluarga: ' . $e->getMessage());
             return response()->json(['errors' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
         }
     }
@@ -164,7 +157,6 @@ class Keluarga extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -213,7 +205,6 @@ class Keluarga extends Controller
                 'rentang_uang'      => $rentang_uang,
             ]);
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -238,6 +229,10 @@ class Keluarga extends Controller
             if ($request->hasFile('gambar')) $edit_keluarga['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
             $keluarga->update($edit_keluarga);
 
+            $keluarga->status = Status::MENUNGGU;
+            $keluarga->komentar = null;
+            $keluarga->save();
+
             $pangan = $request->input('detail_pangan_keluarga', []);
             if (!empty($pangan)) {
                 PanganKeluargaModel::where('id_keluarga', $id)->delete();
@@ -252,7 +247,6 @@ class Keluarga extends Controller
 
             return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
         } catch (Exception $exception) {
-            Log::error("Terdapat kesalahan saat memperbarui data keluarga: " . $exception->getMessage());
             return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
         }
     }
@@ -267,7 +261,6 @@ class Keluarga extends Controller
         } catch (ModelNotFoundException $exception) {
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat menghapus data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Gagal menghapus data!']);
         }
     }

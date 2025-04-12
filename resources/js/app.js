@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Chart
     if (document.getElementById("column-chart") && typeof ApexCharts !== "undefined") {
-        const chart = new ApexCharts(document.getElementById("column-chart"), Options);
+        const data = window.grafik_kecamatan ?? [];
+        const chart = new ApexCharts(document.getElementById("column-chart"), Options(data));
         chart.render();
     }
 });

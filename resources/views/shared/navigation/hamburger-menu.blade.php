@@ -67,13 +67,3 @@
         @endif
     </nav>
 </aside>
-
-<script>
-    document.getElementById('hamburger-menu').addEventListener('click', function () {
-        document.getElementById('mobile').classList.remove('-translate-x-full');
-    });
-
-    document.getElementById('mobile-close').addEventListener('click', function () {
-        document.getElementById('mobile').classList.add('-translate-x-full');
-    });
-</script>

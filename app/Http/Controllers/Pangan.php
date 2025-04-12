@@ -52,7 +52,6 @@ class Pangan extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }

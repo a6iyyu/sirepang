@@ -79,28 +79,5 @@
                 });
             });
         }
-        function toggle_dropdown(name, event) {
-            event.stopPropagation();
-            const dropdown = document.getElementById(`dropdown-${name}`);
-            dropdown.classList.toggle('hidden');
-        }
-
-        function select_option(name, value, label) {
-            const container = document.getElementById(`dropdown-${name}`).closest('.search-select-container');
-            const selectElement = container.querySelector(`select[name="${name}"]`);
-            const selectedTextElement = container.querySelector(`.select-selected .selected-text`);
-
-            // Update the hidden select element's value
-            selectElement.value = value;
-            selectedTextElement.textContent = label;
-
-            // Trigger change event for the select element
-            const event = new Event('change', { bubbles: true });
-            selectElement.dispatchEvent(event);
-
-            // Close the dropdown
-            const dropdown = document.getElementById(`dropdown-${name}`);
-            dropdown.classList.add('hidden');
-        }
     </script>
 @endpush

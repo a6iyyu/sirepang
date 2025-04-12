@@ -42,7 +42,6 @@ class Pph extends Controller
             $id_kecamatan = $request->query('id_kecamatan');
             return Excel::download(new Keluarga($tahun, $id_kecamatan), "rekap-pph-{$tahun}.xlsx");
         } catch (Exception $exception) {
-            Log::error('Terjadi kesalahan saat mengambil data: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }

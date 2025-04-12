@@ -32,10 +32,10 @@ class Dasbor extends Controller
 
         return match ($user->tipe) {
             'admin' => view('pages.admin.dasbor', [
-                'jumlah_desa'               => KeluargaModel::distinct('id_desa')->count('id_desa'),
-                'jumlah_kecamatan'          => KeluargaModel::distinct('id_kecamatan')->count('id_kecamatan'),
-                'jumlah_keluarga'           => KeluargaModel::count(),
-                'tahun'                     => $tahun,
+                'jumlah_desa'          => KeluargaModel::distinct('id_desa')->count('id_desa'),
+                'jumlah_kecamatan'     => KeluargaModel::distinct('id_kecamatan')->count('id_kecamatan'),
+                'jumlah_keluarga'      => KeluargaModel::count(),
+                'tahun'                => $tahun,
                 'grafik_kecamatan'     => $kecamatan->map(fn($item) => [
                     'x' => $item->nama_kecamatan,
                     'y' => $item->total_keluarga,

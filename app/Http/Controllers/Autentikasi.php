@@ -31,12 +31,10 @@ class Autentikasi extends Controller
                 $request->session()->regenerate();
             }
 
-            Log::warning('Upaya masuk gagal dilakukan.', ['username' => $request->username]);
             return back()->withErrors(['error' => 'Nama pengguna atau kata sandi salah.'])->withInput($request->except('password'));
         } catch (ValidationException $validation) {
             return back()->withErrors($validation->errors())->withInput($request->except('password'));
         } catch (Exception $exception) {
-            Log::error("Terjadi kesalahan: ", ['error' => $exception->getMessage()]);
             return back()->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])->withInput($request->except('password'));
         }
     }
