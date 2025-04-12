@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Lihat daftar kecamatan di Kabupaten Malang, pantau progres dan kelola data pangan per wilayah dengan mudah.
 @endsection
 
 @section('konten')

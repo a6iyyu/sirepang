@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Lihat data lengkap kecamatan {{ $kecamatan }}. Cek jumlah desa dan keluarga yang sudah didata di wilayah ini.
 @endsection
 
 @section('konten')

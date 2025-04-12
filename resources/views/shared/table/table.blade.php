@@ -17,11 +17,11 @@
         <tbody id="table-body">
             @foreach ($rows as $row)
                 <tr class="border-b transition-all duration-200">
-                    @foreach ($row as $cell)
+                    @foreach ($row as $index => $cell)
                         <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <h5 class="flex cursor-default items-center justify-center space-x-3">
+                            <section class="flex cursor-default items-center justify-center space-x-3">
                                 {!! $cell !!}
-                            </h5>
+                            </section>
                         </td>
                     @endforeach
                 </tr>

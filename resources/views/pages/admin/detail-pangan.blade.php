@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Informasi lengkap rekap pangan dari keluarga {{ $keluarga->nama_kepala_keluarga }} untuk mendukung rekapitulasi pangan desa.
 @endsection
 
 @section('konten')

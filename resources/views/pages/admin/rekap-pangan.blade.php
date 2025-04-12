@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Pantau rekap pangan dari tiap keluarga di Malang. Data ini dikumpulkan oleh kader untuk mendukung analisis pangan daerah.
 @endsection
 
 @section('konten')

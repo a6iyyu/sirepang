@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const aside_div = document.querySelector("aside > section > div");
     const aside_logo = document.querySelector("aside > section");
     const close = document.getElementById("close");
+    const footer = document.querySelector("footer");
     const logo = document.getElementById("logo");
     const main = document.querySelector("main");
     const open = document.getElementById("open");
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         aside_div.classList.remove("space-x-4");
         aside_logo.classList.remove("space-x-8");
         close.style.display = "none";
+        footer.style.paddingLeft = "8rem";
         logo.style.display = "none";
         main.style.paddingLeft = "8rem";
         open.classList.add("!lg:inline");
@@ -32,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         aside_div.classList.add("space-x-4");
         aside_logo.classList.add("space-x-8");
         close.style.display = "inline";
+        footer.style.paddingLeft = null;
         logo.style.display = "inline";
         main.style.paddingLeft = null;
         open.classList.add("!hidden");

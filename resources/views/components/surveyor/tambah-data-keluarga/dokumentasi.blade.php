@@ -5,5 +5,5 @@
         <span class="mt-2 text-[#2c5e4f]">Pilih Gambar</span>
     </label>
     <section id="image-preview" class="hidden grid-cols-1 gap-6 rounded-lg border-2 border-[#2c5e4f] p-4 lg:grid-cols-3"></section>
-    <input type="file" name="gambar" id="gambar" accept="image/*" class="hidden" onchange="preview_image(event)" />
+    <input type="file" name="gambar" id="gambar" accept="image/*" capture="environment" class="hidden" onchange="preview_image(event)" />
 </fieldset>

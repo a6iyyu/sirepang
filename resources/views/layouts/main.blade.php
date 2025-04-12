@@ -10,14 +10,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="robots" content="index" />
         <meta name="description" content="@yield('deskripsi')" />
-        <meta property="og:title" content="@yield('judul') | Sirepang" />
+        <meta property="og:title" content="@yield('judul') | SIREPANG" />
         <meta property="og:description" content="@yield('deskripsi')" />
         <meta property="og:image" content="{{ asset('img/logo.webp') }}" />
-        <meta name="twitter:title" content="@yield('judul') | Sirepang" />
+        <meta name="twitter:title" content="@yield('judul') | SIREPANG" />
         <meta name="twitter:description" content="@yield('deskripsi')" />
         <meta name="twitter:image" content="{{ asset('img/logo.webp') }}" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <title>@yield('judul') | Sirepang</title>
+        <title>@yield('judul') | SIREPANG</title>
         <link rel="icon" href="{{ asset('img/logo.webp') }}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -36,6 +36,9 @@
             @include('shared.navigation.sidebar')
         @endauth
         @yield('konten')
+        <footer class="w-full p-10 py-4 text-center text-xs text-gray-500 transition-all duration-300 ease-in-out lg:pl-88">
+            &copy; Workshop Riset Informatika - Jurusan Teknologi Informasi - Politeknik Negeri Malang @ 2025
+        </footer>
         @stack('skrip')
     </body>
 </html>

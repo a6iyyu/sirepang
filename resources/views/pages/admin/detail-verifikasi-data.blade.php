@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Lihat detail data pangan keluarga {{ $keluarga->nama_kepala_keluarga }} di desa {{ $keluarga->desa->nama_desa }}. Tinjau dan verifikasi data pangan secara menyeluruh.
 @endsection
 
 @section('konten')

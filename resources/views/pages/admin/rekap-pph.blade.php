@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Daftar rekap PPH keluarga di Kabupaten Malang. Bantu pengelolaan dan analisis ketahanan pangan melalui data yang terorganisir.
 @endsection
 
 @section('konten')

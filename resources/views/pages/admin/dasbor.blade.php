@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    
+    Pantau jumlah kecamatan, desa, dan keluarga terverifikasi di Kabupaten Malang. Dasbor admin bantu visualisasi data pangan Malang secara menyeluruh.
 @endsection
 
 @section('konten')
