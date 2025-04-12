@@ -24,16 +24,6 @@ Admin memiliki akses untuk memverifikasi dan mengelola data yang dimasukkan oleh
 - **Rekap PPH**: Admin dapat membuat laporan PPH berdasarkan tahun dan desa.
 - **Verifikasi Data**: Admin dapat memverifikasi data yang dikumpulkan oleh surveyor untuk memastikan keakuratan dan kelengkapannya.
 
-## Cara Penggunaan
-
-Untuk menggunakan SIREPANG, ikuti langkah-langkah berikut:
-
-1. **_Login_ Surveyor**  
-Surveyor harus memasukkan _username_ dan _password_ yang sesuai dengan nama kecamatan yang ditugaskan. Setiap surveyor memiliki akses berdasarkan area tugasnya.
-
-2. **Login Admin**  
-Untuk _login_, admin harus menghubungi teknisi terkait untuk mendapatkan akses.
-
 ## _Tech Stack_
 
 - **Autentikasi**: Autentikasi berbasis _username_ dan _password_
