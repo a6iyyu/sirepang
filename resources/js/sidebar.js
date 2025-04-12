@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebar_menu = document.querySelectorAll("#sidebar-menu");
     const menu_items = document.querySelectorAll("nav > a");
 
-    if (!close || !open) return;
-
     close.addEventListener("click", () => {
         aside.classList.remove("pr-6");
         aside.classList.add("pr-6");

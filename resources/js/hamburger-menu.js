@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobile_close = document.getElementById("mobile-close");
     const mobile_menu_items = document.querySelectorAll("#mobile nav > a");
 
-    if (!hamburger_menu) return;
-
     hamburger_menu.addEventListener("click", () => {
         if (mobile_sidebar.classList.contains("translate-x-0")) {
             mobile_sidebar.classList.remove("translate-x-0");
