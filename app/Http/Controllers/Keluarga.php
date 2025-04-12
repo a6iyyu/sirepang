@@ -28,10 +28,12 @@ class Keluarga extends Controller
             $kader = Auth::user()->kader->id_kader;
             $data = KeluargaModel::where('id_kader', $kader)->paginate(request()->input('per_page', default: 10));
             $data->through(fn($item) => (object) [
-                'id'     => $item->id_keluarga,
-                'nama'   => $item->nama_kepala_keluarga,
-                'desa'   => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
-                'status' => $item->status,
+                'id'        => $item->id_keluarga,
+                'nama'      => $item->nama_kepala_keluarga,
+                'desa'      => $item->desa->nama_desa . ' - ' . $item->desa->kode_wilayah,
+                'status'    => $item->status,
+                'kecamatan' => $item->kecamatan,
+                'komentar'  => $item->komentar,
             ]);
 
             return view('pages.surveyor.keluarga', [
@@ -52,10 +54,10 @@ class Keluarga extends Controller
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
         $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'gram')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
-            'id_pangan' => $item->id_pangan,
-            'nama_pangan' => $item->nama_pangan,
-            'id_takaran' => $item->id_takaran,
-            'gram' => $item->gram,
+            'id_pangan'     => $item->id_pangan,
+            'nama_pangan'   => $item->nama_pangan,
+            'id_takaran'    => $item->id_takaran,
+            'gram'          => $item->gram,
         ]])->toArray();
 
         $rentang_uang = [];
@@ -80,6 +82,7 @@ class Keluarga extends Controller
         Log::info('Request content type: ' . $request->header('Content-Type'));
         Log::info('Raw content: ' . $request->getContent());
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'nama_kepala_keluarga'      => 'string|required|max:255',
@@ -183,16 +186,16 @@ class Keluarga extends Controller
             ]])->toArray();
 
             $pangan = [
-                'nama_pangan' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                'nama_pangan' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
                     $item->id_pangan => ['nama_pangan' => $item->pangan->nama_pangan ?? 'Tidak ditemukan', 'id_takaran' => $item->pangan->id_takaran ?? null]
                 ])->toArray(),
-                'takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                'takaran' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
                     $item->id_pangan => $item->pangan->takaran->nama_takaran ?? 'Takaran tidak ditemukan'
                 ])->toArray(),
-                'jumlah_takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                'jumlah_takaran' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
                     $item->id_pangan => $item->urt
                 ])->toArray(),
-                'gram' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                'gram' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
                     $item->id_pangan => $item->gram
                 ])
             ];
@@ -236,8 +239,8 @@ class Keluarga extends Controller
             $keluarga->update($edit_keluarga);
 
             $pangan = $request->input('detail_pangan_keluarga', []);
-            if (!empty($pangan)) { PanganKeluargaModel::where('id_keluarga', $id)->delete();
-
+            if (!empty($pangan)) {
+                PanganKeluargaModel::where('id_keluarga', $id)->delete();
                 foreach ($pangan as $item) {
                     PanganKeluargaModel::create([
                         'id_keluarga'   => $id,
@@ -301,7 +304,6 @@ class Keluarga extends Controller
         $pangan = PanganModel::with('takaran')->select('id_pangan', 'id_jenis_pangan', 'nama_pangan', 'id_takaran')->get();
         $nama_pangan = $pangan->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
         $takaran = $pangan->mapWithKeys(fn($item) => [$item->id_pangan => $item->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray();
-
         return ['nama_pangan' => $nama_pangan, 'takaran' => $takaran];
     }
 

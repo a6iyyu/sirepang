@@ -4,13 +4,14 @@ export const Options = {
         {
             name: "2025",
             color: "#f4f1e8",
-            data: window.chartData ?? [], // <-- ambil dari backend
+            data: window.grafik_kecamatan ?? [],
         },
     ],
     chart: {
         type: "bar",
-        height: "320px",
         fontFamily: "plus jakarta sans, sans-serif",
+        height: "320px",
+        width: window.grafik_kecamatan.length * 80,
         toolbar: {
             show: false,
         },
@@ -61,6 +62,7 @@ export const Options = {
     xaxis: {
         floating: false,
         labels: {
+            rotate: -90,
             show: true,
             style: {
                 fontFamily: "plus jakarta sans, sans-serif",

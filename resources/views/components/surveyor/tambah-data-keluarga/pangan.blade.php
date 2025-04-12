@@ -26,7 +26,7 @@
                             placeholder="Cth. 1"
                             min="0"
                         />
-                        <span id="takaran-unit-suffix" class="text-gray-700"></span>
+                        <span id="unit-takaran" class="text-gray-700"></span>
                     </div>
                     <p id="konversi-referensi" class="mt-2 text-sm text-gray-500"></p>
                 </td>
@@ -44,21 +44,20 @@
     </table>
 </div>
 <div id="data-pangan-tersembunyi"></div>
+
 @push('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const baris_tabel_formulir_pangan = document.getElementById('baris-tabel-formulir-pangan');
             const data_pangan_tersembunyi = document.getElementById('data-pangan-tersembunyi');
             const jumlah_urt = document.getElementById('jumlah-urt');
-            const takaran_unit_suffix = document.getElementById('takaran-unit-suffix');
+            const unit_takaran = document.getElementById('unit-takaran');
             const konversi_referensi = document.getElementById('konversi-referensi');
             const pilihan_nama_pangan = document.getElementById('pilihan-nama-pangan');
             const tombol_tambah = document.getElementById('tombol-tambah');
             const nama_pangan = @json($nama_pangan);
             const takaran = @json($takaran);
             const formulir = document.getElementById('form-keluarga');
-
-            const idTakaranForReference = [3, 6, 7, 8, 9, 10, 14, 20];
 
             if (!window.daftar_pangan) window.daftar_pangan = [];
 
@@ -73,8 +72,8 @@
                 pilihan_nama_pangan.appendChild(opsi);
             });
 
-            const shortenUnit = (unit) => {
-                const unitMap = {
+            const shorten_unit = (unit) => {
+                const unit_map = {
                     "Kilogram": "kg",
                     "Ons": "ons",
                     "Butir": "butir",
@@ -97,7 +96,7 @@
                     "Porsi 5 Tusuk": "5 tusuk",
                     "200 Mililiter": "200ml",
                 };
-                return unitMap[unit] || unit;
+                return unit_map[unit] || unit;
             };
 
             pilihan_nama_pangan.addEventListener('change', () => {
@@ -106,16 +105,16 @@
                     const unit = selectedOption.dataset.takaran;
                     const idTakaran = parseInt(selectedOption.dataset.idTakaran);
                     const gram = parseFloat(selectedOption.dataset.gram);
-                    takaran_unit_suffix.textContent = `${shortenUnit(unit)}`;
+                    unit_takaran.textContent = `${shorten_unit(unit)}`;
 
-                    if (idTakaranForReference.includes(idTakaran)) {
-                        const unitShort = shortenUnit(unit);
+                    if ([3, 6, 7, 8, 9, 10, 14, 20].includes(idTakaran)) {
+                        const unitShort = shorten_unit(unit);
                         konversi_referensi.textContent = `1 ${unitShort} = ${gram.toFixed(2)} gram`;
                     } else {
                         konversi_referensi.textContent = '';
                     }
                 } else {
-                    takaran_unit_suffix.textContent = '';
+                    unit_takaran.textContent = '';
                     konversi_referensi.textContent = '';
                 }
             });
@@ -123,7 +122,7 @@
             const atur_ulang_formulir = () => {
                 pilihan_nama_pangan.selectedIndex = 0;
                 jumlah_urt.value = '';
-                takaran_unit_suffix.textContent = '';
+                unit_takaran.textContent = '';
                 konversi_referensi.textContent = '';
             };
 

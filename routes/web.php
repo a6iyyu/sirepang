@@ -38,8 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('verifikasi-data')->group(function () {
             Route::get('/', [Verifikasi::class, 'index'])->name('verifikasi-data');
             Route::get('/detail/{id}', [Verifikasi::class, 'detail'])->name('verifikasi.detail');
-            Route::post('/diterima', [Verifikasi::class, 'approve'])->name('verifikasi.diterima');
-            Route::post('/ditolak', [Verifikasi::class, 'reject'])->name('verifikasi.ditolak');
+            Route::post('/{status}', [Verifikasi::class, 'verify'])->name('verifikasi.status');
         });
     });
 

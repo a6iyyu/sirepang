@@ -11,7 +11,7 @@
 @section('konten')
     <main
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
-        style="background: url({{ asset('img/latar-belakang.svg') }})"
+        style="background: url({{ asset('latar-belakang.svg') }})"
     >
         <h1 class="text-green-dark cursor-default text-3xl font-bold">Rekap Pangan</h1>
         <h5 class="text-green-medium mt-2 mb-6 cursor-default text-base italic">

@@ -16,7 +16,7 @@
                 'DITERIMA' => 'bg-green-500 text-white',
                 default => 'bg-gray-300 text-gray-700',
             } . ' px-3 py-1 rounded-full text-sm font-semibold">' . $item->status->value . '</span>',
-            isset($item->komentar) ?? '<span class="font-semibold">-</span>',
+            $item->komentar ? view('components.surveyor.keluarga.tampilkan-komentar', ['item' => $item]) : '<span class="font-semibold">-</span>',
             view('components.surveyor.keluarga.aksi', ['item' => $item])->render(),
         ])->toArray(),
     ])
