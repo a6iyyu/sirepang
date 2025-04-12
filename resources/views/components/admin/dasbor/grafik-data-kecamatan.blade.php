@@ -5,10 +5,12 @@
             <h5 class="text-lg md:text-2xl">Data Kecamatan Per Tahun</h5>
         </span>
         <span class="relative mt-4 flex items-center space-x-4 md:mt-0">
-            <select class="cursor-pointer appearance-none rounded-lg bg-slate-50 py-2.5 pr-14 pl-4 font-semibold text-emerald-600 shadow-lg focus:ring-2 focus:ring-slate-300 focus:outline-none">
-                @foreach ($tahun as $item)
+            <select class="cursor-pointer appearance-none rounded-lg bg-slate-50 py-2.5 pr-14 pl-4 font-semibold text-emerald-600 shadow-lg focus:ring-2 focus:ring-slate-300 focus:outline-none" {{ count($tahun) === 0 ? 'disabled' : '' }}>
+                @forelse ($tahun as $item)
                     <option value="{{ $item }}" class="text-black">{{ $item }}</option>
-                @endforeach
+                @empty
+                    <option selected disabled class="text-black">—</option>
+                @endforelse
             </select>
             <i class="fa-solid fa-chevron-down pointer-events-none absolute top-1/2 right-7 -translate-y-1/2 transform text-emerald-600"></i>
         </span>

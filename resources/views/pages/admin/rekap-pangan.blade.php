@@ -17,14 +17,21 @@
         <h5 class="text-green-medium mt-2 mb-6 cursor-default text-base italic">
             Daftar rekap pangan yang diambil oleh kader tiap keluarga di Kabupaten Malang, Provinsi Jawa Timur.
         </h5>
-        @include('shared.table.table', [
-            'headers' => ['Nama Keluarga', 'Desa', 'Aksi'],
-            'sortable' => ['Nama Keluarga', 'Desa'],
-            'rows' => $data->map(fn ($item) => [
-                $item->nama,
-                $item->desa,
-                view('components.admin.rekap-pangan.aksi', ['item' => $item])->render(),
-            ])->toArray(),
-        ])
+        @if ($data->isEmpty())
+            <section class="flex flex-col items-center justify-center p-6 text-center text-slate-600">
+                <i class="fa-solid fa-circle-exclamation mb-6 text-4xl text-yellow-500"></i>
+                <h4 class="text-lg font-semibold">Belum ada data keluarga yang di data oleh kader.</h4>
+            </section>
+        @else
+            @include('shared.table.table', [
+                'headers' => ['Nama Keluarga', 'Desa', 'Aksi'],
+                'sortable' => ['Nama Keluarga', 'Desa'],
+                'rows' => $data->map(fn ($item) => [
+                    $item->nama,
+                    $item->desa,
+                    view('components.admin.rekap-pangan.aksi', ['item' => $item])->render(),
+                ])->toArray(),
+            ])
+        @endif
     </main>
 @endsection
