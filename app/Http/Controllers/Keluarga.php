@@ -51,10 +51,11 @@ class Keluarga extends Controller
         $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
-        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
+        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'gram')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
             'id_pangan' => $item->id_pangan,
             'nama_pangan' => $item->nama_pangan,
-            'id_takaran' => $item->id_takaran
+            'id_takaran' => $item->id_takaran,
+            'gram' => $item->gram,
         ]])->toArray();
 
         $rentang_uang = [];
@@ -191,6 +192,9 @@ class Keluarga extends Controller
                 'jumlah_takaran' => $pangan_keluarga->mapWithKeys(fn($item) => [
                     $item->id_pangan => $item->urt
                 ])->toArray(),
+                'gram' => $pangan_keluarga->mapWithKeys(fn($item) => [
+                    $item->id_pangan => $item->gram
+                ])
             ];
 
             return view('pages.surveyor.edit', [
