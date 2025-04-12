@@ -36,9 +36,11 @@
             @include('shared.navigation.sidebar')
         @endauth
         @yield('konten')
-        <footer class="w-full p-10 py-4 text-center text-xs text-gray-500 transition-all duration-300 ease-in-out lg:pl-88">
-            &copy; Workshop Riset Informatika - Jurusan Teknologi Informasi - Politeknik Negeri Malang @ 2025
-        </footer>
+        @auth
+            <footer class="w-full p-10 py-4 text-center text-xs text-gray-500 transition-all duration-300 ease-in-out lg:pl-88">
+                &copy; Workshop Riset Informatika - Jurusan Teknologi Informasi - Politeknik Negeri Malang @ 2025
+            </footer>
+        @endauth
         @stack('skrip')
     </body>
 </html>
