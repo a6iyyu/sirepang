@@ -34,7 +34,7 @@
         @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
             @foreach ($pangan_detail as $pangan)
                 <div class="grid grid-cols-2 p-4 text-center font-medium text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
-                    <h5 class="flex items-center justify-center">
+                    <h5 class="flex items-center justify-center border-r-2 border-emerald-700">
                         {{ $pangan->nama_pangan }}
                     </h5>
                     <h5 class="flex items-center justify-center">

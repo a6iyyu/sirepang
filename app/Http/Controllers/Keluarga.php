@@ -208,30 +208,54 @@ class Keluarga extends Controller
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
-
     public function update(Request $request, $id): RedirectResponse
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);
+
+            Log::info('Before Update - Current rentang_pendapatan:', ['value' => $keluarga->rentang_pendapatan]);
 
             $edit_keluarga = $request->validate([
                 'nama_kepala_keluarga'  => 'required|string|max:255',
                 'id_desa'               => 'required|string|max:255',
                 'alamat'                => 'required|string|max:255',
                 'jumlah_keluarga'       => 'required|integer|min:1|max:50',
-                'range_pendapatan'      => 'required|string|max:255',
-                'range_pengeluaran'     => 'required|string|max:255',
+                'range_pendapatan'      => 'required|exists:rentang_uang,id_rentang_uang',
+                'range_pengeluaran'     => 'required|exists:rentang_uang,id_rentang_uang',
                 'is_hamil'              => 'required|in:Ya,Tidak',
                 'is_menyusui'           => 'required|in:Ya,Tidak',
                 'is_balita'             => 'required|in:Ya,Tidak',
             ]);
 
-            if ($request->hasFile('gambar')) $edit_keluarga['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-            $keluarga->update($edit_keluarga);
+            Log::info('Validated Data:', $edit_keluarga);
 
-            $keluarga->status = Status::MENUNGGU;
-            $keluarga->komentar = null;
-            $keluarga->save();
+            $updated = $keluarga->withoutEvents(function () use ($keluarga, $edit_keluarga, $request) {
+                $data = [
+                    'nama_kepala_keluarga'  => $edit_keluarga['nama_kepala_keluarga'],
+                    'id_desa'               => $edit_keluarga['id_desa'],
+                    'alamat'                => $edit_keluarga['alamat'],
+                    'jumlah_keluarga'       => $edit_keluarga['jumlah_keluarga'],
+                    'rentang_pendapatan'    => (int) $edit_keluarga['range_pendapatan'],
+                    'rentang_pengeluaran'   => (int) $edit_keluarga['range_pengeluaran'],
+                    'is_hamil'              => $edit_keluarga['is_hamil'],
+                    'is_menyusui'           => $edit_keluarga['is_menyusui'],
+                    'is_balita'             => $edit_keluarga['is_balita'],
+                ];
+
+                if ($request->hasFile('gambar')) {
+                    $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+                }
+
+                return $keluarga->update($data);
+            });
+
+            Log::info('Update Result:', ['success' => $updated]);
+            Log::info('After Update - rentang_pendapatan:', ['value' => $keluarga->fresh()->rentang_pendapatan]);
+
+            $keluarga->update([
+                'status' => Status::MENUNGGU,
+                'komentar' => null,
+            ]);
 
             $pangan = $request->input('detail_pangan_keluarga', []);
             if (!empty($pangan)) {
@@ -246,8 +270,12 @@ class Keluarga extends Controller
             }
 
             return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
-        } catch (Exception $exception) {
-            return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation Error:', ['errors' => $e->errors()]);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error('Update Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
     }
 

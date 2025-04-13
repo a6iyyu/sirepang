@@ -1,32 +1,33 @@
-<div class="overflow-x-auto rounded shadow-lg">
-    <table class="w-full border-collapse bg-transparent">
+<div class="relative w-full overflow-x-scroll rounded shadow-lg">
+    <table class="w-full min-w-[600px] table-auto border-collapse bg-transparent">
         <thead>
             <tr class="bg-green-dark">
                 <th class="w-3/7 px-6 py-4 text-center font-semibold text-white">Nama Pangan</th>
-                <th class="w-3/7 px-6 py-4 text-center font-semibold text-white">
-                    Takaran URT
-                    <span id="judul-takaran-unit" class="text-lg"></span>
-                </th>
+                <th class="w-3/7 px-6 py-4 text-center font-semibold text-white">Takaran URT</th>
                 <th class="w-1/7 px-6 py-4 text-center font-semibold text-white">Aksi</th>
             </tr>
         </thead>
         <tbody>
             <tr id="baris-tabel-formulir-pangan">
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 align-top">
                     <select id="pilihan-nama-pangan" class="w-full rounded-md border-2 border-gray-700 px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none">
                         <option selected disabled>Pilih Nama Pangan</option>
                     </select>
                 </td>
-                <td class="px-6 py-4">
-                    <input
-                        type="number"
-                        id="jumlah-urt"
-                        class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
-                        placeholder="Cth. 1"
-                        min="0"
-                    />
+                <td class="px-6 py-4 align-top">
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="jumlah-urt"
+                            class="w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-2 focus:ring-gray-100 focus:outline-none"
+                            placeholder="Cth. 1"
+                            min="0"
+                        />
+                        <span id="unit-takaran" class="text-gray-700"></span>
+                    </div>
+                    <p id="konversi-referensi" class="mt-2 text-sm text-gray-500"></p>
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 align-top">
                     <button
                         type="button"
                         id="tombol-tambah"
@@ -48,10 +49,14 @@
                 baris_tabel_formulir_pangan: document.getElementById('baris-tabel-formulir-pangan'),
                 data_pangan_tersembunyi: document.getElementById('data-pangan-tersembunyi'),
                 jumlah_urt: document.getElementById('jumlah-urt'),
-                judul_takaran_unit: document.getElementById('judul-takaran-unit'),
+                unit_takaran: document.getElementById('unit-takaran'),
+                konversi_referensi: document.getElementById('konversi-referensi'),
                 pilihan_nama_pangan: document.getElementById('pilihan-nama-pangan'),
                 tombol_tambah: document.getElementById('tombol-tambah'),
             };
+
+            console.log('unit_takaran element:', dom.unit_takaran);
+            console.log('konversi_referensi element:', dom.konversi_referensi);
 
             const controller = {
                 semua_nama_pangan: @json($semua_nama_pangan),
@@ -63,6 +68,56 @@
 
             window.daftar_pangan = [];
 
+            const shorten_unit = (unit) => {
+                const unit_map = {
+                    "Kilogram": "kg",
+                    "Ons": "ons",
+                    "Butir": "butir",
+                    "Liter": "L",
+                    "Gram": "g",
+                    "Potong": "potong",
+                    "Buah": "buah",
+                    "Porsi": "porsi",
+                    "Gelas": "gelas",
+                    "Mangkok Kecil": "mangkok kecil",
+                    "50 Mililiter": "50ml",
+                    "250 Mililiter": "250ml",
+                    "337 Gram": "337g",
+                    "Bungkus": "bungkus",
+                    "2 Gram": "2g",
+                    "20 Gram": "20g",
+                    "100 Mililiter": "100ml",
+                    "80 Gram": "80g",
+                    "150 Gram": "150g",
+                    "Porsi 5 Tusuk": "5 tusuk",
+                    "200 Mililiter": "200ml",
+                };
+                return unit_map[unit] || unit;
+            };
+
+            const populate_dropdown = () => {
+                while (dom.pilihan_nama_pangan.options.length > 1) dom.pilihan_nama_pangan.remove(1);
+
+                if (!controller.semua_nama_pangan || Object.keys(controller.semua_nama_pangan).length === 0) {
+                    console.warn('All nama pangan data is empty or invalid');
+                    const option = document.createElement('option');
+                    option.textContent = 'Tidak ada data pangan';
+                    option.disabled = true;
+                    dom.pilihan_nama_pangan.appendChild(option);
+                    return;
+                }
+
+                Object.entries(controller.semua_nama_pangan).forEach(([id, item]) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = item.nama_pangan || 'Nama tidak tersedia';
+                    option.dataset.takaran_id = item.id_takaran || '';
+                    option.dataset.takaran = controller.semua_takaran[item.id_takaran] || '';
+                    option.dataset.gram = item.gram || '1000.00';
+                    dom.pilihan_nama_pangan.appendChild(option);
+                });
+            };
+
             const update_table = () => {
                 document.querySelectorAll('tr[data-baris-pangan]').forEach((row) => row.remove());
                 window.daftar_pangan.forEach((item, index) => {
@@ -73,12 +128,38 @@
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.teks_nama_pangan}</td>
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.jumlah_urt} ${item.takaran || ''}</td>
                         <td class="flex px-6 py-4 items-center justify-center space-x-4">
+                            <button type="button" data-edit="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 bg-blue-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-blue-600">
+                                <i class="fa-solid fa-edit mr-3"></i> Edit
+                            </button>
                             <button type="button" data-hapus="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
                                 <i class="fa-solid fa-trash mr-3"></i> Hapus
                             </button>
                         </td>
                     `;
                     dom.baris_tabel_formulir_pangan.parentNode.insertBefore(row, dom.baris_tabel_formulir_pangan);
+                });
+
+                document.querySelectorAll('button[data-edit]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        const index = parseInt(button.getAttribute('data-edit'));
+                        const item = window.daftar_pangan[index];
+                        dom.pilihan_nama_pangan.value = item.nama_pangan;
+                        dom.jumlah_urt.value = item.jumlah_urt;
+                        if (dom.unit_takaran && dom.konversi_referensi) {
+                            const unit = item.takaran || '';
+                            const idTakaran = parseInt(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.takaran_id);
+                            const gram = parseFloat(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.gram);
+                            dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
+                            if ([3, 6, 7, 8, 9, 10, 14, 20].includes(idTakaran)) {
+                                const unitShort = shorten_unit(unit);
+                                dom.konversi_referensi.textContent = `1 ${unitShort} = ${gram.toFixed(2)} gram`;
+                            } else {
+                                dom.konversi_referensi.textContent = '';
+                            }
+                        }
+                        window.daftar_pangan.splice(index, 1);
+                        update_table();
+                    });
                 });
 
                 document.querySelectorAll('button[data-hapus]').forEach((button) => {
@@ -112,23 +193,29 @@
                     if (!dom.pilihan_nama_pangan.value || !dom.jumlah_urt.value) throw new Error('Semua bidang harus diisi!');
 
                     const selected_option = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex];
+                    if (!selected_option) throw new Error('Tidak ada opsi yang dipilih!');
+
+                    const takaran_id = selected_option.dataset.takaran_id || '';
+                    const takaran = controller.semua_takaran[takaran_id] || '';
+
                     const new_item = {
                         nama_pangan: dom.pilihan_nama_pangan.value,
                         jumlah_urt: dom.jumlah_urt.value,
-                        takaran: controller.semua_takaran[selected_option.dataset.takaran_id] || '',
-                        teks_nama_pangan: selected_option.text,
+                        takaran: takaran,
+                        teks_nama_pangan: selected_option.text || 'Nama tidak tersedia',
                     };
 
                     window.daftar_pangan.push(new_item);
 
                     dom.pilihan_nama_pangan.selectedIndex = 0;
                     dom.jumlah_urt.value = '';
-                    dom.judul_takaran_unit.textContent = '';
+                    if (dom.unit_takaran) dom.unit_takaran.textContent = '';
+                    if (dom.konversi_referensi) dom.konversi_referensi.textContent = '';
 
                     update_table();
                 } catch (error) {
                     console.error('Terjadi kesalahan saat memperbarui data:', error.message);
-                    alert('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
+                    alert('Terjadi kesalahan saat memperbarui data: ' + error.message);
                 }
             };
 
@@ -151,28 +238,6 @@
                     }
                 `;
                 document.head.appendChild(style);
-            };
-
-            const populate_dropdown = () => {
-                while (dom.pilihan_nama_pangan.options.length > 1) dom.pilihan_nama_pangan.remove(1);
-
-                if (!controller.semua_nama_pangan || Object.keys(controller.semua_nama_pangan).length === 0) {
-                    console.warn('All nama pangan data is empty or invalid');
-                    const option = document.createElement('option');
-                    option.textContent = 'Tidak ada data pangan';
-                    option.disabled = true;
-                    dom.pilihan_nama_pangan.appendChild(option);
-                    return;
-                }
-
-                Object.entries(controller.semua_nama_pangan).forEach(([id, item]) => {
-                    const option = document.createElement('option');
-                    option.value = id;
-                    option.textContent = item.nama_pangan || 'Nama tidak tersedia';
-                    option.dataset.takaran_id = item.id_takaran || '';
-                    option.dataset.takaran = controller.semua_takaran[item.id_takaran] || '';
-                    dom.pilihan_nama_pangan.appendChild(option);
-                });
             };
 
             const edit = () => {
@@ -201,8 +266,25 @@
 
                     dom.pilihan_nama_pangan.addEventListener('change', () => {
                         const selected_option = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex];
-                        const takaran_value = controller.semua_takaran[selected_option.dataset.takaran_id] || '';
-                        dom.judul_takaran_unit.textContent = takaran_value ? ` (${takaran_value})` : '';
+                        if (selected_option && !selected_option.disabled) {
+                            const unit = selected_option.dataset.takaran || '';
+                            const idTakaran = parseInt(selected_option.dataset.takaran_id);
+                            const gram = parseFloat(selected_option.dataset.gram);
+                            if (dom.unit_takaran) {
+                                dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
+                            }
+                            if (dom.konversi_referensi) {
+                                if ([3, 6, 7, 8, 9, 10, 14, 20].includes(idTakaran)) {
+                                    const unitShort = shorten_unit(unit);
+                                    dom.konversi_referensi.textContent = `1 ${unitShort} = ${gram.toFixed(2)} gram`;
+                                } else {
+                                    dom.konversi_referensi.textContent = '';
+                                }
+                            }
+                        } else {
+                            if (dom.unit_takaran) dom.unit_takaran.textContent = '';
+                            if (dom.konversi_referensi) dom.konversi_referensi.textContent = '';
+                        }
                     });
 
                     return dom.tombol_tambah.addEventListener('click', update);
