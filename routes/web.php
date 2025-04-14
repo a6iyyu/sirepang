@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
+        Route::get('/get-kecamatan-data/{year}', [Dasbor::class, 'getKecamatanData'])->name('admin.get.kecamatan.data');
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');

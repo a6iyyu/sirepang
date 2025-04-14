@@ -79,4 +79,15 @@ class Dasbor extends Controller
             ->groupBy('kecamatan.id_kecamatan', 'kecamatan.nama_kecamatan')
             ->get();
     }
+    public function getKecamatanData($tahun_dipilih)
+    {
+        $kecamatan = $this->filter_per_tahun($tahun_dipilih);
+
+        $formattedData = $kecamatan->map(fn($item) => [
+            'x' => $item->nama_kecamatan,
+            'y' => $item->total_keluarga,
+        ]);
+
+        return response()->json($formattedData);
+    }
 }

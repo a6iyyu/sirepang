@@ -64,7 +64,11 @@ class Keluarga extends Controller
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
             $atas = $batas_atas[$id] ?? null;
-            $rentang_uang[$id] = "$bawah - $atas";
+            $rentang_uang[$id] = match(true) {
+                $id == 1 => "< $atas",
+                $id == 15 => "> $atas",
+                default => "$bawah - $atas"
+            };
         }
 
         return view('pages.surveyor.tambah-data-keluarga', [
