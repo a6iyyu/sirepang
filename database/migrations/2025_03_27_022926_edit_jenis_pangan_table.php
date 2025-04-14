@@ -27,5 +27,11 @@ return new class extends Migration {
         // });
     }
 
-    public function down(): void {}
+    public function down(): void {
+        Schema::table('jenis_pangan', function (Blueprint $table) {
+            $table->dropColumn('parent');
+            $table->dropColumn('bobot_jenis');
+            $table->dropColumn('skor_maks_jenis');
+        });
+    }
 };
