@@ -70,27 +70,27 @@
 
             const shorten_unit = (unit) => {
                 const unit_map = {
-                    "Kilogram": "kg",
-                    "Ons": "ons",
-                    "Butir": "butir",
-                    "Liter": "L",
-                    "Gram": "g",
-                    "Potong": "potong",
-                    "Buah": "buah",
-                    "Porsi": "porsi",
-                    "Gelas": "gelas",
-                    "Mangkok Kecil": "mangkok kecil",
-                    "50 Mililiter": "50ml",
-                    "250 Mililiter": "250ml",
-                    "337 Gram": "337g",
-                    "Bungkus": "bungkus",
-                    "2 Gram": "2g",
-                    "20 Gram": "20g",
-                    "100 Mililiter": "100ml",
-                    "80 Gram": "80g",
-                    "150 Gram": "150g",
-                    "Porsi 5 Tusuk": "5 tusuk",
-                    "200 Mililiter": "200ml",
+                    'Kilogram': 'kg',
+                    'Ons': 'ons',
+                    'Butir': 'butir',
+                    'Liter': 'L',
+                    'Gram': 'g',
+                    'Potong': 'potong',
+                    'Buah': 'buah',
+                    'Porsi': 'porsi',
+                    'Gelas': 'gelas',
+                    'Mangkok Kecil': 'mangkok kecil',
+                    '50 Mililiter': '50ml',
+                    '250 Mililiter': '250ml',
+                    '337 Gram': '337g',
+                    'Bungkus': 'bungkus',
+                    '2 Gram': '2g',
+                    '20 Gram': '20g',
+                    '100 Mililiter': '100ml',
+                    '80 Gram': '80g',
+                    '150 Gram': '150g',
+                    'Porsi 5 Tusuk': '5 tusuk',
+                    '200 Mililiter': '200ml',
                 };
                 return unit_map[unit] || unit;
             };
@@ -150,6 +150,7 @@
                             const idTakaran = parseInt(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.takaran_id);
                             const gram = parseFloat(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.gram);
                             dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
+
                             if ([3, 6, 7, 8, 9, 10, 14, 20].includes(idTakaran)) {
                                 const unitShort = shorten_unit(unit);
                                 dom.konversi_referensi.textContent = `1 ${unitShort} = ${gram.toFixed(2)} gram`;

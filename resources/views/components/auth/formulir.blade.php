@@ -34,8 +34,10 @@
         </button>
     </form>
     <h5 class="mt-8 cursor-default text-center text-sm text-gray-500">
-        &copy; {{ date('Y') }} SIREPANG
+        &copy; {{ date('Y') }} Workshop Riset Informatika
         <br />
-        Dinas Ketahanan Pangan Kabupaten Malang
+        Jurusan Teknologi Informasi
+        <br />
+        Politeknik Negeri Malang
     </h5>
 </section>

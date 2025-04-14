@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class Keluarga extends Controller
@@ -204,7 +205,8 @@ class Keluarga extends Controller
                 'jumlah_takaran'    => $pangan['jumlah_takaran'],
                 'rentang_uang'      => $rentang_uang,
             ]);
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
+            Log::error('Edit Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -212,8 +214,6 @@ class Keluarga extends Controller
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);
-
-            Log::info('Before Update - Current rentang_pendapatan:', ['value' => $keluarga->rentang_pendapatan]);
 
             $edit_keluarga = $request->validate([
                 'nama_kepala_keluarga'  => 'required|string|max:255',
@@ -242,20 +242,13 @@ class Keluarga extends Controller
                     'is_balita'             => $edit_keluarga['is_balita'],
                 ];
 
-                if ($request->hasFile('gambar')) {
-                    $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-                }
-
+                if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
                 return $keluarga->update($data);
             });
 
             Log::info('Update Result:', ['success' => $updated]);
-            Log::info('After Update - rentang_pendapatan:', ['value' => $keluarga->fresh()->rentang_pendapatan]);
 
-            $keluarga->update([
-                'status' => Status::MENUNGGU,
-                'komentar' => null,
-            ]);
+            $keluarga->update(['status' => Status::MENUNGGU, 'komentar' => null]);
 
             $pangan = $request->input('detail_pangan_keluarga', []);
             if (!empty($pangan)) {
@@ -269,11 +262,11 @@ class Keluarga extends Controller
                 }
             }
 
-            return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil diperbarui!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
+        } catch (ValidationException $e) {
             Log::error('Validation Error:', ['errors' => $e->errors()]);
             return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Update Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
