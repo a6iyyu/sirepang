@@ -54,13 +54,13 @@ class Keluarga extends Controller
         $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
-        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'gram')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
-            'id_pangan'     => $item->id_pangan,
-            'nama_pangan'   => $item->nama_pangan,
-            'id_takaran'    => $item->id_takaran,
-            'gram'          => $item->gram,
+        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
+            'id_pangan'          => $item->id_pangan,
+            'nama_pangan'        => $item->nama_pangan,
+            'id_takaran'           => $item->id_takaran,
+            'referensi_urt'      => $item->referensi_urt,
+            'referensi_gram_berat' => $item->referensi_gram_berat,
         ]])->toArray();
-
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
             $atas = $batas_atas[$id] ?? null;
@@ -177,9 +177,11 @@ class Keluarga extends Controller
             $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
             $rentang_uang = $this->rentang_uang();
             $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
-            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran')->get()->mapWithKeys(fn($item) => [$item->id_pangan => [
-                'nama_pangan' => $item->nama_pangan,
-                'id_takaran'  => $item->id_takaran
+            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->get()->mapWithKeys(fn($item) => [$item->id_pangan => [
+                'nama_pangan'        => $item->nama_pangan,
+                'id_takaran'         => $item->id_takaran,
+                'referensi_urt'      => $item->referensi_urt,
+                'referensi_gram_berat' => $item->referensi_gram_berat,
             ]])->toArray();
 
             $pangan = [
@@ -192,9 +194,6 @@ class Keluarga extends Controller
                 'jumlah_takaran' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
                     $item->id_pangan => $item->urt
                 ])->toArray(),
-                'gram' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
-                    $item->id_pangan => $item->gram
-                ])
             ];
 
             return view('pages.surveyor.edit', [

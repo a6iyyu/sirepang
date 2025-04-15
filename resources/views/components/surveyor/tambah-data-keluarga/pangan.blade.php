@@ -61,58 +61,60 @@
 
             if (!window.daftar_pangan) window.daftar_pangan = [];
 
+            // Populate the dropdown with nama_pangan data
             pilihan_nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
             Object.entries(nama_pangan).forEach(([id, nama]) => {
                 let opsi = document.createElement('option');
                 opsi.value = nama.id_pangan || id;
                 opsi.textContent = nama.nama_pangan;
-                opsi.dataset.takaran = takaran[nama.id_takaran] || '';
-                opsi.dataset.idTakaran = nama.id_takaran || '';
-                opsi.dataset.gram = nama.gram || '1000.00';
+                opsi.dataset.idTakaran = nama.id_takaran || ''; // For the right part (unit_takaran)
+                opsi.dataset.referensiUrt = nama.referensi_urt || 'Tidak ada takaran'; // For the bottom part
+                opsi.dataset.referensiGramBerat = nama.referensi_gram_berat || '0.00'; // For the bottom part
                 pilihan_nama_pangan.appendChild(opsi);
             });
 
             const shorten_unit = (unit) => {
                 const unit_map = {
-                    "Kilogram": "kg",
-                    "Ons": "ons",
-                    "Butir": "butir",
-                    "Liter": "L",
-                    "Gram": "g",
-                    "Potong": "potong",
-                    "Buah": "buah",
-                    "Porsi": "porsi",
-                    "Gelas": "gelas",
-                    "Mangkok Kecil": "mangkok kecil",
-                    "50 Mililiter": "50ml",
-                    "250 Mililiter": "250ml",
-                    "337 Gram": "337g",
-                    "Bungkus": "bungkus",
-                    "2 Gram": "2g",
-                    "20 Gram": "20g",
-                    "100 Mililiter": "100ml",
-                    "80 Gram": "80g",
-                    "150 Gram": "150g",
-                    "Porsi 5 Tusuk": "5 tusuk",
-                    "200 Mililiter": "200ml",
+                    "kilogram": "kg",
+                    "ons": "ons",
+                    "butir": "butir",
+                    "liter": "L",
+                    "gram": "g",
+                    "potong": "potong",
+                    "buah": "buah",
+                    "porsi": "porsi",
+                    "gelas": "gelas",
+                    "mangkok kecil": "mangkok kecil",
+                    "50 mililiter": "50ml",
+                    "250 mililiter": "250ml",
+                    "337 gram": "337g",
+                    "bungkus": "bungkus",
+                    "2 gram": "2g",
+                    "20 gram": "20g",
+                    "100 mililiter": "100ml",
+                    "80 gram": "80g",
+                    "150 gram": "150g",
+                    "porsi 5 tusuk": "5 tusuk",
+                    "200 mililiter": "200ml",
+                    "biji sedang": "biji",
+                    "sendok makan": "sdm",
+                    "kg": "kg",
+                    "tusuk": "tusuk",
                 };
-                return unit_map[unit] || unit;
+                return unit_map[unit.toLowerCase()] || unit;
             };
 
             pilihan_nama_pangan.addEventListener('change', () => {
                 const selectedOption = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
                 if (selectedOption && !selectedOption.disabled) {
-                    const unit = selectedOption.dataset.takaran;
-                    const idTakaran = parseInt(selectedOption.dataset.idTakaran);
-                    const gram = parseFloat(selectedOption.dataset.gram);
-                    unit_takaran.textContent = `${shorten_unit(unit)}`;
-
-                    if ([3, 6, 7, 8, 9, 10, 14, 20].includes(idTakaran)) {
-                        const unitShort = shorten_unit(unit);
-                        konversi_referensi.textContent = `1 ${unitShort} = ${gram.toFixed(2)} gram`;
-                    } else {
-                        konversi_referensi.textContent = '';
-                    }
+                    const idTakaran = selectedOption.dataset.idTakaran;
+                    const unit = takaran[idTakaran] || '';
+                    unit_takaran.textContent = unit ? `${shorten_unit(unit)}` : '';
+                    const referensiUrt = selectedOption.dataset.referensiUrt;
+                    const referensiGramBerat = parseFloat(selectedOption.dataset.referensiGramBerat);
+                    konversi_referensi.textContent = referensiUrt && referensiGramBerat
+                        ? `${referensiUrt} = ${referensiGramBerat.toFixed(2).replace('.', ',')} gram`
+                        : 'Konversi tidak tersedia';
                 } else {
                     unit_takaran.textContent = '';
                     konversi_referensi.textContent = '';
@@ -176,11 +178,13 @@
             tombol_tambah.addEventListener('click', () => {
                 if (pilihan_nama_pangan.selectedIndex === 0 || !pilihan_nama_pangan.value || !jumlah_urt.value) return alert('Semua bidang harus diisi dengan data yang valid!');
                 const opsi_terpilih = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
+                const idTakaran = opsi_terpilih.dataset.idTakaran;
+                const unit = takaran[idTakaran] || '';
 
                 const item = {
                     nama_pangan: opsi_terpilih.value,
                     jumlah_urt: jumlah_urt.value,
-                    takaran: opsi_terpilih.dataset.takaran || '',
+                    takaran: unit,
                     teks_nama_pangan: opsi_terpilih.textContent.trim(),
                 };
 
