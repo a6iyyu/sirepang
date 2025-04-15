@@ -206,14 +206,45 @@ class Keluarga extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            $keluarga = KeluargaModel::findOrFail($id);
-            $keluarga->update(['status' => Status::MENUNGGU, 'komentar' => null]);
+            $request->validate([
+                'nama_kepala_keluarga'      => 'string|required|max:255',
+                'id_desa'                   => 'string|required|max:255',
+                'alamat'                    => 'string|required|max:255',
+                'jumlah_keluarga'           => 'integer|required|min:1|max:50',
+                'range_pendapatan'          => 'string|required|max:255',
+                'range_pengeluaran'         => 'string|required|max:255',
+                'is_hamil'                  => 'in:Ya,Tidak|required',
+                'is_menyusui'               => 'in:Ya,Tidak|required',
+                'is_balita'                 => 'in:Ya,Tidak|required',
+                'detail_pangan_keluarga'    => 'array',
+            ]);
 
-            $pangan = $request->input('detail_pangan_keluarga', []);
-            if (!empty($pangan)) {
-                PanganKeluargaModel::where('id_keluarga', $id)->delete();
-                foreach ($pangan as $item) {
+            $keluarga = KeluargaModel::findOrFail($id);
+            $data = $request->all();
+
+            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            
+            $keluarga->update([
+                'nama_kepala_keluarga'  => $data['nama_kepala_keluarga'],
+                'id_desa'               => $data['id_desa'],
+                'alamat'                => $data['alamat'],
+                'jumlah_keluarga'       => $data['jumlah_keluarga'],
+                'rentang_pendapatan'    => $data['range_pendapatan'],
+                'rentang_pengeluaran'   => $data['range_pengeluaran'],
+                'is_hamil'              => $data['is_hamil'],
+                'is_menyusui'           => $data['is_menyusui'],
+                'is_balita'             => $data['is_balita'],
+                'status'                => Status::MENUNGGU,
+                'komentar'              => null,
+                'gambar'                => $data['gambar'] ?? $keluarga->gambar,
+            ]);
+
+            PanganKeluargaModel::where('id_keluarga', $id)->delete();
+
+            if (!empty($data['detail_pangan_keluarga'])) {
+                foreach ($data['detail_pangan_keluarga'] as $item) {
                     PanganKeluargaModel::create([
                         'id_keluarga'   => $id,
                         'id_pangan'     => $item['nama_pangan'],
@@ -222,11 +253,14 @@ class Keluarga extends Controller
                 }
             }
 
+            DB::commit();
             return redirect()->route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
         } catch (ValidationException $e) {
+            DB::rollback();
             Log::error('Validation Error:', ['errors' => $e->errors()]);
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
+            DB::rollback();
             Log::error('Update Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
