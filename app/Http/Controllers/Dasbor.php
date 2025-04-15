@@ -70,16 +70,7 @@ class Dasbor extends Controller
         return response()->json($data);
     }
 
-    private function filter_per_tahun($tahun): Collection
-    {
-        return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
-            ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan, COUNT(keluarga.id_keluarga) as total_keluarga')
-            ->whereYear('keluarga.created_date', $tahun)
-            ->where('keluarga.status', 'DITERIMA')
-            ->groupBy('kecamatan.id_kecamatan', 'kecamatan.nama_kecamatan')
-            ->get();
-    }
-    public function getKecamatanData($tahun_dipilih)
+    public function data_kecamatan($tahun_dipilih): JsonResponse
     {
         $kecamatan = $this->filter_per_tahun($tahun_dipilih);
 
@@ -89,5 +80,15 @@ class Dasbor extends Controller
         ]);
 
         return response()->json($formattedData);
+    }
+
+    private function filter_per_tahun($tahun): Collection
+    {
+        return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
+            ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan, COUNT(keluarga.id_keluarga) as total_keluarga')
+            ->whereYear('keluarga.created_date', $tahun)
+            ->where('keluarga.status', 'DITERIMA')
+            ->groupBy('kecamatan.id_kecamatan', 'kecamatan.nama_kecamatan')
+            ->get();
     }
 }

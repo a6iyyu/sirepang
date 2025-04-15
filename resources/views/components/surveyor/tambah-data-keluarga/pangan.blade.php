@@ -61,15 +61,20 @@
 
             if (!window.daftar_pangan) window.daftar_pangan = [];
 
-            // Populate the dropdown with nama_pangan data
+            const sortir_nama_pangan = Object.entries(nama_pangan).sort((a, b) => {
+                const namaA = a[1].nama_pangan.toLowerCase();
+                const namaB = b[1].nama_pangan.toLowerCase();
+                return namaA.localeCompare(namaB);
+            });
+
             pilihan_nama_pangan.innerHTML = '<option value="" selected disabled>Pilih Nama Pangan</option>';
-            Object.entries(nama_pangan).forEach(([id, nama]) => {
+            sortir_nama_pangan.forEach(([id, nama]) => {
                 let opsi = document.createElement('option');
                 opsi.value = nama.id_pangan || id;
                 opsi.textContent = nama.nama_pangan;
-                opsi.dataset.idTakaran = nama.id_takaran || ''; // For the right part (unit_takaran)
-                opsi.dataset.referensiUrt = nama.referensi_urt || 'Tidak ada takaran'; // For the bottom part
-                opsi.dataset.referensiGramBerat = nama.referensi_gram_berat || '0.00'; // For the bottom part
+                opsi.dataset.id_takaran = nama.id_takaran || '';
+                opsi.dataset.referensi_urt = nama.referensi_urt || 'Tidak ada takaran';
+                opsi.dataset.referensi_gram_berat = nama.referensi_gram_berat || '0.00';
                 pilihan_nama_pangan.appendChild(opsi);
             });
 
@@ -107,14 +112,12 @@
             pilihan_nama_pangan.addEventListener('change', () => {
                 const selectedOption = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
                 if (selectedOption && !selectedOption.disabled) {
-                    const idTakaran = selectedOption.dataset.idTakaran;
-                    const unit = takaran[idTakaran] || '';
+                    const id_takaran = selectedOption.dataset.id_takaran;
+                    const unit = takaran[id_takaran] || '';
                     unit_takaran.textContent = unit ? `${shorten_unit(unit)}` : '';
-                    const referensiUrt = selectedOption.dataset.referensiUrt;
-                    const referensiGramBerat = parseFloat(selectedOption.dataset.referensiGramBerat);
-                    konversi_referensi.textContent = referensiUrt && referensiGramBerat
-                        ? `${referensiUrt} = ${referensiGramBerat.toFixed(2).replace('.', ',')} gram`
-                        : 'Konversi tidak tersedia';
+                    const referensi_urt = selectedOption.dataset.referensi_urt;
+                    const referensi_gram_berat = parseFloat(selectedOption.dataset.referensi_gram_berat);
+                    konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` : 'Konversi tidak tersedia';
                 } else {
                     unit_takaran.textContent = '';
                     konversi_referensi.textContent = '';
@@ -178,8 +181,11 @@
             tombol_tambah.addEventListener('click', () => {
                 if (pilihan_nama_pangan.selectedIndex === 0 || !pilihan_nama_pangan.value || !jumlah_urt.value) return alert('Semua bidang harus diisi dengan data yang valid!');
                 const opsi_terpilih = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
-                const idTakaran = opsi_terpilih.dataset.idTakaran;
-                const unit = takaran[idTakaran] || '';
+                const id_takaran = opsi_terpilih.dataset.id_takaran;
+                const unit = takaran[id_takaran] || '';
+
+                if (!jumlah_urt.value || isNaN(jumlah_urt.value) || Number(jumlah_urt.value) <= 0) return alert('Jumlah URT harus berupa angka positif!');
+                if (window.daftar_pangan.some(item => item.nama_pangan === opsi_terpilih.value)) return alert('Pangan ini sudah ditambahkan!');
 
                 const item = {
                     nama_pangan: opsi_terpilih.value,

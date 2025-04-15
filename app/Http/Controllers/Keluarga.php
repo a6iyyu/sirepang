@@ -50,17 +50,12 @@ class Keluarga extends Controller
     public function show(): View
     {
         $kader = User::find(Auth::user()->id_user)->kader;
-        $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => $item->nama_desa . ' - ' . $item->kode_wilayah])->toArray();
+        $desa = DesaModel::where('id_kecamatan', $kader->kecamatan->id_kecamatan)->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();
         $batas_bawah = RentangUangModel::pluck('batas_bawah', 'id_rentang_uang')->toArray();
         $batas_atas = RentangUangModel::pluck('batas_atas', 'id_rentang_uang')->toArray();
         $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran');
-        $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
-            'id_pangan'          => $item->id_pangan,
-            'nama_pangan'        => $item->nama_pangan,
-            'id_takaran'           => $item->id_takaran,
-            'referensi_urt'      => $item->referensi_urt,
-            'referensi_gram_berat' => $item->referensi_gram_berat,
-        ]])->toArray();
+        $nama_pangan = $this->nama_pangan();
+
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
             $atas = $batas_atas[$id] ?? null;
@@ -177,12 +172,7 @@ class Keluarga extends Controller
             $pangan_keluarga = PanganKeluargaModel::with('pangan.takaran')->where('id_keluarga', $id)->get();
             $rentang_uang = $this->rentang_uang();
             $takaran = TakaranModel::pluck('nama_takaran', 'id_takaran')->toArray();
-            $nama_pangan = PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->get()->mapWithKeys(fn($item) => [$item->id_pangan => [
-                'nama_pangan'        => $item->nama_pangan,
-                'id_takaran'         => $item->id_takaran,
-                'referensi_urt'      => $item->referensi_urt,
-                'referensi_gram_berat' => $item->referensi_gram_berat,
-            ]])->toArray();
+            $nama_pangan = $this->nama_pangan();
 
             $pangan = [
                 'nama_pangan' => $pangan_keluarga->mapWithKeys(fn(PanganKeluargaModel $item) => [
@@ -213,44 +203,11 @@ class Keluarga extends Controller
             return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
+
     public function update(Request $request, $id): RedirectResponse
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);
-
-            $edit_keluarga = $request->validate([
-                'nama_kepala_keluarga'  => 'required|string|max:255',
-                'id_desa'               => 'required|string|max:255',
-                'alamat'                => 'required|string|max:255',
-                'jumlah_keluarga'       => 'required|integer|min:1|max:50',
-                'range_pendapatan'      => 'required|exists:rentang_uang,id_rentang_uang',
-                'range_pengeluaran'     => 'required|exists:rentang_uang,id_rentang_uang',
-                'is_hamil'              => 'required|in:Ya,Tidak',
-                'is_menyusui'           => 'required|in:Ya,Tidak',
-                'is_balita'             => 'required|in:Ya,Tidak',
-            ]);
-
-            Log::info('Validated Data:', $edit_keluarga);
-
-            $updated = $keluarga->withoutEvents(function () use ($keluarga, $edit_keluarga, $request) {
-                $data = [
-                    'nama_kepala_keluarga'  => $edit_keluarga['nama_kepala_keluarga'],
-                    'id_desa'               => $edit_keluarga['id_desa'],
-                    'alamat'                => $edit_keluarga['alamat'],
-                    'jumlah_keluarga'       => $edit_keluarga['jumlah_keluarga'],
-                    'rentang_pendapatan'    => (int) $edit_keluarga['range_pendapatan'],
-                    'rentang_pengeluaran'   => (int) $edit_keluarga['range_pengeluaran'],
-                    'is_hamil'              => $edit_keluarga['is_hamil'],
-                    'is_menyusui'           => $edit_keluarga['is_menyusui'],
-                    'is_balita'             => $edit_keluarga['is_balita'],
-                ];
-
-                if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
-                return $keluarga->update($data);
-            });
-
-            Log::info('Update Result:', ['success' => $updated]);
-
             $keluarga->update(['status' => Status::MENUNGGU, 'komentar' => null]);
 
             $pangan = $request->input('detail_pangan_keluarga', []);
@@ -289,6 +246,17 @@ class Keluarga extends Controller
         }
     }
 
+    private function nama_pangan()
+    {
+        return PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->orderBy('nama_pangan', 'asc')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
+            'id_pangan'            => $item->id_pangan,
+            'nama_pangan'          => $item->nama_pangan,
+            'id_takaran'           => $item->id_takaran,
+            'referensi_urt'        => $item->referensi_urt,
+            'referensi_gram_berat' => $item->referensi_gram_berat,
+        ]])->sortBy('nama_pangan')->toArray();
+    }
+
     private function kader(): mixed
     {
         return User::with('kader.kecamatan')->findOrFail(Auth::user()->id_user)->kader;
@@ -314,14 +282,6 @@ class Keluarga extends Controller
         }
 
         return $hasil;
-    }
-
-    private function pangan(): array
-    {
-        $pangan = PanganModel::with('takaran')->select('id_pangan', 'id_jenis_pangan', 'nama_pangan', 'id_takaran')->get();
-        $nama_pangan = $pangan->groupBy('id_jenis_pangan')->map(fn($items) => $items->pluck('nama_pangan', 'id_pangan')->toArray())->toArray();
-        $takaran = $pangan->mapWithKeys(fn($item) => [$item->id_pangan => $item->takaran->nama_takaran ?? 'Takaran tidak ditemukan'])->toArray();
-        return ['nama_pangan' => $nama_pangan, 'takaran' => $takaran];
     }
 
     private function rentang_uang(): array

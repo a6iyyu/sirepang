@@ -55,9 +55,6 @@
                 tombol_tambah: document.getElementById('tombol-tambah'),
             };
 
-            console.log('unit_takaran element:', dom.unit_takaran);
-            console.log('konversi_referensi element:', dom.konversi_referensi);
-
             const controller = {
                 semua_nama_pangan: @json($semua_nama_pangan),
                 semua_takaran: @json($semua_takaran),
@@ -103,7 +100,6 @@
                 while (dom.pilihan_nama_pangan.options.length > 1) dom.pilihan_nama_pangan.remove(1);
 
                 if (!controller.semua_nama_pangan || Object.keys(controller.semua_nama_pangan).length === 0) {
-                    console.warn('All nama pangan data is empty or invalid');
                     const option = document.createElement('option');
                     option.textContent = 'Tidak ada data pangan';
                     option.disabled = true;
@@ -111,14 +107,20 @@
                     return;
                 }
 
-                Object.entries(controller.semua_nama_pangan).forEach(([id, item]) => {
+                const sortir_nama_pangan = Object.entries(controller.semua_nama_pangan).sort((a, b) => {
+                    const namaA = a[1].nama_pangan.toLowerCase();
+                    const namaB = b[1].nama_pangan.toLowerCase();
+                    return namaA.localeCompare(namaB);
+                });
+
+                sortir_nama_pangan.forEach(([id, item]) => {
                     const option = document.createElement('option');
                     option.value = id;
                     option.textContent = item.nama_pangan || 'Nama tidak tersedia';
-                    option.dataset.takaran_id = item.id_takaran || '';
+                    option.dataset.id_takaran = item.id_takaran || '';
                     option.dataset.takaran = controller.semua_takaran[item.id_takaran] || '';
-                    option.dataset.referensiUrt = item.referensi_urt || 'Tidak ada takaran';
-                    option.dataset.referensiGramBerat = item.referensi_gram_berat || '0.00';
+                    option.dataset.referensi_urt = item.referensi_urt || 'Tidak ada takaran';
+                    option.dataset.referensi_gram_berat = item.referensi_gram_berat || '0.00';
                     dom.pilihan_nama_pangan.appendChild(option);
                 });
             };
@@ -151,15 +153,12 @@
                         dom.pilihan_nama_pangan.value = item.nama_pangan;
                         dom.jumlah_urt.value = item.jumlah_urt;
                         if (dom.unit_takaran && dom.konversi_referensi) {
-                            const idTakaran = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.takaran_id;
-                            const unit = controller.semua_takaran[idTakaran] || '';
-                            const referensiUrt = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.referensiUrt;
-                            const referensiGramBerat = parseFloat(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.referensiGramBerat);
-                            console.log('Edit - idTakaran:', idTakaran, 'unit:', unit, 'shortened unit:', shorten_unit(unit));
+                            const id_takaran = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.id_takaran;
+                            const unit = controller.semua_takaran[id_takaran] || '';
+                            const referensi_urt = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.referensi_urt;
+                            const referensi_gram_berat = parseFloat(dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex].dataset.referensi_gram_berat);
                             dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
-                            dom.konversi_referensi.textContent = referensiUrt && referensiGramBerat
-                                ? `${referensiUrt} = ${referensiGramBerat.toFixed(2)} gram`
-                                : 'Konversi tidak tersedia';
+                            dom.konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2)} gram` : 'Konversi tidak tersedia';
                         }
                         window.daftar_pangan.splice(index, 1);
                         update_table();
@@ -194,13 +193,18 @@
 
             const update = () => {
                 try {
-                    if (!dom.pilihan_nama_pangan.value || !dom.jumlah_urt.value) throw new Error('Semua bidang harus diisi!');
+                    if (!dom.pilihan_nama_pangan.value || !dom.jumlah_urt.value) return alert('Semua bidang harus diisi!');
+
+                    const jumlah_urt_value = Number(dom.jumlah_urt.value);
+                    if (isNaN(jumlah_urt_value) || jumlah_urt_value <= 0) return alert('Jumlah URT harus berupa angka positif.');
 
                     const selected_option = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex];
-                    if (!selected_option) throw new Error('Tidak ada opsi yang dipilih!');
+                    if (!selected_option) return alert('Tidak ada opsi yang dipilih!');
 
-                    const takaran_id = selected_option.dataset.takaran_id || '';
-                    const takaran = controller.semua_takaran[takaran_id] || '';
+                    const id_takaran = selected_option.dataset.id_takaran || '';
+                    const takaran = controller.semua_takaran[id_takaran] || '';
+
+                    if (window.daftar_pangan.some(item => item.nama_pangan === dom.pilihan_nama_pangan.value)) return alert('Data pangan tersebut sudah ditambahkan.');
 
                     const new_item = {
                         nama_pangan: dom.pilihan_nama_pangan.value,
@@ -270,19 +274,12 @@
                     dom.pilihan_nama_pangan.addEventListener('change', () => {
                         const selected_option = dom.pilihan_nama_pangan.options[dom.pilihan_nama_pangan.selectedIndex];
                         if (selected_option && !selected_option.disabled) {
-                            const idTakaran = selected_option.dataset.takaran_id;
-                            const unit = controller.semua_takaran[idTakaran] || '';
-                            const referensiUrt = selected_option.dataset.referensiUrt;
-                            const referensiGramBerat = parseFloat(selected_option.dataset.referensiGramBerat);
-                            console.log('Change - idTakaran:', idTakaran, 'unit:', unit, 'shortened unit:', shorten_unit(unit));
-                            if (dom.unit_takaran) {
-                                dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
-                            }
-                            if (dom.konversi_referensi) {
-                                dom.konversi_referensi.textContent = referensiUrt && referensiGramBerat
-                                    ? `${referensiUrt} = ${referensiGramBerat.toFixed(2).replace('.', ',')} gram`
-                                    : 'Konversi tidak tersedia';
-                            }
+                            const id_takaran = selected_option.dataset.id_takaran;
+                            const unit = controller.semua_takaran[id_takaran] || '';
+                            const referensi_urt = selected_option.dataset.referensi_urt;
+                            const referensi_gram_berat = parseFloat(selected_option.dataset.referensi_gram_berat);
+                            if (dom.unit_takaran) dom.unit_takaran.textContent = unit ? shorten_unit(unit) : '';
+                            if (dom.konversi_referensi) dom.konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` : 'Konversi tidak tersedia';
                         } else {
                             if (dom.unit_takaran) dom.unit_takaran.textContent = '';
                             if (dom.konversi_referensi) dom.konversi_referensi.textContent = '';

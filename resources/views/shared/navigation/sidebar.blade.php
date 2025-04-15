@@ -7,7 +7,7 @@
                 <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
             </span>
         </div>
-        <i id="close" class="fa-solid fa-right-to-bracket mt-1.5 h-fit cursor-pointer text-lg text-white"></i>
+        <i id="close" class="fa-solid fa-xmark mt-1.5 h-fit cursor-pointer text-lg text-white"></i>
     </section>
     <i id="open" class="fa-solid fa-bars !hidden cursor-pointer text-center text-xl text-white"></i>
     <hr class="mt-2 h-0.5 w-full text-emerald-800" />

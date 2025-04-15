@@ -25,7 +25,7 @@
     <x-input
         name="alamat"
         label="Alamat"
-        icon="fa-solid fa-address-book"
+        icon="fa-solid fa-home"
         placeholder="Cth. Perumahan Alasia"
         :value="old('alamat')"
         required
@@ -36,7 +36,7 @@
         name="jumlah_keluarga"
         label="Jumlah Anggota"
         info="*Termasuk Kepala Keluarga"
-        icon="fa-solid fa-address-book"
+        icon="fa-solid fa-users"
         type="number"
         placeholder="Cth. 18"
         :value="old('jumlah_keluarga')"
