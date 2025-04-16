@@ -70,10 +70,4 @@
         -webkit-appearance: none;
         margin: 0;
     }
-    #edit-pangan {
-        background-color: #3b82f6 !important;
-    }
-    #edit-pangan:hover {
-        background-color: #2563eb !important;
-    }
 }
