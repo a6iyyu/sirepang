@@ -135,7 +135,7 @@
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.teks_nama_pangan}</td>
                         <td class="cursor-default px-6 py-4 text-gray-700">${item.jumlah_urt} ${item.takaran || ''}</td>
                         <td class="flex px-6 py-4 items-center justify-center space-x-4">
-                            <button type="button" data-edit="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 bg-blue-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-blue-600">
+                            <button type="button" data-edit="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 text-white rounded-lg transition-colors duration-150 shadow-sm" id="edit-pangan">
                                 <i class="fa-solid fa-edit mr-3"></i> Edit
                             </button>
                             <button type="button" data-hapus="${index}" class="cursor-pointer flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600">
