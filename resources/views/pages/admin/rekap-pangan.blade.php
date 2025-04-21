@@ -24,11 +24,12 @@
             </section>
         @else
             @include('shared.table.table', [
-                'headers' => ['Nama Keluarga', 'Desa', 'Aksi'],
-                'sortable' => ['Nama Keluarga', 'Desa'],
+                'headers' => ['Kecamatan','Desa', 'Nama Keluarga', 'Aksi'],
+                'sortable' => ['Kecamatan', 'Nama Keluarga', 'Desa'],
                 'rows' => $data->map(fn ($item) => [
-                    $item->nama,
+                    $item->kecamatan,
                     $item->desa,
+                    $item->nama,
                     view('components.admin.rekap-pangan.aksi', ['item' => $item])->render(),
                 ])->toArray(),
             ])

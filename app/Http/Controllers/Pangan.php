@@ -21,6 +21,7 @@ class Pangan extends Controller
             'id'    => $item->id_keluarga,
             'nama'  => $item->nama_kepala_keluarga,
             'desa'  => $item->desa->nama_desa,
+            'kecamatan' => $item->kecamatan->nama_kecamatan,
         ]);
 
         return view('pages.admin.rekap-pangan', ['data' => $data]);

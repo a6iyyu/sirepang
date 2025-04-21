@@ -26,7 +26,7 @@
         </h5>
         <section class="mt-2 mb-8">
             @include('shared.table.table', [
-                'headers' => ['Nama Kecamatan', 'Jumlah Desa'],
+                'headers' => ['Nama Desa', 'Kode Wilayah'],
                 'sortable' => ['Nama Kecamatan'],
                 'rows' => $desa->map(fn ($item) => [$item->nama_desa, $item->kode_wilayah])->toArray(),
             ])
