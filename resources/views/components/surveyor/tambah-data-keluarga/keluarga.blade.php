@@ -12,6 +12,7 @@
     icon="fa-solid fa-user"
     placeholder="Cth. Agus Miftah"
     value="{{ old('nama_kepala_keluarga') }}"
+    type="text"
     required
 />
 <section class="mt-6 flex flex-col justify-between space-y-6 lg:flex-row lg:space-y-0 lg:space-x-6">

@@ -27,7 +27,7 @@ class Pangan extends Controller
         return view('pages.admin.rekap-pangan', ['data' => $data]);
     }
 
-    public function detail($id): RedirectResponse|View
+    public function detail(string $id): RedirectResponse|View
     {
         try {
             $keluarga = KeluargaModel::with('desa')->find($id);
@@ -57,7 +57,7 @@ class Pangan extends Controller
         }
     }
 
-    public function delete($id): RedirectResponse
+    public function delete(string $id): RedirectResponse
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);

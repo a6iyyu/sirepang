@@ -18,13 +18,20 @@
             @include('components.surveyor.tambah-data-keluarga.keluarga')
             <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.dokumentasi')
-            <hr class="bg-green-dark my-6 h-0.25 text-transparent" />
+            <hr class="bg-green-dark mb-3 mt-6 h-0.25 text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.pangan')
-            <section class="flex justify-end">
+            <section class="mt-6 flex justify-end gap-4">
+                <a
+                    href="{{ route('keluarga') }}"
+                    class="flex h-fit transform cursor-pointer items-center rounded-lg bg-red-600 px-5 py-3 text-white transition-all duration-300 ease-in-out lg:hover:bg-red-500"
+                >
+                    <i class="fa-solid fa-xmark mr-4"></i>
+                    Batal
+                </a>
                 <button
                     type="submit"
                     id="submit-form"
-                    class="mt-6 flex h-fit transform cursor-pointer items-center rounded-lg bg-[#2c5e4f] px-5 py-3 text-white transition-all duration-300 ease-in-out lg:hover:bg-green-700"
+                    class="flex h-fit transform cursor-pointer items-center rounded-lg bg-[#2c5e4f] px-5 py-3 text-white transition-all duration-300 ease-in-out lg:hover:bg-green-700"
                 >
                     <i class="fa-solid fa-paper-plane mr-4"></i>
                     Kirim
@@ -56,7 +63,7 @@
                 e.preventDefault();
 
                 for (let isian of formulir.querySelectorAll('input, select, textarea')) {
-                    if (['pilihan-nama-pangan', 'jumlah-urt'].includes(isian.id)) continue;
+                    if (['pilihan-nama-pangan', 'jumlah-urt', 'search-pangan'].includes(isian.id)) continue;
                     if (!isian.name && !isian.id) continue;
                     if (!isian.value || isian.value.trim() === '') {
                         alert(`Anda harus melengkapi formulir sebelum mengirimkan! (Cek bagian "${isian.name || isian.id || '[tidak diketahui]'}")`);
@@ -73,16 +80,6 @@
                     alert('Harap unggah gambar sebelum mengirimkan formulir!');
                     return;
                 }
-
-                let sudah_diisi = false;
-                formulir.addEventListener('input', () => (sudah_diisi = true));
-
-                window.addEventListener('beforeunload', (e) => {
-                    if (sudah_diisi) {
-                        e.preventDefault();
-                        e.returnValue = '';
-                    }
-                });
 
                 try {
                     tombol_kirim.disabled = true;

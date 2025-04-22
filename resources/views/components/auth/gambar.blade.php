@@ -26,7 +26,7 @@
     <figure class="absolute bottom-8 left-8 z-20 space-y-2 text-white">
         <img
             id="carousel-img"
-            src="{{ asset('logo.webp') }}"
+            src="{{ asset('logo.svg') }}"
             alt="Dinas Ketahanan Pangan"
             class="mb-4 w-16 transform transition-transform duration-300 hover:scale-105"
             loading="lazy"
