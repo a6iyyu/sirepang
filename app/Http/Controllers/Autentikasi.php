@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -24,9 +25,9 @@ class Autentikasi extends Controller
                 'password.required' => 'Isi kata sandi terlebih dahulu!',
             ]);
 
-            $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
+            $user = DB::table('users')->where('username', $request->username)->first();
 
-            if ($user) {
+            if ($user && Hash::check($request->password, $user->password)) {
                 Auth::loginUsingId($user->id_user, true);
                 $request->session()->regenerate();
             }

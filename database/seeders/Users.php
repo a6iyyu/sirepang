@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Users extends Seeder
 {
@@ -15,7 +16,7 @@ class Users extends Seeder
                 [
                     'id_user' => 1,
                     'username' => '123',
-                    'password' => '123123',
+                    'password' => Hash::make('123123'),
                     'tipe' => 'admin',
                     'id_kader' => NULL,
                 ],
@@ -23,7 +24,7 @@ class Users extends Seeder
                 [
                     'id_user' => 2,
                     'username' => 'ampelgading',
-                    'password' => 'ampelgading',
+                    'password' => Hash::make('ampelgading'),
                     'tipe' => 'kader',
                     'id_kader' => 1,
                 ],
@@ -31,7 +32,7 @@ class Users extends Seeder
                 [
                     'id_user' => 3,
                     'username' => 'bantur',
-                    'password' => 'bantur',
+                    'password' => Hash::make('bantur'),
                     'tipe' => 'kader',
                     'id_kader' => 2,
                 ],
@@ -39,7 +40,7 @@ class Users extends Seeder
                 [
                     'id_user' => 4,
                     'username' => 'bululawang',
-                    'password' => 'bululawang',
+                    'password' => Hash::make('bululawang'),
                     'tipe' => 'kader',
                     'id_kader' => 3,
                 ],
@@ -47,7 +48,7 @@ class Users extends Seeder
                 [
                     'id_user' => 5,
                     'username' => 'dampit',
-                    'password' => 'dampit',
+                    'password' => Hash::make('dampit'),
                     'tipe' => 'kader',
                     'id_kader' => 4,
                 ],
@@ -55,7 +56,7 @@ class Users extends Seeder
                 [
                     'id_user' => 6,
                     'username' => 'dau',
-                    'password' => 'dau',
+                    'password' => Hash::make('dau'),
                     'tipe' => 'kader',
                     'id_kader' => 5,
                 ],
@@ -63,7 +64,7 @@ class Users extends Seeder
                 [
                     'id_user' => 7,
                     'username' => 'donomulyo',
-                    'password' => 'donomulyo',
+                    'password' => Hash::make('donomulyo'),
                     'tipe' => 'kader',
                     'id_kader' => 6,
                 ],
@@ -71,7 +72,7 @@ class Users extends Seeder
                 [
                     'id_user' => 8,
                     'username' => 'gedangan',
-                    'password' => 'gedangan',
+                    'password' => Hash::make('gedangan'),
                     'tipe' => 'kader',
                     'id_kader' => 7,
                 ],
@@ -79,7 +80,7 @@ class Users extends Seeder
                 [
                     'id_user' => 9,
                     'username' => 'gondanglegi',
-                    'password' => 'gondanglegi',
+                    'password' => Hash::make('gondanglegi'),
                     'tipe' => 'kader',
                     'id_kader' => 8,
                 ],
@@ -87,7 +88,7 @@ class Users extends Seeder
                 [
                     'id_user' => 10,
                     'username' => 'jabung',
-                    'password' => 'jabung',
+                    'password' => Hash::make('jabung'),
                     'tipe' => 'kader',
                     'id_kader' => 9,
                 ],
@@ -95,7 +96,7 @@ class Users extends Seeder
                 [
                     'id_user' => 11,
                     'username' => 'kalipare',
-                    'password' => 'kalipare',
+                    'password' => Hash::make('kalipare'),
                     'tipe' => 'kader',
                     'id_kader' => 10,
                 ],
@@ -103,7 +104,7 @@ class Users extends Seeder
                 [
                     'id_user' => 12,
                     'username' => 'karangploso',
-                    'password' => 'karangploso',
+                    'password' => Hash::make('karangploso'),
                     'tipe' => 'kader',
                     'id_kader' => 11,
                 ],
@@ -111,7 +112,7 @@ class Users extends Seeder
                 [
                     'id_user' => 13,
                     'username' => 'kasembon',
-                    'password' => 'kasembon',
+                    'password' => Hash::make('kasembon'),
                     'tipe' => 'kader',
                     'id_kader' => 12,
                 ],
@@ -119,7 +120,7 @@ class Users extends Seeder
                 [
                     'id_user' => 14,
                     'username' => 'kepanjen',
-                    'password' => 'kepanjen',
+                    'password' => Hash::make('kepanjen'),
                     'tipe' => 'kader',
                     'id_kader' => 13,
                 ],
@@ -127,7 +128,7 @@ class Users extends Seeder
                 [
                     'id_user' => 15,
                     'username' => 'kromengan',
-                    'password' => 'kromengan',
+                    'password' => Hash::make('kromengan'),
                     'tipe' => 'kader',
                     'id_kader' => 14,
                 ],
@@ -135,7 +136,7 @@ class Users extends Seeder
                 [
                     'id_user' => 16,
                     'username' => 'lawang',
-                    'password' => 'lawang',
+                    'password' => Hash::make('lawang'),
                     'tipe' => 'kader',
                     'id_kader' => 15,
                 ],
@@ -143,7 +144,7 @@ class Users extends Seeder
                 [
                     'id_user' => 17,
                     'username' => 'ngajum',
-                    'password' => 'ngajum',
+                    'password' => Hash::make('ngajum'),
                     'tipe' => 'kader',
                     'id_kader' => 16,
                 ],
@@ -151,7 +152,7 @@ class Users extends Seeder
                 [
                     'id_user' => 18,
                     'username' => 'ngantang',
-                    'password' => 'ngantang',
+                    'password' => Hash::make('ngantang'),
                     'tipe' => 'kader',
                     'id_kader' => 17,
                 ],
@@ -159,7 +160,7 @@ class Users extends Seeder
                 [
                     'id_user' => 19,
                     'username' => 'pagak',
-                    'password' => 'pagak',
+                    'password' => Hash::make('pagak'),
                     'tipe' => 'kader',
                     'id_kader' => 18,
                 ],
@@ -167,7 +168,7 @@ class Users extends Seeder
                 [
                     'id_user' => 20,
                     'username' => 'pagelaran',
-                    'password' => 'pagelaran',
+                    'password' => Hash::make('pagelaran'),
                     'tipe' => 'kader',
                     'id_kader' => 19,
                 ],
@@ -175,7 +176,7 @@ class Users extends Seeder
                 [
                     'id_user' => 21,
                     'username' => 'pakis',
-                    'password' => 'pakis',
+                    'password' => Hash::make('pakis'),
                     'tipe' => 'kader',
                     'id_kader' => 20,
                 ],
@@ -183,7 +184,7 @@ class Users extends Seeder
                 [
                     'id_user' => 22,
                     'username' => 'pakisaji',
-                    'password' => 'pakisaji',
+                    'password' => Hash::make('pakisaji'),
                     'tipe' => 'kader',
                     'id_kader' => 21,
                 ],
@@ -191,7 +192,7 @@ class Users extends Seeder
                 [
                     'id_user' => 23,
                     'username' => 'poncokusumo',
-                    'password' => 'poncokusumo',
+                    'password' => Hash::make('poncokusumo'),
                     'tipe' => 'kader',
                     'id_kader' => 22,
                 ],
@@ -199,7 +200,7 @@ class Users extends Seeder
                 [
                     'id_user' => 24,
                     'username' => 'pujon',
-                    'password' => 'pujon',
+                    'password' => Hash::make('pujon'),
                     'tipe' => 'kader',
                     'id_kader' => 23,
                 ],
@@ -207,7 +208,7 @@ class Users extends Seeder
                 [
                     'id_user' => 25,
                     'username' => 'singosari',
-                    'password' => 'singosari',
+                    'password' => Hash::make('singosari'),
                     'tipe' => 'kader',
                     'id_kader' => 24,
                 ],
@@ -215,7 +216,7 @@ class Users extends Seeder
                 [
                     'id_user' => 26,
                     'username' => 'sumawe',
-                    'password' => 'sumawe',
+                    'password' => Hash::make('sumawe'),
                     'tipe' => 'kader',
                     'id_kader' => 25,
                 ],
@@ -223,7 +224,7 @@ class Users extends Seeder
                 [
                     'id_user' => 27,
                     'username' => 'sumberpucung',
-                    'password' => 'sumberpucung',
+                    'password' => Hash::make('sumberpucung'),
                     'tipe' => 'kader',
                     'id_kader' => 26,
                 ],
@@ -231,7 +232,7 @@ class Users extends Seeder
                 [
                     'id_user' => 28,
                     'username' => 'tajinan',
-                    'password' => 'tajinan',
+                    'password' => Hash::make('tajinan'),
                     'tipe' => 'kader',
                     'id_kader' => 27,
                 ],
@@ -239,7 +240,7 @@ class Users extends Seeder
                 [
                     'id_user' => 29,
                     'username' => 'tirtoyudo',
-                    'password' => 'tirtoyudo',
+                    'password' => Hash::make('tirtoyudo'),
                     'tipe' => 'kader',
                     'id_kader' => 28,
                 ],
@@ -247,7 +248,7 @@ class Users extends Seeder
                 [
                     'id_user' => 30,
                     'username' => 'tumpang',
-                    'password' => 'tumpang',
+                    'password' => Hash::make('tumpang'),
                     'tipe' => 'kader',
                     'id_kader' => 29,
                 ],
@@ -255,7 +256,7 @@ class Users extends Seeder
                 [
                     'id_user' => 31,
                     'username' => 'turen',
-                    'password' => 'turen',
+                    'password' => Hash::make('turen'),
                     'tipe' => 'kader',
                     'id_kader' => 30,
                 ],
@@ -263,7 +264,7 @@ class Users extends Seeder
                 [
                     'id_user' => 32,
                     'username' => 'wagir',
-                    'password' => 'wagir',
+                    'password' => Hash::make('wagir'),
                     'tipe' => 'kader',
                     'id_kader' => 31,
                 ],
@@ -271,7 +272,7 @@ class Users extends Seeder
                 [
                     'id_user' => 33,
                     'username' => 'wajak',
-                    'password' => 'wajak',
+                    'password' => Hash::make('wajak'),
                     'tipe' => 'kader',
                     'id_kader' => 32,
                 ],
@@ -279,7 +280,7 @@ class Users extends Seeder
                 [
                     'id_user' => 34,
                     'username' => 'wonosari',
-                    'password' => 'wonosari',
+                    'password' => Hash::make('wonosari'),
                     'tipe' => 'kader',
                     'id_kader' => 33,
                 ],

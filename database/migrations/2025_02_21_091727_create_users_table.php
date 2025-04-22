@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->integer('id_user', true)->unique('id_unique');
             $table->string('username', 50)->unique('username_unique');
-            $table->string('password', 32);
+            $table->string('password', 100);
             $table->enum('tipe', ['admin', 'kader']);
             $table->integer('id_kader')->nullable()->unique('id_kader');
             $table->rememberToken();
