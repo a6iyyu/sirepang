@@ -23,7 +23,7 @@
                             value="{{ $id }}"
                             data-id_takaran="{{ $pangan->id_takaran ?? '' }}"
                             data-referensi_urt="{{ $pangan->referensi_urt ?? 'Tidak ada takaran' }}"
-                            data-referensi_gram_berat="{{ $pangan->referensi_gram_beret ?? '0.00' }}"
+                            data-referensi_gram_berat="{{ $pangan->referensi_gram_berat ?? '0.00' }}"
                         >
                             {{ $pangan->nama_pangan }}
                         </option>
