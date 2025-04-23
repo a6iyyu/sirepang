@@ -21,7 +21,7 @@ class Autentikasi extends Controller
                 'username' => 'required|string|max:255',
                 'password' => 'required|string|max:255',
             ], [
-                'username.required' => 'Harap mengisikan nama daerah Anda!',
+                'username.required' => 'Harap isikan nama Anda!',
                 'password.required' => 'Isi kata sandi terlebih dahulu!',
             ]);
 
@@ -39,7 +39,6 @@ class Autentikasi extends Controller
             return back()->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])->withInput($request->except('password'));
         }
     }
-
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

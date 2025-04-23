@@ -24,3 +24,5 @@ yarn-error.log
 /.zed
 package-lock.json
 *.sql
+database/seeders/Users.php
+database/seeders/Kader.php
