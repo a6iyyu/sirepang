@@ -8,14 +8,11 @@
                     <span id="selected-pangan-text" class="truncate">Pilih Nama Pangan</span>
                     <i class="fa-solid fa-chevron-down text-gray-400"></i>
                 </button>
-                <legend id="dropdown-pangan"
-                    class="absolute z-50 mt-1 hidden w-full rounded-md border-2 border-gray-200 bg-white md:w-80">
+                <legend id="dropdown-pangan" class="absolute z-50 mt-1 hidden w-full rounded-md border-2 border-gray-200 bg-white md:w-80">
                     <div class="sticky top-0 border-b border-gray-200 p-2">
                         <span class="relative">
                             <i class="fa-solid fa-search absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"></i>
-                            <input type="search" id="search-pangan"
-                                class="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10" placeholder="Cari..."
-                                autocomplete="off" tabindex="-1" />
+                            <input type="search" id="search-pangan" class="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10" placeholder="Cari..." autocomplete="off" tabindex="-1" />
                         </span>
                     </div>
                     <ul id="options-pangan" class="max-h-60 overflow-y-auto"></ul>
@@ -23,9 +20,12 @@
                 <select id="pilihan-nama-pangan" class="hidden">
                     <option value="" hidden>Pilih Nama Pangan</option>
                     @foreach ($nama_pangan as $id => $pangan)
-                        <option value="{{ $id }}" data-id_takaran="{{ $pangan->id_takaran ?? '' }}"
+                        <option
+                            value="{{ $id }}"
+                            data-id_takaran="{{ $pangan->id_takaran ?? '' }}"
                             data-referensi_urt="{{ $pangan->referensi_urt ?? 'Tidak ada takaran' }}"
-                            data-referensi_gram_berat="{{ $pangan->referensi_gram_berat ?? '0.00' }}">
+                            data-referensi_gram_berat="{{ $pangan->referensi_gram_berat ?? '0.00' }}"
+                        >
                             {{ $pangan->nama_pangan }}
                         </option>
                     @endforeach
@@ -35,8 +35,7 @@
         <fieldset class="grow">
             <label for="jumlah-urt" class="mb-2 block text-sm font-medium">Takaran URT</label>
             <span class="flex items-center gap-2">
-                <input type="number" id="jumlah-urt" class="grow rounded-md border-2 border-gray-700 px-4 py-3"
-                    placeholder="Cth. 1" min="0" />
+                <input type="number" id="jumlah-urt" class="grow rounded-md border-2 border-gray-700 px-4 py-3" placeholder="Cth. 1" min="0" />
                 <h5 id="unit-takaran" class="whitespace-nowrap text-gray-700"></h5>
             </span>
             <p id="konversi-referensi" class="mt-2 text-sm text-gray-500"></p>
@@ -206,9 +205,7 @@
                     unit_takaran.textContent = unit ? `${shorten_unit(unit)}` : '';
                     const referensi_urt = selectedOption.dataset.referensi_urt;
                     const referensi_gram_berat = parseFloat(selectedOption.dataset.referensi_gram_berat);
-                    konversi_referensi.textContent = referensi_urt && referensi_gram_berat ?
-                        `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` :
-                        'Konversi tidak tersedia';
+                    konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` : 'Konversi tidak tersedia';
                 } else {
                     unit_takaran.textContent = '';
                     konversi_referensi.textContent = '';
@@ -255,26 +252,24 @@
 
                 window.daftar_pangan.forEach((item, indeks) => {
                     const row = document.createElement('div');
-                    row.className =
-                        'pangan-item grid grid-cols-[40%_40%_20%] place-items-center border-b border-gray-200 transition-colors';
+                    row.className = 'pangan-item grid grid-cols-[40%_40%_20%] place-items-center border-b border-gray-200 transition-colors';
                     row.innerHTML = `
-            <h5 class="text-gray-700 text-center">${item.teks_nama_pangan}</h5>
-            <h5 class="text-gray-700 text-center">${item.jumlah_urt} (${item.takaran || ''})</h5>
-            <span class="px-6 py-4 flex justify-center">
-                <button
-                    type="button"
-                    data-hapus="${indeks}"
-                    class="cursor-pointer flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600 text-sm"
-                >
-                    <i class="fa-solid fa-trash mr-2"></i> Hapus
-                </button>
-            </span>
-        `;
+                        <h5 class="text-gray-700 text-center">${item.teks_nama_pangan}</h5>
+                        <h5 class="text-gray-700 text-center">${item.jumlah_urt} (${item.takaran || ''})</h5>
+                        <span class="px-6 py-4 flex justify-center">
+                            <button
+                                type="button"
+                                data-hapus="${indeks}"
+                                class="cursor-pointer flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg transition-colors duration-150 shadow-sm hover:bg-red-600 text-sm"
+                            >
+                                <i class="fa-solid fa-trash mr-2"></i> Hapus
+                            </button>
+                        </span>
+                    `;
                     daftar_pangan_container.appendChild(row);
                 });
 
-                document.querySelectorAll('button[data-hapus]').forEach((tombol) => tombol.addEventListener(
-                    'click', () => hapus_pangan(parseInt(tombol.getAttribute('data-hapus')))));
+                document.querySelectorAll('button[data-hapus]').forEach((tombol) => tombol.addEventListener('click', () => hapus_pangan(parseInt(tombol.getAttribute('data-hapus')))));
                 perbarui_data_tersembunyi();
             };
 
@@ -286,8 +281,7 @@
             };
 
             tombol_tambah.addEventListener('click', () => {
-                if (pilihan_nama_pangan.selectedIndex === 0 || !pilihan_nama_pangan.value || !jumlah_urt
-                    .value) return alert('Semua bidang harus diisi dengan data yang valid!');
+                if (pilihan_nama_pangan.selectedIndex === 0 || !pilihan_nama_pangan.value || !jumlah_urt.value) return alert('Semua bidang harus diisi dengan data yang valid!');
                 const opsi_terpilih = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
                 const id_takaran = opsi_terpilih.dataset.id_takaran;
                 const unit = takaran[id_takaran] || '';
