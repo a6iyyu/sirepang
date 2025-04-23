@@ -37,13 +37,6 @@
                     window.location.href = id_kecamatan ? `${url}?filter-kecamatan=${id_kecamatan}` : url;
                 }, 300);
             });
-
-            document.querySelectorAll('.export').forEach((btn) => {
-                btn.addEventListener('click', (e) => {
-                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Mengekspor...</span>';
-                    setTimeout(() => (btn.innerHTML = '<i class="fas fa-file-excel"></i> <span>Ekspor Ke Excel</span>'), 1400);
-                });
-            });
         });
     </script>
 @endpush
