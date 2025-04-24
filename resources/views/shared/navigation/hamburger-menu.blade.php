@@ -11,7 +11,7 @@
         <i id="mobile-close" class="fa-solid fa-xmark mt-1.5 ml-4 h-fit cursor-pointer text-lg text-white"></i>
     </section>
     <hr class="mt-4 h-0.5 w-full text-emerald-800" />
-    <nav class="mt-4 flex flex-1 flex-col justify-between">
+    <nav class="mt-4 flex h-full flex-1 flex-col justify-between">
         <div class="space-y-4">
             @if (Auth::check() && Auth::user()->tipe == 'kader')
                 <x-menu
