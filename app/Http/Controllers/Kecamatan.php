@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Desa as DesaModel;
+use App\Models\JenisPangan as JenisPanganModel;
 use App\Models\Kecamatan as KecamatanModel;
+use App\Models\Pangan as PanganModel;
+use App\Models\Keluarga as KeluargaModel;
+use App\Models\PanganKeluarga as PanganKeluargaModel;
 use Illuminate\View\View;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class Kecamatan extends Controller
 {
@@ -33,5 +40,84 @@ class Kecamatan extends Controller
             'desa'      => $desa,
             'kecamatan' => $kecamatan->nama_kecamatan,
         ]);
+    }
+
+    public function rekap_kecamatan($id): View
+    {
+        $kecamatan = KecamatanModel::find($id)->toArray();
+        $th = KeluargaModel::selectRaw('YEAR(created_date) as tahun')
+            ->where('id_kecamatan', $id)
+            ->distinct()
+            ->pluck('tahun');
+        // $th = 2025;
+        // dd($th);
+        return view('pages.admin.rekap-kecamatan', compact('th','kecamatan'));
+        // return view('pages.admin.rekap-kecamatan',compact('kecamatan'));
+    }
+
+    public function export_rekap($th)
+    {
+
+        //id ntar diganti ya
+        // $id = 1;
+        // $jenis_pangan = JenisPanganModel::select('id_jenis_pangan','nama_jenis', 'parent')->get()->toArray();
+        // $pangan = PanganModel::with('jenis_pangan')->get()->toArray();
+        // $keluarga = KeluargaModel::select('id_keluarga','jumlah_keluarga','id_kecamatan','id_desa')->where('id_kecamatan', $id)->get()->toArray();
+        // $pangan_keluarga = PanganKeluargaModel::all()->groupBy('id_keluarga')->toArray();
+
+
+        // $pangan_list = [];
+        // foreach ($pangan as $data) {
+        //     $pangan_list[] = [
+        //         'id_jenis_pangan' => $data['jenis_pangan']['id_jenis_pangan'],
+        //         'id_pangan' => $data['id_pangan'],
+        //         'nama_pangan' => $data['nama_pangan'],
+        //         'berat' => $data['gram'],
+        //         'energi' => $data['kalori'],
+        //         'protein' => $data['protein'],
+        //         'lemak' => $data['lemak'],
+        //         'karbohidrat' => $data['karbohidrat'],
+        //     ];
+        // }
+        // dd($pangan_list);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // $sheet->setTitle('Data Rekap Kecamatan');
+        //header
+        // $sheet->setCellValue("B1","Jenis Pangan")->mergeCells("B1:B3");
+        // $sheet->setCellValue("C1","DBKM SUSENAS")->mergeCells("C1:G1");
+        $sheet->setCellValue("B1", "Jenis Pangan")->mergeCells("B1:B3");
+        $sheet->getStyle("B1:B3")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyle("B1:B3")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->setCellValue("C1", "DBKM SUSENAS")->mergeCells("C1:G1");
+        $sheet->getStyle("C1:G1")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->setCellValue("C3", "Berat (gr)");
+        $sheet->setCellValue("D3", "Energi (kkal)");
+        $sheet->setCellValue("E3", "Protein (gr)");
+        $sheet->setCellValue("F3", "Lemak (gr)");
+        $sheet->setCellValue("G3", "Karbo (gr)");
+        //coba
+        $sheet->setCellValue("B4", "Contoh Pangan");
+        $sheet->setCellValue("C4", "1000");
+        $sheet->setCellValue("D4", "2500");
+        $sheet->setCellValue("E4", "90");
+        $sheet->setCellValue("F4", "30");
+        $sheet->setCellValue("G4", "400");
+
+        $filename = 'Data_Rekap_AMpelG' . date('Y-m-d_H-i-s') . '.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

@@ -17,4 +17,8 @@ class Pangan extends Model
     {
         return $this->belongsTo(Takaran::class, 'id_takaran', 'id_takaran');
     }
+    public function jenis_pangan(): BelongsTo
+    {
+        return $this->belongsTo(JenisPangan::class, 'id_jenis_pangan', 'id_jenis_pangan');
+    }
 }
