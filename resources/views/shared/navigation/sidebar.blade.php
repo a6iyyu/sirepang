@@ -11,8 +11,7 @@
     </section>
     <i id="open" class="fa-solid fa-bars !hidden cursor-pointer text-center text-xl text-white"></i>
     <hr class="mt-2 h-0.5 w-full text-emerald-800" />
-
-    <nav class="mt-2 flex-1 flex flex-col justify-between">
+    <nav class="mt-2 flex h-full flex-1 flex-col justify-between">
         <div class="space-y-4">
             @if (Auth::check() && Auth::user()->tipe == 'kader')
                 <x-menu
@@ -30,7 +29,6 @@
                     :style="'group z-30 relative flex items-center px-4 py-3 rounded-xl transition-all transform duration-300 ease-in-out ' . (Request::routeIs('keluarga') || Request::routeIs('tambah-data-keluarga') ? 'bg-primary text-green-dark' : 'text-white hover:bg-green-light/50 hover:scale-105 hover:shadow-md')"
                 />
             @endif
-
             @if (Auth::check() && Auth::user()->tipe == 'admin')
                 <x-menu
                     icon="fa-solid fa-user-shield"

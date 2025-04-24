@@ -1,6 +1,6 @@
 <i id="hamburger-menu" class="fa-solid fa-bars bg-green-dark fixed top-10 right-10 z-20 flex cursor-pointer rounded-lg p-2 text-xl text-white transition-opacity duration-300 lg:!hidden"></i>
-<aside id="mobile" class="bg-green-dark fixed top-0 left-0 z-30 min-h-screen w-72 -translate-x-full transform rounded-r-2xl p-6 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col">
-    <section class="flex justify-between items-center">
+<aside id="mobile" class="bg-green-dark fixed top-0 left-0 z-30 flex h-full min-h-screen w-80 -translate-x-full transform flex-col rounded-r-2xl p-6 shadow-2xl transition-transform duration-300 ease-in-out">
+    <section class="flex justify-between">
         <div class="flex cursor-default items-center space-x-4">
             <img src="{{ asset('logo.svg') }}" alt="Logo" class="h-12 w-12 object-cover" />
             <span id="mobile-sidebar-menu">
@@ -8,10 +8,10 @@
                 <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
             </span>
         </div>
-        <i id="mobile-close" class="fa-solid fa-xmark h-fit cursor-pointer text-lg text-white"></i>
+        <i id="mobile-close" class="fa-solid fa-xmark mt-1.5 ml-4 h-fit cursor-pointer text-lg text-white"></i>
     </section>
     <hr class="mt-4 h-0.5 w-full text-emerald-800" />
-    <nav class="mt-4 flex-1 flex flex-col justify-between">
+    <nav class="mt-4 flex flex-1 flex-col justify-between">
         <div class="space-y-4">
             @if (Auth::check() && Auth::user()->tipe == 'kader')
                 <x-menu
