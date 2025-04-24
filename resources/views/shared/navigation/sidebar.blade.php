@@ -69,7 +69,7 @@
                 />
             @endif
         </div>
-        <div class="pt-4">
+        <div class="mt-auto pt-4">
             <x-menu
                 icon="fa-solid fa-right-to-bracket mr-2"
                 label="Keluar"
