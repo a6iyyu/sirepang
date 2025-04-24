@@ -42,52 +42,22 @@ class Kecamatan extends Controller
         ]);
     }
 
-    public function rekap_kecamatan($id): View
+    public function rekap_kecamatan(string $id): View
     {
         $kecamatan = KecamatanModel::find($id)->toArray();
-        $th = KeluargaModel::selectRaw('YEAR(created_date) as tahun')
+        $tahun = KeluargaModel::selectRaw('YEAR(created_date) as tahun')
             ->where('id_kecamatan', $id)
             ->distinct()
             ->pluck('tahun');
-        // $th = 2025;
-        // dd($th);
-        return view('pages.admin.rekap-kecamatan', compact('th','kecamatan'));
-        // return view('pages.admin.rekap-kecamatan',compact('kecamatan'));
+
+        return view('pages.admin.rekap-kecamatan', compact('tahun','kecamatan'));
     }
 
-    public function export_rekap($th)
+    public function ekspor_rekap(string $tahun): never
     {
-
-        //id ntar diganti ya
-        // $id = 1;
-        // $jenis_pangan = JenisPanganModel::select('id_jenis_pangan','nama_jenis', 'parent')->get()->toArray();
-        // $pangan = PanganModel::with('jenis_pangan')->get()->toArray();
-        // $keluarga = KeluargaModel::select('id_keluarga','jumlah_keluarga','id_kecamatan','id_desa')->where('id_kecamatan', $id)->get()->toArray();
-        // $pangan_keluarga = PanganKeluargaModel::all()->groupBy('id_keluarga')->toArray();
-
-
-        // $pangan_list = [];
-        // foreach ($pangan as $data) {
-        //     $pangan_list[] = [
-        //         'id_jenis_pangan' => $data['jenis_pangan']['id_jenis_pangan'],
-        //         'id_pangan' => $data['id_pangan'],
-        //         'nama_pangan' => $data['nama_pangan'],
-        //         'berat' => $data['gram'],
-        //         'energi' => $data['kalori'],
-        //         'protein' => $data['protein'],
-        //         'lemak' => $data['lemak'],
-        //         'karbohidrat' => $data['karbohidrat'],
-        //     ];
-        // }
-        // dd($pangan_list);
-
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // $sheet->setTitle('Data Rekap Kecamatan');
-        //header
-        // $sheet->setCellValue("B1","Jenis Pangan")->mergeCells("B1:B3");
-        // $sheet->setCellValue("C1","DBKM SUSENAS")->mergeCells("C1:G1");
         $sheet->setCellValue("B1", "Jenis Pangan")->mergeCells("B1:B3");
         $sheet->getStyle("B1:B3")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyle("B1:B3")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -98,7 +68,6 @@ class Kecamatan extends Controller
         $sheet->setCellValue("E3", "Protein (gr)");
         $sheet->setCellValue("F3", "Lemak (gr)");
         $sheet->setCellValue("G3", "Karbo (gr)");
-        //coba
         $sheet->setCellValue("B4", "Contoh Pangan");
         $sheet->setCellValue("C4", "1000");
         $sheet->setCellValue("D4", "2500");
@@ -106,9 +75,8 @@ class Kecamatan extends Controller
         $sheet->setCellValue("F4", "30");
         $sheet->setCellValue("G4", "400");
 
-        $filename = 'Data_Rekap_AMpelG' . date('Y-m-d_H-i-s') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Disposition: attachment; filename="' . 'Data_Rekap_AMpelG' . date('Y-m-d_H-i-s') . '.xlsx' . '"');
         header('Cache-Control: max-age=0');
         header('Cache-Control: max-age=1');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
             Route::get('/rekap-kecamatan/{id}', [Kecamatan::class, 'rekap_kecamatan'])->name('admin.rekap-kecamatan');
-            Route::get('/rekap-kecamatan/tahun/{th}', [Kecamatan::class, 'export_rekap'])->name('export.rekap-kecamatan');
+            Route::get('/rekap-kecamatan/tahun/{tahun}', [Kecamatan::class, 'ekspor_rekap'])->name('ekspor.rekap-kecamatan');
         });
 
         Route::prefix('verifikasi-data')->group(function () {

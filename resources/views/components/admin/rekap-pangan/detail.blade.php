@@ -29,32 +29,30 @@
             <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
         </button>
     </div>
-    <article x-show="open" class="cursor-default">
-        <div class="overflow-x-auto">
-            <div class="min-w-[600px]">
-                <div class="grid grid-cols-2 p-4 text-center text-base font-medium text-emerald-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
-                    <h5 class="flex items-center justify-center font-bold">Nama Pangan</h5>
-                    <h5 class="flex items-center justify-center font-bold">Takaran URT</h5>
-                </div>
-                <hr class="h-0.5 rounded-full bg-emerald-700" />
-                @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
-                    @foreach ($pangan_detail as $pangan)
-                        <div class="grid grid-cols-2 p-4 text-center font-medium text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
-                            <h5 class="flex items-center justify-center">
-                                {{ $pangan->nama_pangan }}
-                            </h5>
-                            <h5 class="flex items-center justify-center">
-                                {{ $pangan->urt }} ({{ $pangan->takaran->nama_takaran }})
-                            </h5>
-                        </div>
-                    @endforeach
-                @else
-                    <div class="grid grid-cols-1 transition-all duration-200 md:grid-cols-3 lg:hover:bg-emerald-50/50">
-                        <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
-                        <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
+    <article x-show="open" class="cursor-default overflow-x-auto">
+        <div class="min-w-[600px]">
+            <span class="grid grid-cols-2 p-4 text-center text-base font-medium text-emerald-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
+                <h5 class="flex items-center justify-center font-bold">Nama Pangan</h5>
+                <h5 class="flex items-center justify-center font-bold">Takaran URT</h5>
+            </span>
+            <hr class="h-0.5 rounded-full bg-emerald-700" />
+            @if (isset($keluarga) && isset($pangan_detail) && count($pangan_detail) > 0)
+                @foreach ($pangan_detail as $pangan)
+                    <div class="grid grid-cols-2 p-4 text-center font-medium text-gray-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
+                        <h5 class="flex items-center justify-center">
+                            {{ $pangan->nama_pangan }}
+                        </h5>
+                        <h5 class="flex items-center justify-center">
+                            {{ $pangan->urt }} ({{ $pangan->takaran->nama_takaran }})
+                        </h5>
                     </div>
-                @endif
-            </div>
+                @endforeach
+            @else
+                <div class="grid grid-cols-1 transition-all duration-200 md:grid-cols-3 lg:hover:bg-emerald-50/50">
+                    <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
+                    <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
+                </div>
+            @endif
         </div>
     </article>
 </section>
