@@ -22,6 +22,14 @@
             loading="lazy"
             data-index="2"
         />
+        />
+        <img
+            src="{{ asset('login-4.jpg') }}"
+            alt="Selamat Datang"
+            class="carousel-image absolute h-full w-full bg-white object-cover opacity-0"
+            loading="lazy"
+            data-index="2"
+        />
     </div>
     <figure class="absolute bottom-8 left-8 z-20 space-y-2 text-white">
         <img
@@ -37,6 +45,7 @@
             <span data-index="0" class="carousel-indicator h-3 w-3 cursor-pointer rounded-full border-2 border-white bg-white"></span>
             <span data-index="1" class="carousel-indicator h-3 w-3 cursor-pointer rounded-full border-2 border-white"></span>
             <span data-index="2" class="carousel-indicator h-3 w-3 cursor-pointer rounded-full border-2 border-white"></span>
+            <span data-index="3" class="carousel-indicator h-3 w-3 cursor-pointer rounded-full border-2 border-white"></span>
         </div>
     </figure>
 </section>

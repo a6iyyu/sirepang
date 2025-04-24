@@ -14,7 +14,7 @@ class Pangan extends Seeder
             0 =>
                 [
                     'id_pangan' => 1,
-                    'nama_pangan' => 'Beras (beras lokal, kualitas unggul, impor)',
+                    'nama_pangan' => '    Beras (beras lokal, kualitas unggul, impor)',
                     'gram' => '1000.00',
                     'kalori' => '3622.00',
                     'lemak' => '14.50',
@@ -28,7 +28,7 @@ class Pangan extends Seeder
             1 =>
                 [
                     'id_pangan' => 2,
-                    'nama_pangan' => 'Beras ketan',
+                    'nama_pangan' => '    Beras ketan',
                     'gram' => '1000.00',
                     'kalori' => '3605.00',
                     'lemak' => '15.50',
@@ -42,7 +42,7 @@ class Pangan extends Seeder
             2 =>
                 [
                     'id_pangan' => 3,
-                    'nama_pangan' => 'Jagung basah dengan kulit',
+                    'nama_pangan' => '    Jagung basah dengan kulit',
                     'gram' => '1000.00',
                     'kalori' => '361.20',
                     'lemak' => '3.64',
@@ -56,7 +56,7 @@ class Pangan extends Seeder
             3 =>
                 [
                     'id_pangan' => 4,
-                    'nama_pangan' => 'Jagung pipilan/beras jagung/jagung titi',
+                    'nama_pangan' => '    Jagung pipilan/beras jagung/jagung titi',
                     'gram' => '1000.00',
                     'kalori' => '3200.00',
                     'lemak' => '39.00',
@@ -70,7 +70,7 @@ class Pangan extends Seeder
             4 =>
                 [
                     'id_pangan' => 5,
-                    'nama_pangan' => 'Tepung terigu',
+                    'nama_pangan' => '    Tepung terigu',
                     'gram' => '1000.00',
                     'kalori' => '3330.00',
                     'lemak' => '10.00',
@@ -84,7 +84,7 @@ class Pangan extends Seeder
             5 =>
                 [
                     'id_pangan' => 6,
-                    'nama_pangan' => 'Padi-padian lainnya',
+                    'nama_pangan' => '    Padi-padian lainnya :',
                     'gram' => '1000.00',
                     'kalori' => '3570.00',
                     'lemak' => '9.00',
@@ -98,7 +98,7 @@ class Pangan extends Seeder
             6 =>
                 [
                     'id_pangan' => 7,
-                    'nama_pangan' => 'Ketela pohon/singkong',
+                    'nama_pangan' => '    Ketela pohon/singkong',
                     'gram' => '1000.00',
                     'kalori' => '1309.00',
                     'lemak' => '2.55',
@@ -112,7 +112,7 @@ class Pangan extends Seeder
             7 =>
                 [
                     'id_pangan' => 8,
-                    'nama_pangan' => 'Ketela rambat/ubi jalar',
+                    'nama_pangan' => '    Ketela rambat/ubi jalar',
                     'gram' => '1000.00',
                     'kalori' => '1252.00',
                     'lemak' => '3.26',
@@ -126,7 +126,7 @@ class Pangan extends Seeder
             8 =>
                 [
                     'id_pangan' => 9,
-                    'nama_pangan' => 'Sagu (bukan dari ketela pohon)',
+                    'nama_pangan' => '    Sagu (bukan dari ketela pohon)',
                     'gram' => '1000.00',
                     'kalori' => '3380.00',
                     'lemak' => '3.00',
@@ -140,7 +140,7 @@ class Pangan extends Seeder
             9 =>
                 [
                     'id_pangan' => 10,
-                    'nama_pangan' => 'Talas/keladi',
+                    'nama_pangan' => '    Talas/keladi',
                     'gram' => '1000.00',
                     'kalori' => '1135.40',
                     'lemak' => '3.78',
@@ -154,7 +154,7 @@ class Pangan extends Seeder
             10 =>
                 [
                     'id_pangan' => 11,
-                    'nama_pangan' => 'Kentang',
+                    'nama_pangan' => '    Kentang',
                     'gram' => '1000.00',
                     'kalori' => '520.80',
                     'lemak' => '1.68',
@@ -168,7 +168,7 @@ class Pangan extends Seeder
             11 =>
                 [
                     'id_pangan' => 12,
-                    'nama_pangan' => 'Gaplek',
+                    'nama_pangan' => '    Gaplek',
                     'gram' => '1000.00',
                     'kalori' => '3380.00',
                     'lemak' => '7.00',
@@ -182,7 +182,7 @@ class Pangan extends Seeder
             12 =>
                 [
                     'id_pangan' => 13,
-                    'nama_pangan' => 'Umbi-umbian lainnya',
+                    'nama_pangan' => '    Umbi-umbian lainnya :',
                     'gram' => '1000.00',
                     'kalori' => '3014.83',
                     'lemak' => '1.75',
@@ -196,7 +196,7 @@ class Pangan extends Seeder
             13 =>
                 [
                     'id_pangan' => 14,
-                    'nama_pangan' => 'Ekor kuning',
+                    'nama_pangan' => '    Ekor kuning',
                     'gram' => '1000.00',
                     'kalori' => '872.00',
                     'lemak' => '32.00',
@@ -210,7 +210,7 @@ class Pangan extends Seeder
             14 =>
                 [
                     'id_pangan' => 15,
-                    'nama_pangan' => 'Tongkol',
+                    'nama_pangan' => '    Tongkol',
                     'gram' => '1000.00',
                     'kalori' => '904.00',
                     'lemak' => '15.00',
@@ -224,7 +224,7 @@ class Pangan extends Seeder
             15 =>
                 [
                     'id_pangan' => 16,
-                    'nama_pangan' => 'Tuna',
+                    'nama_pangan' => '    Tuna',
                     'gram' => '1000.00',
                     'kalori' => '904.00',
                     'lemak' => '49.00',
@@ -238,7 +238,7 @@ class Pangan extends Seeder
             16 =>
                 [
                     'id_pangan' => 17,
-                    'nama_pangan' => 'Cakalang, dencis',
+                    'nama_pangan' => '    Cakalang, dencis',
                     'gram' => '1000.00',
                     'kalori' => '904.00',
                     'lemak' => '7.00',
@@ -252,7 +252,7 @@ class Pangan extends Seeder
             17 =>
                 [
                     'id_pangan' => 18,
-                    'nama_pangan' => 'Tenggiri',
+                    'nama_pangan' => '    Tenggiri',
                     'gram' => '1000.00',
                     'kalori' => '904.00',
                     'lemak' => '36.00',
@@ -266,7 +266,7 @@ class Pangan extends Seeder
             18 =>
                 [
                     'id_pangan' => 19,
-                    'nama_pangan' => 'Selar',
+                    'nama_pangan' => '    Selar',
                     'gram' => '1000.00',
                     'kalori' => '480.00',
                     'lemak' => '10.56',
@@ -280,7 +280,7 @@ class Pangan extends Seeder
             19 =>
                 [
                     'id_pangan' => 20,
-                    'nama_pangan' => 'Kembung, lema/tatare, banyar/banyara',
+                    'nama_pangan' => '    Kembung, lema/tatare, banyar/banyara',
                     'gram' => '1000.00',
                     'kalori' => '824.00',
                     'lemak' => '8.00',
@@ -294,7 +294,7 @@ class Pangan extends Seeder
             20 =>
                 [
                     'id_pangan' => 21,
-                    'nama_pangan' => 'Teri basah',
+                    'nama_pangan' => '    Teri basah',
                     'gram' => '1000.00',
                     'kalori' => '740.00',
                     'lemak' => '14.00',
@@ -308,7 +308,7 @@ class Pangan extends Seeder
             21 =>
                 [
                     'id_pangan' => 22,
-                    'nama_pangan' => 'Bandeng',
+                    'nama_pangan' => '    Bandeng',
                     'gram' => '1000.00',
                     'kalori' => '1032.00',
                     'lemak' => '38.40',
@@ -322,7 +322,7 @@ class Pangan extends Seeder
             22 =>
                 [
                     'id_pangan' => 23,
-                    'nama_pangan' => 'Gabus',
+                    'nama_pangan' => '    Gabus',
                     'gram' => '1000.00',
                     'kalori' => '477.40',
                     'lemak' => '6.20',
@@ -336,7 +336,7 @@ class Pangan extends Seeder
             23 =>
                 [
                     'id_pangan' => 24,
-                    'nama_pangan' => 'Mujair',
+                    'nama_pangan' => '    Mujair',
                     'gram' => '1000.00',
                     'kalori' => '712.00',
                     'lemak' => '8.00',
@@ -350,7 +350,7 @@ class Pangan extends Seeder
             24 =>
                 [
                     'id_pangan' => 25,
-                    'nama_pangan' => 'Mas',
+                    'nama_pangan' => '    Mas',
                     'gram' => '1000.00',
                     'kalori' => '688.00',
                     'lemak' => '20.00',
@@ -364,7 +364,7 @@ class Pangan extends Seeder
             25 =>
                 [
                     'id_pangan' => 26,
-                    'nama_pangan' => 'Nila',
+                    'nama_pangan' => '    Nila',
                     'gram' => '1000.00',
                     'kalori' => '688.00',
                     'lemak' => '10.00',
@@ -378,7 +378,7 @@ class Pangan extends Seeder
             26 =>
                 [
                     'id_pangan' => 27,
-                    'nama_pangan' => 'Lele',
+                    'nama_pangan' => '    Lele',
                     'gram' => '1000.00',
                     'kalori' => '477.40',
                     'lemak' => '6.20',
@@ -392,7 +392,7 @@ class Pangan extends Seeder
             27 =>
                 [
                     'id_pangan' => 28,
-                    'nama_pangan' => 'Kakap',
+                    'nama_pangan' => '    Kakap',
                     'gram' => '1000.00',
                     'kalori' => '736.00',
                     'lemak' => '5.60',
@@ -406,7 +406,7 @@ class Pangan extends Seeder
             28 =>
                 [
                     'id_pangan' => 29,
-                    'nama_pangan' => 'Baronang',
+                    'nama_pangan' => '    Baronang',
                     'gram' => '1000.00',
                     'kalori' => '1200.00',
                     'lemak' => '53.00',
@@ -420,7 +420,7 @@ class Pangan extends Seeder
             29 =>
                 [
                     'id_pangan' => 30,
-                    'nama_pangan' => 'Patin',
+                    'nama_pangan' => '    Patin',
                     'gram' => '1000.00',
                     'kalori' => '477.40',
                     'lemak' => '6.20',
@@ -434,7 +434,7 @@ class Pangan extends Seeder
             30 =>
                 [
                     'id_pangan' => 31,
-                    'nama_pangan' => 'Bawal',
+                    'nama_pangan' => '    Bawal',
                     'gram' => '1000.00',
                     'kalori' => '960.00',
                     'lemak' => '17.00',
@@ -448,7 +448,7 @@ class Pangan extends Seeder
             31 =>
                 [
                     'id_pangan' => 32,
-                    'nama_pangan' => 'Gurame',
+                    'nama_pangan' => '    Gurame',
                     'gram' => '1000.00',
                     'kalori' => '712.00',
                     'lemak' => '8.00',
@@ -462,7 +462,7 @@ class Pangan extends Seeder
             32 =>
                 [
                     'id_pangan' => 33,
-                    'nama_pangan' => 'Ikan segar/basah lainnya',
+                    'nama_pangan' => '    Ikan segar/basah lainnya',
                     'gram' => '1000.00',
                     'kalori' => '904.00',
                     'lemak' => '36.00',
@@ -476,7 +476,7 @@ class Pangan extends Seeder
             33 =>
                 [
                     'id_pangan' => 34,
-                    'nama_pangan' => 'Udang, lobster',
+                    'nama_pangan' => '    Udang, lobster',
                     'gram' => '1000.00',
                     'kalori' => '618.80',
                     'lemak' => '1.36',
@@ -490,7 +490,7 @@ class Pangan extends Seeder
             34 =>
                 [
                     'id_pangan' => 35,
-                    'nama_pangan' => 'Cumi-cumi, sotong, gurita',
+                    'nama_pangan' => '    Cumi-cumi, sotong, gurita',
                     'gram' => '1000.00',
                     'kalori' => '750.00',
                     'lemak' => '7.00',
@@ -504,7 +504,7 @@ class Pangan extends Seeder
             35 =>
                 [
                     'id_pangan' => 36,
-                    'nama_pangan' => 'Ketam, kepiting, rajungan',
+                    'nama_pangan' => '    Ketam, kepiting, rajungan',
                     'gram' => '1000.00',
                     'kalori' => '679.50',
                     'lemak' => '17.10',
@@ -518,7 +518,7 @@ class Pangan extends Seeder
             36 =>
                 [
                     'id_pangan' => 37,
-                    'nama_pangan' => 'Kerang, siput, bekicot, remis',
+                    'nama_pangan' => '    Kerang, siput, bekicot, remis',
                     'gram' => '1000.00',
                     'kalori' => '1010.00',
                     'lemak' => '26.00',
@@ -532,7 +532,7 @@ class Pangan extends Seeder
             37 =>
                 [
                     'id_pangan' => 38,
-                    'nama_pangan' => 'Udang dan hewan air lainnya yang segar lainnya',
+                    'nama_pangan' => '    Udang dan hewan air lainnya yang segar lainnya',
                     'gram' => '1000.00',
                     'kalori' => '552.20',
                     'lemak' => '8.30',
@@ -546,7 +546,7 @@ class Pangan extends Seeder
             38 =>
                 [
                     'id_pangan' => 39,
-                    'nama_pangan' => 'Kembung diawetkan/peda',
+                    'nama_pangan' => '    Kembung diawetkan/peda',
                     'gram' => '100.00',
                     'kalori' => '140.40',
                     'lemak' => '3.60',
@@ -560,7 +560,7 @@ class Pangan extends Seeder
             39 =>
                 [
                     'id_pangan' => 40,
-                    'nama_pangan' => 'Tenggiri diawetkan',
+                    'nama_pangan' => '    Tenggiri diawetkan',
                     'gram' => '100.00',
                     'kalori' => '135.10',
                     'lemak' => '1.05',
@@ -574,7 +574,7 @@ class Pangan extends Seeder
             40 =>
                 [
                     'id_pangan' => 41,
-                    'nama_pangan' => 'Tongkol, tuna, cakalang, dencis, ikan kayu diawetkan',
+                    'nama_pangan' => '    Tongkol, tuna, cakalang, dencis, ikan kayu diawetkan',
                     'gram' => '100.00',
                     'kalori' => '138.60',
                     'lemak' => '1.54',
@@ -588,7 +588,7 @@ class Pangan extends Seeder
             41 =>
                 [
                     'id_pangan' => 42,
-                    'nama_pangan' => 'Teri diawetkan',
+                    'nama_pangan' => '    Teri diawetkan',
                     'gram' => '100.00',
                     'kalori' => '230.50',
                     'lemak' => '2.52',
@@ -602,7 +602,7 @@ class Pangan extends Seeder
             42 =>
                 [
                     'id_pangan' => 43,
-                    'nama_pangan' => 'Selar diawetkan',
+                    'nama_pangan' => '    Selar diawetkan',
                     'gram' => '100.00',
                     'kalori' => '145.50',
                     'lemak' => '2.62',
@@ -616,7 +616,7 @@ class Pangan extends Seeder
             43 =>
                 [
                     'id_pangan' => 44,
-                    'nama_pangan' => 'Sepat diawetkan',
+                    'nama_pangan' => '    Sepat diawetkan',
                     'gram' => '100.00',
                     'kalori' => '216.80',
                     'lemak' => '10.50',
@@ -630,7 +630,7 @@ class Pangan extends Seeder
             44 =>
                 [
                     'id_pangan' => 45,
-                    'nama_pangan' => 'Bandeng diawetkan',
+                    'nama_pangan' => '    Bandeng diawetkan',
                     'gram' => '100.00',
                     'kalori' => '296.00',
                     'lemak' => '20.30',
@@ -644,7 +644,7 @@ class Pangan extends Seeder
             45 =>
                 [
                     'id_pangan' => 46,
-                    'nama_pangan' => 'Gabus diawetkan',
+                    'nama_pangan' => '    Gabus diawetkan',
                     'gram' => '100.00',
                     'kalori' => '233.60',
                     'lemak' => '3.20',
@@ -658,7 +658,7 @@ class Pangan extends Seeder
             46 =>
                 [
                     'id_pangan' => 47,
-                    'nama_pangan' => 'Ikan dalam kaleng (sardencis, tuna dalam kaleng, dsb)',
+                    'nama_pangan' => '    Ikan dalam kaleng (sardencis, tuna dalam kaleng, dsb)',
                     'gram' => '100.00',
                     'kalori' => '338.00',
                     'lemak' => '27.00',
@@ -672,7 +672,7 @@ class Pangan extends Seeder
             47 =>
                 [
                     'id_pangan' => 48,
-                    'nama_pangan' => 'Ikan diawetkan lainnya',
+                    'nama_pangan' => '    Ikan diawetkan lainnya',
                     'gram' => '100.00',
                     'kalori' => '305.00',
                     'lemak' => '8.90',
@@ -686,7 +686,7 @@ class Pangan extends Seeder
             48 =>
                 [
                     'id_pangan' => 49,
-                    'nama_pangan' => 'Udang (ebi, rebon)',
+                    'nama_pangan' => '    Udang (ebi, rebon)',
                     'gram' => '100.00',
                     'kalori' => '265.50',
                     'lemak' => '2.07',
@@ -700,7 +700,7 @@ class Pangan extends Seeder
             49 =>
                 [
                     'id_pangan' => 50,
-                    'nama_pangan' => 'Cumi-cumi, sotong, gurita diawetkan',
+                    'nama_pangan' => '    Cumi-cumi, sotong, gurita diawetkan',
                     'gram' => '100.00',
                     'kalori' => '265.50',
                     'lemak' => '2.07',
@@ -714,7 +714,7 @@ class Pangan extends Seeder
             50 =>
                 [
                     'id_pangan' => 51,
-                    'nama_pangan' => 'Udang dan hewan air lainnya yang diawetkan',
+                    'nama_pangan' => '    Udang dan hewan air lainnya yang diawetkan',
                     'gram' => '100.00',
                     'kalori' => '357.00',
                     'lemak' => '10.00',
@@ -728,7 +728,7 @@ class Pangan extends Seeder
             51 =>
                 [
                     'id_pangan' => 52,
-                    'nama_pangan' => 'Daging sapi',
+                    'nama_pangan' => '    Daging sapi',
                     'gram' => '1000.00',
                     'kalori' => '2070.00',
                     'lemak' => '140.00',
@@ -742,7 +742,7 @@ class Pangan extends Seeder
             52 =>
                 [
                     'id_pangan' => 53,
-                    'nama_pangan' => 'Daging kambing, domba/biri-biri',
+                    'nama_pangan' => '    Daging kambing, domba/biri-biri',
                     'gram' => '1000.00',
                     'kalori' => '1540.00',
                     'lemak' => '92.00',
@@ -756,7 +756,7 @@ class Pangan extends Seeder
             53 =>
                 [
                     'id_pangan' => 54,
-                    'nama_pangan' => 'Daging babi',
+                    'nama_pangan' => '    Daging babi',
                     'gram' => '1000.00',
                     'kalori' => '4165.00',
                     'lemak' => '400.00',
@@ -770,7 +770,7 @@ class Pangan extends Seeder
             54 =>
                 [
                     'id_pangan' => 55,
-                    'nama_pangan' => 'Daging ayam ras',
+                    'nama_pangan' => '    Daging ayam ras',
                     'gram' => '1000.00',
                     'kalori' => '3020.00',
                     'lemak' => '250.00',
@@ -784,7 +784,7 @@ class Pangan extends Seeder
             55 =>
                 [
                     'id_pangan' => 56,
-                    'nama_pangan' => 'Daging ayam kampung',
+                    'nama_pangan' => '    Daging ayam kampung',
                     'gram' => '1000.00',
                     'kalori' => '3020.00',
                     'lemak' => '250.00',
@@ -798,7 +798,7 @@ class Pangan extends Seeder
             56 =>
                 [
                     'id_pangan' => 57,
-                    'nama_pangan' => 'Daging segar lainnya',
+                    'nama_pangan' => '    Daging segar lainnya :',
                     'gram' => '1000.00',
                     'kalori' => '2050.00',
                     'lemak' => '148.00',
@@ -812,7 +812,7 @@ class Pangan extends Seeder
             57 =>
                 [
                     'id_pangan' => 58,
-                    'nama_pangan' => 'Daging diawetkan (sosis, abon, nugget, lainnya)',
+                    'nama_pangan' => '    Daging diawetkan (sosis, abon, nugget, lainnya)',
                     'gram' => '1000.00',
                     'kalori' => '3385.69',
                     'lemak' => '423.00',
@@ -826,7 +826,7 @@ class Pangan extends Seeder
             58 =>
                 [
                     'id_pangan' => 59,
-                    'nama_pangan' => 'Tetelan, sandung lamur',
+                    'nama_pangan' => '    Tetelan, sandung lamur',
                     'gram' => '1000.00',
                     'kalori' => '1280.00',
                     'lemak' => '65.00',
@@ -840,7 +840,7 @@ class Pangan extends Seeder
             59 =>
                 [
                     'id_pangan' => 60,
-                    'nama_pangan' => 'Lainnya (hati, jeroan, iga, kaki, buntut, kepala, dsb)',
+                    'nama_pangan' => '    Lainnya (hati, jeroan, iga, kaki, buntut, kepala, dsb)',
                     'gram' => '1000.00',
                     'kalori' => '1189.58',
                     'lemak' => '65.00',
@@ -854,7 +854,7 @@ class Pangan extends Seeder
             60 =>
                 [
                     'id_pangan' => 61,
-                    'nama_pangan' => 'Telur ayam ras',
+                    'nama_pangan' => '    Telur ayam ras',
                     'gram' => '60.00',
                     'kalori' => '82.24',
                     'lemak' => '5.77',
@@ -868,7 +868,7 @@ class Pangan extends Seeder
             61 =>
                 [
                     'id_pangan' => 62,
-                    'nama_pangan' => 'Telur ayam kampung',
+                    'nama_pangan' => '    Telur ayam kampung',
                     'gram' => '50.00',
                     'kalori' => '68.90',
                     'lemak' => '5.32',
@@ -882,7 +882,7 @@ class Pangan extends Seeder
             62 =>
                 [
                     'id_pangan' => 63,
-                    'nama_pangan' => 'Telur itik/telur itik manila',
+                    'nama_pangan' => '    Telur itik/telur itik manila',
                     'gram' => '70.00',
                     'kalori' => '125.40',
                     'lemak' => '10.18',
@@ -896,7 +896,7 @@ class Pangan extends Seeder
             63 =>
                 [
                     'id_pangan' => 64,
-                    'nama_pangan' => 'Telur lainnya (telur puyuh, telur asin mentah maupun matang, telur penyu, telur angsa, dsb)',
+                    'nama_pangan' => '    Telur lainnya (telur puyuh, telur asin mentah maupun matang, telur penyu, telur angsa, dsb)',
                     'gram' => '43.60',
                     'kalori' => '64.20',
                     'lemak' => '0.00',
@@ -910,7 +910,7 @@ class Pangan extends Seeder
             64 =>
                 [
                     'id_pangan' => 65,
-                    'nama_pangan' => 'Susu cair pabrik',
+                    'nama_pangan' => '    Susu cair pabrik',
                     'gram' => '200.00',
                     'kalori' => '122.00',
                     'lemak' => '7.00',
@@ -918,13 +918,13 @@ class Pangan extends Seeder
                     'protein' => '6.40',
                     'id_jenis_pangan' => 5,
                     'id_takaran' => 12,
-                    'referensi_urt' => '250ml*)',
+                    'referensi_urt' => 'Kotak',
                     'referensi_gram_berat' => ' 200.0 ',
                 ],
             65 =>
                 [
                     'id_pangan' => 66,
-                    'nama_pangan' => 'Susu kental manis',
+                    'nama_pangan' => '    Susu kental manis',
                     'gram' => '397.00',
                     'kalori' => '1333.90',
                     'lemak' => '39.70',
@@ -932,13 +932,13 @@ class Pangan extends Seeder
                     'protein' => '32.55',
                     'id_jenis_pangan' => 5,
                     'id_takaran' => 13,
-                    'referensi_urt' => '397gr**)',
+                    'referensi_urt' => 'Kaleng',
                     'referensi_gram_berat' => ' 397.0 ',
                 ],
             66 =>
                 [
                     'id_pangan' => 67,
-                    'nama_pangan' => 'Susu bubuk',
+                    'nama_pangan' => '    Susu bubuk',
                     'gram' => '1000.00',
                     'kalori' => '5090.00',
                     'lemak' => '300.00',
@@ -952,7 +952,7 @@ class Pangan extends Seeder
             67 =>
                 [
                     'id_pangan' => 68,
-                    'nama_pangan' => 'Susu bubuk bayi',
+                    'nama_pangan' => '    Susu bubuk bayi',
                     'gram' => '1000.00',
                     'kalori' => '1672.00',
                     'lemak' => '36.00',
@@ -966,7 +966,7 @@ class Pangan extends Seeder
             68 =>
                 [
                     'id_pangan' => 69,
-                    'nama_pangan' => 'Susu lainnya dan hasil lain dari susu',
+                    'nama_pangan' => '    Susu lainnya dan hasil lain dari susu',
                     'gram' => '100.00',
                     'kalori' => '488.00',
                     'lemak' => '2.50',
@@ -980,7 +980,7 @@ class Pangan extends Seeder
             69 =>
                 [
                     'id_pangan' => 70,
-                    'nama_pangan' => 'Bayam',
+                    'nama_pangan' => '    Bayam',
                     'gram' => '1000.00',
                     'kalori' => '113.60',
                     'lemak' => '2.84',
@@ -994,7 +994,7 @@ class Pangan extends Seeder
             70 =>
                 [
                     'id_pangan' => 71,
-                    'nama_pangan' => 'Kangkung',
+                    'nama_pangan' => '    Kangkung',
                     'gram' => '1000.00',
                     'kalori' => '168.00',
                     'lemak' => '4.20',
@@ -1008,7 +1008,7 @@ class Pangan extends Seeder
             71 =>
                 [
                     'id_pangan' => 72,
-                    'nama_pangan' => 'Kol/kubis',
+                    'nama_pangan' => '    Kol/kubis',
                     'gram' => '1000.00',
                     'kalori' => '180.00',
                     'lemak' => '1.50',
@@ -1022,7 +1022,7 @@ class Pangan extends Seeder
             72 =>
                 [
                     'id_pangan' => 73,
-                    'nama_pangan' => 'Sawi putih (petsai)',
+                    'nama_pangan' => '    Sawi putih (petsai)',
                     'gram' => '1000.00',
                     'kalori' => '66.00',
                     'lemak' => '1.50',
@@ -1036,7 +1036,7 @@ class Pangan extends Seeder
             73 =>
                 [
                     'id_pangan' => 74,
-                    'nama_pangan' => 'Sawi hijau',
+                    'nama_pangan' => '    Sawi hijau',
                     'gram' => '1000.00',
                     'kalori' => '191.40',
                     'lemak' => '2.61',
@@ -1050,7 +1050,7 @@ class Pangan extends Seeder
             74 =>
                 [
                     'id_pangan' => 75,
-                    'nama_pangan' => 'Buncis',
+                    'nama_pangan' => '    Buncis',
                     'gram' => '1000.00',
                     'kalori' => '306.00',
                     'lemak' => '2.70',
@@ -1064,7 +1064,7 @@ class Pangan extends Seeder
             75 =>
                 [
                     'id_pangan' => 76,
-                    'nama_pangan' => 'Kacang panjang',
+                    'nama_pangan' => '    Kacang panjang',
                     'gram' => '1000.00',
                     'kalori' => '276.00',
                     'lemak' => '4.60',
@@ -1078,7 +1078,7 @@ class Pangan extends Seeder
             76 =>
                 [
                     'id_pangan' => 77,
-                    'nama_pangan' => 'Tomat sayur, tomat ceri',
+                    'nama_pangan' => '    Tomat sayur, tomat ceri',
                     'gram' => '1000.00',
                     'kalori' => '190.00',
                     'lemak' => '2.90',
@@ -1092,7 +1092,7 @@ class Pangan extends Seeder
             77 =>
                 [
                     'id_pangan' => 78,
-                    'nama_pangan' => 'Wortel',
+                    'nama_pangan' => '    Wortel',
                     'gram' => '1000.00',
                     'kalori' => '288.00',
                     'lemak' => '4.80',
@@ -1106,7 +1106,7 @@ class Pangan extends Seeder
             78 =>
                 [
                     'id_pangan' => 79,
-                    'nama_pangan' => 'Mentimun',
+                    'nama_pangan' => '    Mentimun',
                     'gram' => '1000.00',
                     'kalori' => '68.70',
                     'lemak' => '1.21',
@@ -1120,7 +1120,7 @@ class Pangan extends Seeder
             79 =>
                 [
                     'id_pangan' => 80,
-                    'nama_pangan' => 'Daun ketela pohon/daun singkong',
+                    'nama_pangan' => '    Daun ketela pohon/daun singkong',
                     'gram' => '1000.00',
                     'kalori' => '635.10',
                     'lemak' => '10.44',
@@ -1134,7 +1134,7 @@ class Pangan extends Seeder
             80 =>
                 [
                     'id_pangan' => 81,
-                    'nama_pangan' => 'Terong',
+                    'nama_pangan' => '    Terong',
                     'gram' => '1000.00',
                     'kalori' => '373.10',
                     'lemak' => '5.88',
@@ -1148,7 +1148,7 @@ class Pangan extends Seeder
             81 =>
                 [
                     'id_pangan' => 82,
-                    'nama_pangan' => 'Tauge',
+                    'nama_pangan' => '    Tauge',
                     'gram' => '1000.00',
                     'kalori' => '340.00',
                     'lemak' => '12.00',
@@ -1162,7 +1162,7 @@ class Pangan extends Seeder
             82 =>
                 [
                     'id_pangan' => 83,
-                    'nama_pangan' => 'Labu, labu siam, labu parang',
+                    'nama_pangan' => '    Labu, labu siam, labu parang',
                     'gram' => '1000.00',
                     'kalori' => '191.70',
                     'lemak' => '1.58',
@@ -1176,7 +1176,7 @@ class Pangan extends Seeder
             83 =>
                 [
                     'id_pangan' => 84,
-                    'nama_pangan' => 'Bahan sayur sop/cap cay/kimlo (paket)',
+                    'nama_pangan' => '    Bahan sayur sop/cap cay/kimlo (paket)',
                     'gram' => '500.00',
                     'kalori' => '67.50',
                     'lemak' => '5.00',
@@ -1190,7 +1190,7 @@ class Pangan extends Seeder
             84 =>
                 [
                     'id_pangan' => 85,
-                    'nama_pangan' => 'Bahan sayur asam/lodeh (paket)',
+                    'nama_pangan' => '    Bahan sayur asam/lodeh (paket)',
                     'gram' => '600.00',
                     'kalori' => '116.00',
                     'lemak' => '2.40',
@@ -1204,7 +1204,7 @@ class Pangan extends Seeder
             85 =>
                 [
                     'id_pangan' => 86,
-                    'nama_pangan' => 'Nangka muda',
+                    'nama_pangan' => '    Nangka muda',
                     'gram' => '1000.00',
                     'kalori' => '408.00',
                     'lemak' => '3.20',
@@ -1218,7 +1218,7 @@ class Pangan extends Seeder
             86 =>
                 [
                     'id_pangan' => 87,
-                    'nama_pangan' => 'Pepaya muda',
+                    'nama_pangan' => '    Pepaya muda',
                     'gram' => '1000.00',
                     'kalori' => '197.60',
                     'lemak' => '0.76',
@@ -1232,7 +1232,7 @@ class Pangan extends Seeder
             87 =>
                 [
                     'id_pangan' => 88,
-                    'nama_pangan' => 'Jengkol',
+                    'nama_pangan' => '    Jengkol',
                     'gram' => '1000.00',
                     'kalori' => '1260.00',
                     'lemak' => '0.90',
@@ -1246,7 +1246,7 @@ class Pangan extends Seeder
             88 =>
                 [
                     'id_pangan' => 89,
-                    'nama_pangan' => 'Bawang merah',
+                    'nama_pangan' => '    Bawang merah',
                     'gram' => '100.00',
                     'kalori' => '35.10',
                     'lemak' => '0.27',
@@ -1260,7 +1260,7 @@ class Pangan extends Seeder
             89 =>
                 [
                     'id_pangan' => 90,
-                    'nama_pangan' => 'Bawang putih',
+                    'nama_pangan' => '    Bawang putih',
                     'gram' => '100.00',
                     'kalori' => '83.60',
                     'lemak' => '0.18',
@@ -1274,7 +1274,7 @@ class Pangan extends Seeder
             90 =>
                 [
                     'id_pangan' => 91,
-                    'nama_pangan' => 'Bawang bombay',
+                    'nama_pangan' => '    Bawang bombay',
                     'gram' => '100.00',
                     'kalori' => '43.00',
                     'lemak' => '0.20',
@@ -1288,7 +1288,7 @@ class Pangan extends Seeder
             91 =>
                 [
                     'id_pangan' => 92,
-                    'nama_pangan' => 'Cabe merah',
+                    'nama_pangan' => '    Cabe merah',
                     'gram' => '1000.00',
                     'kalori' => '264.00',
                     'lemak' => '2.60',
@@ -1302,7 +1302,7 @@ class Pangan extends Seeder
             92 =>
                 [
                     'id_pangan' => 93,
-                    'nama_pangan' => 'Cabe hijau',
+                    'nama_pangan' => '    Cabe hijau',
                     'gram' => '1000.00',
                     'kalori' => '189.00',
                     'lemak' => '2.50',
@@ -1316,7 +1316,7 @@ class Pangan extends Seeder
             93 =>
                 [
                     'id_pangan' => 94,
-                    'nama_pangan' => 'Cabe rawit',
+                    'nama_pangan' => '    Cabe rawit',
                     'gram' => '1000.00',
                     'kalori' => '876.00',
                     'lemak' => '20.40',
@@ -1330,7 +1330,7 @@ class Pangan extends Seeder
             94 =>
                 [
                     'id_pangan' => 95,
-                    'nama_pangan' => 'Sayur-sayuran lainnya',
+                    'nama_pangan' => '    Sayur-sayuran lainnya',
                     'gram' => '1000.00',
                     'kalori' => '110.15',
                     'lemak' => '5.90',
@@ -1344,7 +1344,7 @@ class Pangan extends Seeder
             95 =>
                 [
                     'id_pangan' => 96,
-                    'nama_pangan' => 'Kacang tanah tanpa Kulit',
+                    'nama_pangan' => '    Kacang tanah tanpa Kulit',
                     'gram' => '1000.00',
                     'kalori' => '4520.00',
                     'lemak' => '428.00',
@@ -1358,7 +1358,7 @@ class Pangan extends Seeder
             96 =>
                 [
                     'id_pangan' => 97,
-                    'nama_pangan' => 'Kacang kedele',
+                    'nama_pangan' => '    Kacang kedele',
                     'gram' => '1000.00',
                     'kalori' => '3810.00',
                     'lemak' => '167.00',
@@ -1372,7 +1372,7 @@ class Pangan extends Seeder
             97 =>
                 [
                     'id_pangan' => 98,
-                    'nama_pangan' => 'Kacang lainnya',
+                    'nama_pangan' => '    Kacang lainnya',
                     'gram' => '1000.00',
                     'kalori' => '2988.23',
                     'lemak' => '40.06',
@@ -1386,7 +1386,7 @@ class Pangan extends Seeder
             98 =>
                 [
                     'id_pangan' => 99,
-                    'nama_pangan' => 'Tahu',
+                    'nama_pangan' => '    Tahu',
                     'gram' => '1000.00',
                     'kalori' => '800.00',
                     'lemak' => '47.00',
@@ -1400,7 +1400,7 @@ class Pangan extends Seeder
             99 =>
                 [
                     'id_pangan' => 100,
-                    'nama_pangan' => 'Tempe',
+                    'nama_pangan' => '    Tempe',
                     'gram' => '1000.00',
                     'kalori' => '1430.00',
                     'lemak' => '55.00',
@@ -1414,7 +1414,7 @@ class Pangan extends Seeder
             100 =>
                 [
                     'id_pangan' => 101,
-                    'nama_pangan' => 'Oncom',
+                    'nama_pangan' => '    Oncom',
                     'gram' => '100.00',
                     'kalori' => '187.00',
                     'lemak' => '6.00',
@@ -1428,7 +1428,7 @@ class Pangan extends Seeder
             101 =>
                 [
                     'id_pangan' => 102,
-                    'nama_pangan' => 'Hasil lain dari kacang-kacangan',
+                    'nama_pangan' => '    Hasil lain dari kacang-kacangan',
                     'gram' => '100.00',
                     'kalori' => '228.40',
                     'lemak' => '10.45',
@@ -1442,7 +1442,7 @@ class Pangan extends Seeder
             102 =>
                 [
                     'id_pangan' => 103,
-                    'nama_pangan' => 'Jeruk, jeruk bali',
+                    'nama_pangan' => '    Jeruk, jeruk bali',
                     'gram' => '1000.00',
                     'kalori' => '311.30',
                     'lemak' => '1.60',
@@ -1456,7 +1456,7 @@ class Pangan extends Seeder
             103 =>
                 [
                     'id_pangan' => 104,
-                    'nama_pangan' => 'Mangga',
+                    'nama_pangan' => '    Mangga',
                     'gram' => '1000.00',
                     'kalori' => '365.30',
                     'lemak' => '1.30',
@@ -1470,7 +1470,7 @@ class Pangan extends Seeder
             104 =>
                 [
                     'id_pangan' => 105,
-                    'nama_pangan' => 'Apel',
+                    'nama_pangan' => '    Apel',
                     'gram' => '1000.00',
                     'kalori' => '484.50',
                     'lemak' => '3.40',
@@ -1484,7 +1484,7 @@ class Pangan extends Seeder
             105 =>
                 [
                     'id_pangan' => 106,
-                    'nama_pangan' => 'Rambutan',
+                    'nama_pangan' => '    Rambutan',
                     'gram' => '1000.00',
                     'kalori' => '276.00',
                     'lemak' => '0.40',
@@ -1498,7 +1498,7 @@ class Pangan extends Seeder
             106 =>
                 [
                     'id_pangan' => 107,
-                    'nama_pangan' => 'Duku, langsat',
+                    'nama_pangan' => '    Duku, langsat',
                     'gram' => '1000.00',
                     'kalori' => '403.20',
                     'lemak' => '1.28',
@@ -1512,7 +1512,7 @@ class Pangan extends Seeder
             107 =>
                 [
                     'id_pangan' => 108,
-                    'nama_pangan' => 'Durian',
+                    'nama_pangan' => '    Durian',
                     'gram' => '1000.00',
                     'kalori' => '294.80',
                     'lemak' => '6.60',
@@ -1526,7 +1526,7 @@ class Pangan extends Seeder
             108 =>
                 [
                     'id_pangan' => 109,
-                    'nama_pangan' => 'Salak',
+                    'nama_pangan' => '    Salak',
                     'gram' => '1000.00',
                     'kalori' => '1350.60',
                     'lemak' => '1.64',
@@ -1540,7 +1540,7 @@ class Pangan extends Seeder
             109 =>
                 [
                     'id_pangan' => 110,
-                    'nama_pangan' => 'Pisang ambon',
+                    'nama_pangan' => '    Pisang ambon',
                     'gram' => '1000.00',
                     'kalori' => '644.00',
                     'lemak' => '2.10',
@@ -1554,7 +1554,7 @@ class Pangan extends Seeder
             110 =>
                 [
                     'id_pangan' => 111,
-                    'nama_pangan' => 'Pisang lainnya ',
+                    'nama_pangan' => '    Pisang lainnya ',
                     'gram' => '1000.00',
                     'kalori' => '1131.10',
                     'lemak' => '6.03',
@@ -1568,7 +1568,7 @@ class Pangan extends Seeder
             111 =>
                 [
                     'id_pangan' => 112,
-                    'nama_pangan' => 'Pepaya',
+                    'nama_pangan' => '    Pepaya',
                     'gram' => '1000.00',
                     'kalori' => '345.00',
                     'lemak' => '0.00',
@@ -1577,12 +1577,12 @@ class Pangan extends Seeder
                     'id_jenis_pangan' => 8,
                     'id_takaran' => 1,
                     'referensi_urt' => '1 potong besar',
-                    'referensi_gram_berat' => '100-190',
+                    'referensi_gram_berat' => '100—190',
                 ],
             112 =>
                 [
                     'id_pangan' => 113,
-                    'nama_pangan' => 'Semangka',
+                    'nama_pangan' => '    Semangka',
                     'gram' => '1000.00',
                     'kalori' => '128.80',
                     'lemak' => '0.92',
@@ -1596,7 +1596,7 @@ class Pangan extends Seeder
             113 =>
                 [
                     'id_pangan' => 114,
-                    'nama_pangan' => 'Tomat buah',
+                    'nama_pangan' => '    Tomat buah',
                     'gram' => '1000.00',
                     'kalori' => '240.00',
                     'lemak' => '5.00',
@@ -1610,7 +1610,7 @@ class Pangan extends Seeder
             114 =>
                 [
                     'id_pangan' => 115,
-                    'nama_pangan' => 'Alpukat',
+                    'nama_pangan' => '    Alpukat',
                     'gram' => '1000.00',
                     'kalori' => '850.00',
                     'lemak' => '65.00',
@@ -1624,7 +1624,7 @@ class Pangan extends Seeder
             115 =>
                 [
                     'id_pangan' => 116,
-                    'nama_pangan' => 'Jambu biji',
+                    'nama_pangan' => '    Jambu biji',
                     'gram' => '1000.00',
                     'kalori' => '490.00',
                     'lemak' => '3.00',
@@ -1638,7 +1638,7 @@ class Pangan extends Seeder
             116 =>
                 [
                     'id_pangan' => 117,
-                    'nama_pangan' => 'Buah-buahan lainnya',
+                    'nama_pangan' => '    Buah-buahan lainnya',
                     'gram' => '1000.00',
                     'kalori' => '383.98',
                     'lemak' => '17.97',
@@ -1652,7 +1652,7 @@ class Pangan extends Seeder
             117 =>
                 [
                     'id_pangan' => 118,
-                    'nama_pangan' => 'Minyak kelapa',
+                    'nama_pangan' => '    Minyak kelapa',
                     'gram' => '800.00',
                     'kalori' => '6960.00',
                     'lemak' => '784.00',
@@ -1666,7 +1666,7 @@ class Pangan extends Seeder
             118 =>
                 [
                     'id_pangan' => 119,
-                    'nama_pangan' => 'Minyak goreng (kelapa sawit, bunga matahari)',
+                    'nama_pangan' => '    Minyak goreng (kelapa sawit, bunga matahari)',
                     'gram' => '800.00',
                     'kalori' => '7216.00',
                     'lemak' => '88.00',
@@ -1680,7 +1680,7 @@ class Pangan extends Seeder
             119 =>
                 [
                     'id_pangan' => 120,
-                    'nama_pangan' => 'Kelapa (tidak termasuk santan instan)',
+                    'nama_pangan' => '    Kelapa (tidak termasuk santan instan)',
                     'gram' => '250.00',
                     'kalori' => '1335.50',
                     'lemak' => '130.12',
@@ -1694,7 +1694,7 @@ class Pangan extends Seeder
             120 =>
                 [
                     'id_pangan' => 121,
-                    'nama_pangan' => 'Minyak dan kelapa lainnya',
+                    'nama_pangan' => '    Minyak dan kelapa lainnya',
                     'gram' => '800.00',
                     'kalori' => '6598.00',
                     'lemak' => '810.00',
@@ -1708,7 +1708,7 @@ class Pangan extends Seeder
             121 =>
                 [
                     'id_pangan' => 122,
-                    'nama_pangan' => 'Gula pasir',
+                    'nama_pangan' => '    Gula pasir',
                     'gram' => '100.00',
                     'kalori' => '364.00',
                     'lemak' => '0.00',
@@ -1722,7 +1722,7 @@ class Pangan extends Seeder
             122 =>
                 [
                     'id_pangan' => 123,
-                    'nama_pangan' => 'Gula merah, gula air (pohom aren, kelapa, lontar)',
+                    'nama_pangan' => '    Gula merah, gula air (pohom aren, kelapa, lontar)',
                     'gram' => '100.00',
                     'kalori' => '377.00',
                     'lemak' => '10.00',
@@ -1736,7 +1736,7 @@ class Pangan extends Seeder
             123 =>
                 [
                     'id_pangan' => 124,
-                    'nama_pangan' => 'Teh bubuk',
+                    'nama_pangan' => '    Teh bubuk',
                     'gram' => '100.00',
                     'kalori' => '132.00',
                     'lemak' => '0.70',
@@ -1750,7 +1750,7 @@ class Pangan extends Seeder
             124 =>
                 [
                     'id_pangan' => 125,
-                    'nama_pangan' => 'Teh celup (sachet)',
+                    'nama_pangan' => '    Teh celup (sachet)',
                     'gram' => '2.00',
                     'kalori' => '2.64',
                     'lemak' => '0.01',
@@ -1758,13 +1758,13 @@ class Pangan extends Seeder
                     'protein' => '0.39',
                     'id_jenis_pangan' => 10,
                     'id_takaran' => 15,
-                    'referensi_urt' => '2gr',
+                    'referensi_urt' => 'Kantong Celup',
                     'referensi_gram_berat' => ' 2.0 ',
                 ],
             125 =>
                 [
                     'id_pangan' => 126,
-                    'nama_pangan' => 'Kopi (bubuk, biji)',
+                    'nama_pangan' => '    Kopi (bubuk, biji)',
                     'gram' => '100.00',
                     'kalori' => '352.00',
                     'lemak' => '1.30',
@@ -1778,7 +1778,7 @@ class Pangan extends Seeder
             126 =>
                 [
                     'id_pangan' => 127,
-                    'nama_pangan' => 'Kopi instan (sachet)',
+                    'nama_pangan' => '    Kopi instan (sachet)',
                     'gram' => '20.00',
                     'kalori' => '90.00',
                     'lemak' => '15.00',
@@ -1786,13 +1786,13 @@ class Pangan extends Seeder
                     'protein' => '1.00',
                     'id_jenis_pangan' => 10,
                     'id_takaran' => 16,
-                    'referensi_urt' => '20gr',
+                    'referensi_urt' => 'Saset',
                     'referensi_gram_berat' => ' 20.0 ',
                 ],
             127 =>
                 [
                     'id_pangan' => 128,
-                    'nama_pangan' => 'Bahan minuman lainnya',
+                    'nama_pangan' => '    Bahan minuman lainnya',
                     'gram' => '100.00',
                     'kalori' => '666.50',
                     'lemak' => '0.00',
@@ -1806,7 +1806,7 @@ class Pangan extends Seeder
             128 =>
                 [
                     'id_pangan' => 129,
-                    'nama_pangan' => 'Garam',
+                    'nama_pangan' => '    Garam',
                     'gram' => '1.00',
                     'kalori' => '0.00',
                     'lemak' => '0.00',
@@ -1820,7 +1820,7 @@ class Pangan extends Seeder
             129 =>
                 [
                     'id_pangan' => 130,
-                    'nama_pangan' => 'Kemiri',
+                    'nama_pangan' => '    Kemiri',
                     'gram' => '1.00',
                     'kalori' => '6.36',
                     'lemak' => '0.63',
@@ -1834,7 +1834,7 @@ class Pangan extends Seeder
             130 =>
                 [
                     'id_pangan' => 131,
-                    'nama_pangan' => 'Ketumbar/jinten',
+                    'nama_pangan' => '    Ketumbar/jinten',
                     'gram' => '1.00',
                     'kalori' => '4.04',
                     'lemak' => '0.16',
@@ -1848,7 +1848,7 @@ class Pangan extends Seeder
             131 =>
                 [
                     'id_pangan' => 132,
-                    'nama_pangan' => 'Merica/lada',
+                    'nama_pangan' => '    Merica/lada',
                     'gram' => '1.00',
                     'kalori' => '3.59',
                     'lemak' => '0.07',
@@ -1862,7 +1862,7 @@ class Pangan extends Seeder
             132 =>
                 [
                     'id_pangan' => 133,
-                    'nama_pangan' => 'Jahe',
+                    'nama_pangan' => '    Jahe',
                     'gram' => '1.00',
                     'kalori' => '0.51',
                     'lemak' => '0.01',
@@ -1876,7 +1876,7 @@ class Pangan extends Seeder
             133 =>
                 [
                     'id_pangan' => 134,
-                    'nama_pangan' => 'Kunyit',
+                    'nama_pangan' => '    Kunyit',
                     'gram' => '1.00',
                     'kalori' => '0.69',
                     'lemak' => '0.03',
@@ -1890,7 +1890,7 @@ class Pangan extends Seeder
             134 =>
                 [
                     'id_pangan' => 135,
-                    'nama_pangan' => 'Asam',
+                    'nama_pangan' => '    Asam',
                     'gram' => '1.00',
                     'kalori' => '1.32',
                     'lemak' => '0.01',
@@ -1904,7 +1904,7 @@ class Pangan extends Seeder
             135 =>
                 [
                     'id_pangan' => 136,
-                    'nama_pangan' => 'Terasi/petis',
+                    'nama_pangan' => '    Terasi/petis',
                     'gram' => '1.00',
                     'kalori' => '2.50',
                     'lemak' => '0.02',
@@ -1918,7 +1918,7 @@ class Pangan extends Seeder
             136 =>
                 [
                     'id_pangan' => 137,
-                    'nama_pangan' => 'Kecap',
+                    'nama_pangan' => '    Kecap',
                     'gram' => '100.00',
                     'kalori' => '36.79',
                     'lemak' => '1.04',
@@ -1926,13 +1926,13 @@ class Pangan extends Seeder
                     'protein' => '4.56',
                     'id_jenis_pangan' => 12,
                     'id_takaran' => 17,
-                    'referensi_urt' => '100ml*)',
+                    'referensi_urt' => 'Botol Kecil',
                     'referensi_gram_berat' => ' 100.0 ',
                 ],
             137 =>
                 [
                     'id_pangan' => 138,
-                    'nama_pangan' => 'Penyedap masakan/vetsin',
+                    'nama_pangan' => '    Penyedap masakan/vetsin',
                     'gram' => '1.00',
                     'kalori' => '0.00',
                     'lemak' => '0.00',
@@ -1946,7 +1946,7 @@ class Pangan extends Seeder
             138 =>
                 [
                     'id_pangan' => 139,
-                    'nama_pangan' => 'Sambal jadi',
+                    'nama_pangan' => '    Sambal jadi',
                     'gram' => '100.00',
                     'kalori' => '78.43',
                     'lemak' => '0.32',
@@ -1954,13 +1954,13 @@ class Pangan extends Seeder
                     'protein' => '1.60',
                     'id_jenis_pangan' => 12,
                     'id_takaran' => 17,
-                    'referensi_urt' => '100ml*)',
+                    'referensi_urt' => 'Botol Kecil',
                     'referensi_gram_berat' => ' 100.0 ',
                 ],
             139 =>
                 [
                     'id_pangan' => 140,
-                    'nama_pangan' => 'Saus tomat',
+                    'nama_pangan' => '    Saus tomat',
                     'gram' => '100.00',
                     'kalori' => '78.43',
                     'lemak' => '0.32',
@@ -1968,13 +1968,13 @@ class Pangan extends Seeder
                     'protein' => '1.60',
                     'id_jenis_pangan' => 12,
                     'id_takaran' => 17,
-                    'referensi_urt' => '100ml*)',
+                    'referensi_urt' => 'Botol Kecil',
                     'referensi_gram_berat' => ' 100.0 ',
                 ],
             140 =>
                 [
                     'id_pangan' => 141,
-                    'nama_pangan' => 'Bumbu maskan jadi/kemasan, bumbu racikan',
+                    'nama_pangan' => '    Bumbu maskan jadi/kemasan, bumbu racikan',
                     'gram' => '1.00',
                     'kalori' => '0.00',
                     'lemak' => '0.00',
@@ -1988,7 +1988,7 @@ class Pangan extends Seeder
             141 =>
                 [
                     'id_pangan' => 142,
-                    'nama_pangan' => 'Bumbu dapur lainnya (pala, jahe, kunyit, dsb.)',
+                    'nama_pangan' => '    Bumbu dapur lainnya (pala, jahe, kunyit, dsb.)',
                     'gram' => '1.00',
                     'kalori' => '0.49',
                     'lemak' => '0.02',
@@ -2002,21 +2002,21 @@ class Pangan extends Seeder
             142 =>
                 [
                     'id_pangan' => 143,
-                    'nama_pangan' => 'Mie instan',
+                    'nama_pangan' => '    Mie instan',
                     'gram' => '80.00',
                     'kalori' => '356.00',
                     'lemak' => '13.60',
                     'karbohidrat' => '48.00',
                     'protein' => '8.00',
                     'id_jenis_pangan' => 13,
-                    'id_takaran' => 18,
-                    'referensi_urt' => '80gr**)',
+                    'id_takaran' => 14,
+                    'referensi_urt' => 'Bungkus',
                     'referensi_gram_berat' => ' 80.0 ',
                 ],
             143 =>
                 [
                     'id_pangan' => 144,
-                    'nama_pangan' => 'Kerupuk',
+                    'nama_pangan' => '    Kerupuk',
                     'gram' => '100.00',
                     'kalori' => '453.00',
                     'lemak' => '17.85',
@@ -2030,21 +2030,21 @@ class Pangan extends Seeder
             144 =>
                 [
                     'id_pangan' => 145,
-                    'nama_pangan' => 'Bubur bayi kemasan',
+                    'nama_pangan' => '    Bubur bayi kemasan',
                     'gram' => '150.00',
                     'kalori' => '277.10',
                     'lemak' => '5.10',
                     'karbohidrat' => '47.84',
                     'protein' => '9.96',
                     'id_jenis_pangan' => 13,
-                    'id_takaran' => 19,
-                    'referensi_urt' => '150gr*)',
+                    'id_takaran' => 12,
+                    'referensi_urt' => 'Kotak',
                     'referensi_gram_berat' => ' 150.0 ',
                 ],
             145 =>
                 [
                     'id_pangan' => 146,
-                    'nama_pangan' => 'Lainnya',
+                    'nama_pangan' => '    Lainnya :',
                     'gram' => '100.00',
                     'kalori' => '396.08',
                     'lemak' => '2.20',
@@ -2052,13 +2052,13 @@ class Pangan extends Seeder
                     'protein' => '8.50',
                     'id_jenis_pangan' => 13,
                     'id_takaran' => 5,
-                    'referensi_urt' => 'gr',
+                    'referensi_urt' => 'Gram',
                     'referensi_gram_berat' => ' 100.0 ',
                 ],
             146 =>
                 [
                     'id_pangan' => 147,
-                    'nama_pangan' => 'Roti tawar',
+                    'nama_pangan' => '    Roti tawar',
                     'gram' => '150.00',
                     'kalori' => '248.50',
                     'lemak' => '1.35',
@@ -2072,7 +2072,7 @@ class Pangan extends Seeder
             147 =>
                 [
                     'id_pangan' => 148,
-                    'nama_pangan' => 'Roti manis, roti lainnya',
+                    'nama_pangan' => '    Roti manis, roti lainnya',
                     'gram' => '30.00',
                     'kalori' => '161.50',
                     'lemak' => '5.75',
@@ -2086,7 +2086,7 @@ class Pangan extends Seeder
             148 =>
                 [
                     'id_pangan' => 149,
-                    'nama_pangan' => 'Kue kering, biskuit, semprong',
+                    'nama_pangan' => '    Kue kering, biskuit, semprong',
                     'gram' => '100.00',
                     'kalori' => '426.30',
                     'lemak' => '13.02',
@@ -2100,7 +2100,7 @@ class Pangan extends Seeder
             149 =>
                 [
                     'id_pangan' => 150,
-                    'nama_pangan' => 'Kue basah (kue lapis, bika ambon, lemper, dsb)',
+                    'nama_pangan' => '    Kue basah (kue lapis, bika ambon, lemper, dsb)',
                     'gram' => '30.00',
                     'kalori' => '137.50',
                     'lemak' => '2.91',
@@ -2114,7 +2114,7 @@ class Pangan extends Seeder
             150 =>
                 [
                     'id_pangan' => 151,
-                    'nama_pangan' => 'Makanan gorengan (tahu, tempe, bakwan, pisang)',
+                    'nama_pangan' => '    Makanan gorengan (tahu, tempe, bakwan, pisang)',
                     'gram' => '40.00',
                     'kalori' => '94.30',
                     'lemak' => '6.16',
@@ -2128,7 +2128,7 @@ class Pangan extends Seeder
             151 =>
                 [
                     'id_pangan' => 152,
-                    'nama_pangan' => 'Makanan gorengan lainnya',
+                    'nama_pangan' => '    Makanan gorengan lainnya',
                     'gram' => '40.00',
                     'kalori' => '181.00',
                     'lemak' => '10.35',
@@ -2142,7 +2142,7 @@ class Pangan extends Seeder
             152 =>
                 [
                     'id_pangan' => 153,
-                    'nama_pangan' => 'Bubur kacang hijau',
+                    'nama_pangan' => '    Bubur kacang hijau',
                     'gram' => '200.00',
                     'kalori' => '109.00',
                     'lemak' => '0.50',
@@ -2156,7 +2156,7 @@ class Pangan extends Seeder
             153 =>
                 [
                     'id_pangan' => 154,
-                    'nama_pangan' => 'Gado-gado, ketoprak, pecel',
+                    'nama_pangan' => '    Gado-gado, ketoprak, pecel',
                     'gram' => '250.00',
                     'kalori' => '290.00',
                     'lemak' => '10.90',
@@ -2170,7 +2170,7 @@ class Pangan extends Seeder
             154 =>
                 [
                     'id_pangan' => 155,
-                    'nama_pangan' => 'Nasi campur/rames',
+                    'nama_pangan' => '    Nasi campur/rames',
                     'gram' => '500.00',
                     'kalori' => '583.60',
                     'lemak' => '9.07',
@@ -2184,7 +2184,7 @@ class Pangan extends Seeder
             155 =>
                 [
                     'id_pangan' => 156,
-                    'nama_pangan' => 'Nasi goreng',
+                    'nama_pangan' => '    Nasi goreng',
                     'gram' => '250.00',
                     'kalori' => '552.00',
                     'lemak' => '6.40',
@@ -2198,7 +2198,7 @@ class Pangan extends Seeder
             156 =>
                 [
                     'id_pangan' => 157,
-                    'nama_pangan' => 'Nasi putih',
+                    'nama_pangan' => '    Nasi putih',
                     'gram' => '200.00',
                     'kalori' => '391.60',
                     'lemak' => '0.22',
@@ -2212,7 +2212,7 @@ class Pangan extends Seeder
             157 =>
                 [
                     'id_pangan' => 158,
-                    'nama_pangan' => 'Lontong/ketupat sayur',
+                    'nama_pangan' => '    Lontong/ketupat sayur',
                     'gram' => '350.00',
                     'kalori' => '263.80',
                     'lemak' => '5.20',
@@ -2226,7 +2226,7 @@ class Pangan extends Seeder
             158 =>
                 [
                     'id_pangan' => 159,
-                    'nama_pangan' => 'Soto, gule, sop, rawon, cincang',
+                    'nama_pangan' => '    Soto, gule, sop, rawon, cincang',
                     'gram' => '250.00',
                     'kalori' => '143.70',
                     'lemak' => '7.96',
@@ -2240,7 +2240,7 @@ class Pangan extends Seeder
             159 =>
                 [
                     'id_pangan' => 160,
-                    'nama_pangan' => 'Sayur matang (ditumis, disantan, dsb)',
+                    'nama_pangan' => '    Sayur matang (ditumis, disantan, dsb)',
                     'gram' => '250.00',
                     'kalori' => '232.50',
                     'lemak' => '8.02',
@@ -2254,21 +2254,21 @@ class Pangan extends Seeder
             160 =>
                 [
                     'id_pangan' => 161,
-                    'nama_pangan' => 'Sate, tongseng',
+                    'nama_pangan' => '    Sate, tongseng',
                     'gram' => '25.00',
                     'kalori' => '89.50',
                     'lemak' => '1.75',
                     'karbohidrat' => '6.65',
                     'protein' => '11.25',
                     'id_jenis_pangan' => 14,
-                    'id_takaran' => 20,
-                    'referensi_urt' => 'Porsi/5 tusuk',
+                    'id_takaran' => 8,
+                    'referensi_urt' => 'Porsi (5 tusuk)',
                     'referensi_gram_berat' => ' 25.0 ',
                 ],
             161 =>
                 [
                     'id_pangan' => 162,
-                    'nama_pangan' => 'Mie bakso, mie rebus, mie goreng',
+                    'nama_pangan' => '    Mie bakso, mie rebus, mie goreng',
                     'gram' => '250.00',
                     'kalori' => '529.00',
                     'lemak' => '22.10',
@@ -2282,7 +2282,7 @@ class Pangan extends Seeder
             162 =>
                 [
                     'id_pangan' => 163,
-                    'nama_pangan' => 'Mie instan',
+                    'nama_pangan' => '    Mie instan',
                     'gram' => '250.00',
                     'kalori' => '356.00',
                     'lemak' => '13.60',
@@ -2296,7 +2296,7 @@ class Pangan extends Seeder
             163 =>
                 [
                     'id_pangan' => 164,
-                    'nama_pangan' => 'Makanan ringan anak-anak, krupuk/kripik',
+                    'nama_pangan' => '    Makanan ringan anak-anak, krupuk/kripik',
                     'gram' => '100.00',
                     'kalori' => '509.10',
                     'lemak' => '23.32',
@@ -2310,7 +2310,7 @@ class Pangan extends Seeder
             164 =>
                 [
                     'id_pangan' => 165,
-                    'nama_pangan' => 'Ikan matang',
+                    'nama_pangan' => '    Ikan matang',
                     'gram' => '75.00',
                     'kalori' => '624.00',
                     'lemak' => '35.85',
@@ -2324,7 +2324,7 @@ class Pangan extends Seeder
             165 =>
                 [
                     'id_pangan' => 166,
-                    'nama_pangan' => 'Ayam/bebek/daging matang (ayam goreng, rendang, dsb)',
+                    'nama_pangan' => '    Ayam/bebek/daging matang (ayam goreng, rendang, dsb)',
                     'gram' => '150.00',
                     'kalori' => '490.00',
                     'lemak' => '22.80',
@@ -2338,7 +2338,7 @@ class Pangan extends Seeder
             166 =>
                 [
                     'id_pangan' => 167,
-                    'nama_pangan' => 'Daging olahan (sosis, nugget, daging asap, dsb) matang',
+                    'nama_pangan' => '    Daging olahan (sosis, nugget, daging asap, dsb) matang',
                     'gram' => '100.00',
                     'kalori' => '340.00',
                     'lemak' => '3.55',
@@ -2352,7 +2352,7 @@ class Pangan extends Seeder
             167 =>
                 [
                     'id_pangan' => 168,
-                    'nama_pangan' => 'Bubur ayam',
+                    'nama_pangan' => '    Bubur ayam',
                     'gram' => '125.00',
                     'kalori' => '203.75',
                     'lemak' => '6.58',
@@ -2366,7 +2366,7 @@ class Pangan extends Seeder
             168 =>
                 [
                     'id_pangan' => 169,
-                    'nama_pangan' => 'Siomay, batagor',
+                    'nama_pangan' => '    Siomay, batagor',
                     'gram' => '125.00',
                     'kalori' => '203.75',
                     'lemak' => '6.58',
@@ -2380,7 +2380,7 @@ class Pangan extends Seeder
             169 =>
                 [
                     'id_pangan' => 170,
-                    'nama_pangan' => 'Makanan jadi lainnya',
+                    'nama_pangan' => '    Makanan jadi lainnya',
                     'gram' => '30.00',
                     'kalori' => '246.30',
                     'lemak' => '11.29',
@@ -2394,7 +2394,7 @@ class Pangan extends Seeder
             170 =>
                 [
                     'id_pangan' => 171,
-                    'nama_pangan' => 'Air kemasan',
+                    'nama_pangan' => '    Air kemasan',
                     'gram' => '520.00',
                     'kalori' => '0.00',
                     'lemak' => '0.00',
@@ -2408,7 +2408,7 @@ class Pangan extends Seeder
             171 =>
                 [
                     'id_pangan' => 172,
-                    'nama_pangan' => 'Air kemasan galon',
+                    'nama_pangan' => '    Air kemasan galon',
                     'gram' => '1000.00',
                     'kalori' => '0.00',
                     'lemak' => '0.00',
@@ -2422,7 +2422,7 @@ class Pangan extends Seeder
             172 =>
                 [
                     'id_pangan' => 173,
-                    'nama_pangan' => 'Air teh kemasan, minuman bersoda/mengandung CO2',
+                    'nama_pangan' => '    Air teh kemasan, minuman bersoda/mengandung CO2',
                     'gram' => '200.00',
                     'kalori' => '68.13',
                     'lemak' => '0.00',
@@ -2430,27 +2430,27 @@ class Pangan extends Seeder
                     'protein' => '0.00',
                     'id_jenis_pangan' => 14,
                     'id_takaran' => 12,
-                    'referensi_urt' => '250ml*)',
+                    'referensi_urt' => 'Kotak (250ml)',
                     'referensi_gram_berat' => ' 200.0 ',
                 ],
             173 =>
                 [
                     'id_pangan' => 174,
-                    'nama_pangan' => 'Sari buah kemasan, minuman kesehatan, minuman berenergi',
+                    'nama_pangan' => '    Sari buah kemasan, minuman kesehatan, minuman berenergi',
                     'gram' => '160.00',
                     'kalori' => '72.53',
                     'lemak' => '0.00',
                     'karbohidrat' => '0.00',
                     'protein' => '0.00',
                     'id_jenis_pangan' => 14,
-                    'id_takaran' => 21,
-                    'referensi_urt' => '200ml*)',
+                    'id_takaran' => 12,
+                    'referensi_urt' => 'Kotak (200ml)',
                     'referensi_gram_berat' => ' 160.0 ',
                 ],
             174 =>
                 [
                     'id_pangan' => 175,
-                    'nama_pangan' => 'Minuman jadi(kopi, kopi susu, teh, susu coklat, dsb)',
+                    'nama_pangan' => '    Minuman jadi(kopi, kopi susu, teh, susu coklat, dsb)',
                     'gram' => '208.00',
                     'kalori' => '61.00',
                     'lemak' => '3.50',
@@ -2464,7 +2464,7 @@ class Pangan extends Seeder
             175 =>
                 [
                     'id_pangan' => 176,
-                    'nama_pangan' => 'Es krim',
+                    'nama_pangan' => '    Es krim',
                     'gram' => '50.00',
                     'kalori' => '207.00',
                     'lemak' => '12.50',
@@ -2478,7 +2478,7 @@ class Pangan extends Seeder
             176 =>
                 [
                     'id_pangan' => 177,
-                    'nama_pangan' => 'Es lainnya',
+                    'nama_pangan' => '    Es lainnya',
                     'gram' => '200.00',
                     'kalori' => '56.00',
                     'lemak' => '0.00',
@@ -2492,7 +2492,7 @@ class Pangan extends Seeder
             177 =>
                 [
                     'id_pangan' => 178,
-                    'nama_pangan' => 'Minuman keras',
+                    'nama_pangan' => '    Minuman keras',
                     'gram' => '800.00',
                     'kalori' => '384.00',
                     'lemak' => '0.00',
@@ -2503,7 +2503,7 @@ class Pangan extends Seeder
                     'referensi_urt' => 'Liter',
                     'referensi_gram_berat' => ' 800.0',
                 ],
-            ],
+            ]
         );
     }
 }
