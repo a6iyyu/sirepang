@@ -13,9 +13,9 @@
         <div class="mt-7 space-y-5">
             <x-input
                 name="username"
-                label="Nama Kecamatan"
+                label="Nama Pengguna"
                 icon="fa-solid fa-id-card"
-                placeholder="Masukkan Nama Kecamatan Anda"
+                placeholder="Masukkan Nama Pengguna Anda"
                 autocomplete
                 required
             />

@@ -22,7 +22,6 @@
             loading="lazy"
             data-index="2"
         />
-        />
         <img
             src="{{ asset('login-4.jpg') }}"
             alt="Selamat Datang"
