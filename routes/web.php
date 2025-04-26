@@ -31,12 +31,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
         Route::delete('/rekap-pangan/{id}', [Pangan::class, 'delete'])->name('hapus-rekap-pangan');
-        
+
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
             Route::get('/rekap-kecamatan/{id}', [Kecamatan::class, 'rekap_kecamatan'])->name('admin.rekap-kecamatan');
-            Route::get('/rekap-kecamatan/tahun/{tahun}', [Kecamatan::class, 'ekspor_rekap'])->name('ekspor.rekap-kecamatan');
+            Route::get('/rekap-kecamatan/{id}/tahun/{th}', [Kecamatan::class, 'export_rekap'])->name('export.rekap-kecamatan');
         });
 
         Route::prefix('verifikasi-data')->group(function () {
