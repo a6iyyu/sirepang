@@ -2,28 +2,28 @@
     <span class="absolute inset-0 z-10 bg-gradient-to-b from-[#1a4167]/20 to-[#1a4167]/30 transition-opacity duration-300"></span>
     <div class="carousel-container h-full">
         <img
-            src="{{ asset('login-1.jpg') }}"
+            src="{{ asset('img/login-1.jpg') }}"
             alt="Selamat Datang"
             class="carousel-image absolute h-full w-full bg-white object-cover opacity-0"
             loading="lazy"
             data-index="0"
         />
         <img
-            src="{{ asset('login-2.jpg') }}"
+            src="{{ asset('img/login-2.jpg') }}"
             alt="Selamat Datang"
             class="carousel-image absolute h-full w-full bg-white object-cover opacity-0"
             loading="lazy"
             data-index="1"
         />
         <img
-            src="{{ asset('login-3.jpg') }}"
+            src="{{ asset('img/login-3.jpg') }}"
             alt="Selamat Datang"
             class="carousel-image absolute h-full w-full bg-white object-cover opacity-0"
             loading="lazy"
             data-index="2"
         />
         <img
-            src="{{ asset('login-4.jpg') }}"
+            src="{{ asset('img/login-4.jpg') }}"
             alt="Selamat Datang"
             class="carousel-image absolute h-full w-full bg-white object-cover opacity-0"
             loading="lazy"
@@ -33,7 +33,7 @@
     <figure class="absolute bottom-8 left-8 z-20 space-y-2 text-white">
         <img
             id="carousel-img"
-            src="{{ asset('logo.svg') }}"
+            src="{{ asset('img/logo.svg') }}"
             alt="Dinas Ketahanan Pangan"
             class="mb-4 w-16 transform transition-transform duration-300 hover:scale-105"
             loading="lazy"

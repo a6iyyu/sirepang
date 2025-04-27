@@ -58,12 +58,13 @@ class Dasbor extends Controller
             ->get()
             ->map(fn($item) => [
                 'id'        => $item->id_keluarga,
+                'nama'      => $item->nama_kepala_keluarga,
                 'desa'      => $item->desa->nama_desa,
+                'status'    => $item->status,
+                'komentar'  => $item->komentar,
                 'detail'    => route('keluarga.detail', $item->id_keluarga),
                 'edit'      => route('keluarga.edit', $item->id_keluarga),
                 'hapus'     => route('keluarga.hapus', $item->id_keluarga),
-                'nama'      => $item->nama_kepala_keluarga,
-                'status'    => $item->status,
             ]);
 
         if ($data->isEmpty()) return Response::json([], 200);

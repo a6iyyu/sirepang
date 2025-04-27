@@ -1,7 +1,7 @@
 <aside class="bg-green-dark fixed z-30 hidden h-full flex-col space-y-4 rounded-r-2xl p-6 shadow-2xl transition-all duration-300 ease-in-out lg:flex">
     <section class="flex space-x-8">
         <div class="flex cursor-default items-center space-x-4">
-            <img src="{{ asset('logo.svg') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
+            <img src="{{ asset('img/logo.svg') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
             <span id="sidebar-menu">
                 <h5 class="text-xl font-bold tracking-tight text-white">SIREPANG</h5>
                 <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
@@ -73,7 +73,7 @@
                 label="Keluar"
                 route="keluar"
                 sidebar="{{ true }}"
-                style="flex w-full items-center justify-center cursor-pointer h-fit rounded-lg px-4 py-3 text-sm transition-all transform duration-300 ease-in-out border-2 border-red-100 bg-red-500 text-white lg:mt-0 lg:px-5 lg:py-3 lg:text-base lg:hover:bg-red-600"
+                style="flex w-full items-center justify-center cursor-pointer h-fit rounded-xl px-4 py-3 text-sm transition-all transform duration-300 ease-in-out border-2 border-slate-100/75 bg-red-500 text-white lg:mt-0 lg:px-5 lg:py-3 lg:text-base lg:hover:bg-red-600"
             />
         </div>
     </nav>

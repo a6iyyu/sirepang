@@ -21,3 +21,9 @@
     </label>
     <input type="file" name="gambar" id="gambar" accept="image/*" class="hidden" onchange="preview_image(event)" />
 </fieldset>
+<h6 class="mt-2 cursor-default text-sm text-[#2c5e4f] italic">*Format gambar yang diperbolehkan: .jpg, .jpeg, .png</h6>
+<h6 class="cursor-default text-sm text-[#2c5e4f] italic">
+    Ukuran gambar yang diunggah:
+    <span id="ukuran-gambar">—</span>
+    dari 5120 KB.
+</h6>

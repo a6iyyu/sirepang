@@ -1,60 +1,56 @@
 import { gsap } from "gsap";
 
-export class Carousel {
-    constructor() {
-        this.current_index = 0;
-        this.images = document.querySelectorAll(".carousel-image");
-        this.indicators = document.querySelectorAll(".carousel-indicator");
-        this.total_slides = this.images.length;
-        this.interval = null;
-        this.duration = 0.5;
-        this.auto_play_delay = 5;
+const Carousel = () => {
+    const handlers = new Map();
+    const images = document.querySelectorAll(".carousel-image");
+    const indicators = document.querySelectorAll(".carousel-indicator");
+    let current_index = 0;
+    let interval;
 
-        if (this.total_slides === 0) return;
+    if (images.length === 0) return;
 
-        this.init();
-    }
+    const init = () => {
+        gsap.set(images, { opacity: 0 });
+        gsap.set(images[0], { opacity: 1 });
+        indicators[0].classList.add("bg-white");
 
-    init() {
-        gsap.set(this.images, { opacity: 0 });
-        gsap.set(this.images[0], { opacity: 1 });
-
-        this.indicators.forEach((indicator, index) => {
-            indicator.addEventListener("click", () => this.go_to_slide(index));
+        indicators.forEach((indicator, index) => {
+            const handler = () => go_to_slide(index);
+            handlers.set(indicator, handler);
+            indicator.addEventListener("click", handler);
         });
 
-        this.start_auto_play();
-    }
+        start_auto_play();
+    };
 
-    go_to_slide(index) {
-        if (index === this.current_index) return;
+    const go_to_slide = (index) => {
+        if (index === current_index) return;
+        indicators[current_index].classList.remove("bg-white");
+        indicators[index].classList.add("bg-white");
+        gsap.to(images[current_index], { duration: 0.5, ease: "power2.inOut", opacity: 0 });
+        gsap.to(images[index], { duration: 0.5, ease: "power2.inOut", opacity: 1 });
+        current_index = index;
+        reset_auto_play();
+    };
 
-        this.indicators[this.current_index].classList.remove("bg-white");
-        this.indicators[index].classList.add("bg-white");
+    const start_auto_play = () => interval = setInterval(() => go_to_slide((current_index + 1) % images.length), 5000);
 
-        gsap.to(this.images[this.current_index], { duration: this.duration, ease: "power2.inOut", opacity: 0 });
-        gsap.to(this.images[index], { duration: this.duration, ease: "power2.inOut", opacity: 1 });
+    const reset_auto_play = () => {
+        clearInterval(interval);
+        start_auto_play();
+    };
 
-        this.current_index = index;
-        this.resetAutoPlay();
-    }
+    const destroy = () => {
+        clearInterval(interval);
+        handlers.forEach((handler, indicator) => indicator.removeEventListener("click", handler));
+        handlers.clear();
+    };
 
-    next_slide() {
-        const nextIndex = (this.current_index + 1) % this.total_slides;
-        this.go_to_slide(nextIndex);
-    }
+    init();
+    return { destroy };
+};
 
-    start_auto_play() {
-        this.interval = setInterval(() => this.next_slide(), this.auto_play_delay * 1000);
-    }
-
-    resetAutoPlay() {
-        clearInterval(this.interval);
-        this.start_auto_play();
-    }
-
-    destroy() {
-        clearInterval(this.interval);
-        this.indicators.forEach((indicator) => indicator.removeEventListener("click", () => this.go_to_slide(index)));
-    }
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const carousel = Carousel();
+    window.addEventListener("pagehide", () => carousel.destroy());
+});

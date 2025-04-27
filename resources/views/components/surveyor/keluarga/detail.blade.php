@@ -7,14 +7,31 @@
         </button>
     </div>
     <article x-show="open" class="divide-y divide-gray-100">
-        <x-data name="Nama" :value="$keluarga->nama_kepala_keluarga" />
-        <x-data name="Anggota Keluarga" :value="$keluarga->jumlah_keluarga" />
+        <x-data name="Nama Kepala Keluarga" :value="$keluarga->nama_kepala_keluarga" />
+        <x-data name="Jumlah Anggota" :value="$keluarga->jumlah_keluarga" />
+        <x-data name="Desa" :value="$keluarga->desa->nama_desa" />
         <x-data name="Alamat" :value="$keluarga->alamat" />
         <x-data name="Pendapatan" :value="$pendapatan" />
         <x-data name="Pengeluaran" :value="$pengeluaran" />
         <x-data name="Ibu Hamil" :value="$keluarga->is_hamil" />
         <x-data name="Ibu Menyusui" :value="$keluarga->is_menyusui" />
         <x-data name="Balita" :value="$keluarga->is_balita" />
+    </article>
+</section>
+<section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent shadow-xl">
+    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5">
+        <h4 class="mb-0 text-xl font-bold text-white">Dokumentasi</h4>
+        <button @click="open = !open" class="text-xl text-white">
+            <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
+            <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
+        </button>
+    </div>
+    <article x-show="open" class="cursor-default overflow-x-auto">
+        <img
+            src="data:image/jpeg;base64,{{ $keluarga->gambar }}"
+            alt="{{ "Dokumentasi dari keluarga $keluarga->nama_kepala_keluarga." }}"
+            class="h-96 w-full object-cover"    
+        />
     </article>
 </section>
 <section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent shadow-xl">

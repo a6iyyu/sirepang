@@ -88,6 +88,7 @@ class Keluarga extends Controller
                 'is_hamil'                  => 'in:Ya,Tidak|required',
                 'is_menyusui'               => 'in:Ya,Tidak|required',
                 'is_balita'                 => 'in:Ya,Tidak|required',
+                'gambar'                    => 'image|required|max:5120|mimes:jpeg,jpg,png',
                 'detail_pangan_keluarga'    => 'array',
             ]);
 
@@ -131,7 +132,7 @@ class Keluarga extends Controller
         }
     }
 
-    public function detail($id): RedirectResponse|View
+    public function detail(string $id): RedirectResponse|View
     {
         try {
             $keluarga = KeluargaModel::with('desa')->find($id);
@@ -161,7 +162,7 @@ class Keluarga extends Controller
         }
     }
 
-    public function edit($id): RedirectResponse|View
+    public function edit(string $id): RedirectResponse|View
     {
         try {
             $kader = $this->kader();
@@ -186,7 +187,7 @@ class Keluarga extends Controller
                 ])->toArray(),
             ];
 
-            return view('pages.surveyor.edit', [
+            return view('pages.surveyor.edit-data-keluarga', [
                 'desa'              => $desa,
                 'detail_pangan'     => $detail_pangan,
                 'gambar'            => $gambar,
@@ -204,7 +205,7 @@ class Keluarga extends Controller
         }
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
         DB::beginTransaction();
         try {
@@ -218,11 +219,12 @@ class Keluarga extends Controller
                 'is_hamil'                  => 'in:Ya,Tidak|required',
                 'is_menyusui'               => 'in:Ya,Tidak|required',
                 'is_balita'                 => 'in:Ya,Tidak|required',
+                'gambar'                    => 'image|nullable|max:5120|mimes:jpeg,jpg,png',
                 'detail_pangan_keluarga'    => 'array',
             ]);
 
-            $keluarga = KeluargaModel::findOrFail($id);
             $data = $request->all();
+            $keluarga = KeluargaModel::findOrFail($id);
 
             if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
             
@@ -251,22 +253,23 @@ class Keluarga extends Controller
                         'urt'           => $item['jumlah_urt'],
                     ]);
                 }
+                DB::commit();
+                return redirect()->route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
+            } else {
+                return redirect()->route('keluarga.edit', ['id' => $id])->with('errors', "Data keluarga $keluarga->nama_kepala_keluarga gagal diperbarui!");
             }
-
-            DB::commit();
-            return redirect()->route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
         } catch (ValidationException $e) {
             DB::rollback();
-            Log::error('Validation Error:', ['errors' => $e->errors()]);
+            Log::error('Gagal melakukan validasi: ', ['errors' => $e->errors()]);
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
-            Log::error('Update Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            Log::error('Gagal memperbarui data pangan keluarga: ', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
     }
 
-    public function delete($id): RedirectResponse
+    public function delete(string $id): RedirectResponse
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);

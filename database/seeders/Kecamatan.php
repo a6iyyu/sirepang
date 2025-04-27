@@ -44,7 +44,7 @@ class Kecamatan extends Seeder
             31 => ['id_kecamatan' => 31, 'kode_wilayah' => '35.07.21', 'nama_kecamatan' => 'Wagir'],
             32 => ['id_kecamatan' => 32, 'kode_wilayah' => '35.07.08', 'nama_kecamatan' => 'Wajak'],
             33 => ['id_kecamatan' => 33, 'kode_wilayah' => '35.07.32', 'nama_kecamatan' => 'Wonosari'],
-            34 => ['id_kecamatan' => 34, 'kode_wilayah' => '35.00.00', 'nama_kecamatan' => 'sukasuka'],
+            34 => ['id_kecamatan' => 34, 'kode_wilayah' => '35.00.00', 'nama_kecamatan' => 'Sukasuka'],
         ]);
     }
 }

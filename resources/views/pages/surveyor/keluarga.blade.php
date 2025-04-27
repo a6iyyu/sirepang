@@ -11,7 +11,7 @@
 @section('konten')
     <main
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
-        style="background: url({{ asset('latar-belakang.svg') }})"
+        style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
         @include('components.surveyor.keluarga.selamat-datang')
         @include('components.surveyor.keluarga.sortir')
@@ -117,6 +117,9 @@
                             <td class="px-6 py-4 text-center whitespace-nowrap">${highlight_keyword(row.nama, input.value)}</td>
                             <td class="px-6 py-4 text-center whitespace-nowrap">${highlight_keyword(row.desa, input.value)}</td>
                             <td class="px-6 py-4 text-center whitespace-nowrap">${render_status(row.status)}</td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap">
+                                ${row.komentar ? highlight_keyword(row.komentar, input.value) : '<span class="font-semibold">-</span>'}    
+                            </td>
                             <td class="flex items-center justify-center gap-4 px-6 py-4 text-center whitespace-nowrap">
                                 <a href="${row.detail}" class="inline-flex cursor-pointer items-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-700">
                                     <i class="fa-solid fa-circle-info mr-2"></i> Detail

@@ -1,4 +1,4 @@
-export const Options = (data = []) => {
+const Options = (data = []) => {
     return {
         colors: ['#f4f1e8'],
         series: [
@@ -85,3 +85,11 @@ export const Options = (data = []) => {
         },
     };
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('column-chart') && typeof ApexCharts !== 'undefined') {
+        const data = window.grafik_kecamatan ?? [];
+        const chart = new ApexCharts(document.getElementById('column-chart'), Options(data));
+        chart.render();
+    }
+});

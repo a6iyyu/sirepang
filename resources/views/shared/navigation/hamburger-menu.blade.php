@@ -2,7 +2,7 @@
 <aside id="mobile" class="bg-green-dark fixed top-0 left-0 z-30 flex h-full min-h-screen w-80 -translate-x-full transform flex-col rounded-r-2xl p-6 shadow-2xl transition-transform duration-300 ease-in-out">
     <section class="flex justify-between">
         <div class="flex cursor-default items-center space-x-4">
-            <img src="{{ asset('logo.svg') }}" alt="Logo" class="h-12 w-12 object-cover" />
+            <img src="{{ asset('img/logo.svg') }}" alt="Logo" class="h-12 w-12 object-cover" />
             <span id="mobile-sidebar-menu">
                 <h5 class="text-xl font-bold tracking-tight text-white">SIREPANG</h5>
                 <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
