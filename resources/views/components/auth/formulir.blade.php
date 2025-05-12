@@ -1,6 +1,9 @@
-<section class="bg-gradient-to-lr flex w-full flex-col items-center justify-center from-[#a9d6ff] to-[#edf2f7] bg-cover bg-center bg-no-repeat text-black lg:w-1/2 lg:px-4" style="background: url({{ asset('img/latar-belakang.svg') }})">
-    <h3 class="cursor-default text-xl font-bold text-[#1a4167] lg:text-3xl">Selamat Datang</h3>
-    <h5 class="mt-1 cursor-default text-sm text-gray-600 lg:mb-6 lg:text-base">Silakan masuk ke akun Anda.</h5>
+<section
+    class="bg-gradient-to-lr flex w-full flex-col items-center justify-center from-[#a9d6ff] to-[#edf2f7] bg-cover bg-center bg-no-repeat text-black lg:w-1/2 lg:px-4"
+    style="background: url({{ asset('img/latar-belakang.svg') }})"
+>
+    <h3 class="cursor-default text-xl font-bold text-[#1a4167]">Selamat Datang</h3>
+    <h5 class="mt-1 cursor-default text-sm text-gray-600 lg:mb-6">Silakan masuk ke akun Anda.</h5>
     <form action="{{ route('masuk') }}" method="POST" class="w-3/4 lg:w-[65%]">
         @csrf
         @if ($errors->any())
@@ -10,7 +13,7 @@
                 @endforeach
             </ul>
         @endif
-        <div class="mt-7 space-y-5">
+        <div class="mt-2 space-y-5">
             <x-input
                 name="username"
                 label="Nama Pengguna"
@@ -28,7 +31,7 @@
                 required
             />
         </div>
-        <button type="submit" class="mt-10 w-full transform cursor-pointer rounded-lg bg-emerald-500 p-4 font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-400 focus:outline-none">
+        <button type="submit" class="mt-10 w-full transform cursor-pointer rounded-lg bg-emerald-500 p-4 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-emerald-400 focus:outline-none">
             <i class="fa-solid fa-right-to-bracket"></i>
             &ensp;Masuk
         </button>

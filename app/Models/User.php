@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +25,7 @@ class User extends Authenticable
 
     public function kader(): BelongsTo
     {
-        return $this->belongsTo(Kader::class, 'id_kader','id_kader');
+        return $this->belongsTo(Kader::class, 'id_kader', 'id_kader');
     }
 
     public function kecamatan(): HasMany

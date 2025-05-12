@@ -34,7 +34,7 @@
         @endauth
         @yield('konten')
         @auth
-            <footer class="w-full p-10 py-4 text-center text-xs text-gray-500 transition-all duration-300 ease-in-out lg:pl-88">
+            <footer class="w-full cursor-default p-10 py-4 text-center text-xs text-gray-500 transition-all duration-300 ease-in-out lg:pl-88">
                 &copy; {{ date('Y') }} Workshop Riset Informatika - Jurusan Teknologi Informasi - Politeknik Negeri Malang
             </footer>
         @endauth

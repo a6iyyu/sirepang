@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
+use App\Models\Kader;
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -13,18 +15,20 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'id_user'  => rand(1, 33),
+            'username' => Faker::create()->userName(),
+            'password' => bcrypt('password'),
+            'tipe'     => 'kader',
         ];
     }
 
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(fn(array $attributes) => []);
+    }
+
+    public function kader(): static
+    {
+        return $this->has(Kader::factory(), 'kader');
     }
 }

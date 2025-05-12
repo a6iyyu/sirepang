@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Autentikasi;
 use App\Http\Controllers\Dasbor;
 use App\Http\Controllers\Kecamatan;
 use App\Http\Controllers\Keluarga;
 use App\Http\Controllers\Pangan;
 use App\Http\Controllers\Pph;
+use App\Http\Controllers\Surveyor;
 use App\Http\Controllers\Verifikasi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +21,9 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function () {
     Route::get('/', fn(): RedirectResponse => match (Auth::user()->tipe) {
-        'admin' => redirect()->route('admin'),
-        'kader' => redirect()->route('penyuluh'),
-        default => redirect()->route('keluar'),
+        'admin' => to_route('admin'),
+        'kader' => to_route('penyuluh'),
+        default => to_route('keluar'),
     });
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
@@ -37,6 +40,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');
             Route::get('/rekap-kecamatan/{id}', [Kecamatan::class, 'rekap_kecamatan'])->name('admin.rekap-kecamatan');
             Route::get('/rekap-kecamatan/{id}/tahun/{th}', [Kecamatan::class, 'export_rekap'])->name('export.rekap-kecamatan');
+        });
+
+        Route::prefix('kelola-surveyor')->group(function () {
+            Route::get('/', [Surveyor::class, 'index'])->name('kelola-surveyor');
+            Route::get('/detail/{id}', [Surveyor::class, 'detail'])->name('kelola-surveyor.detail');
         });
 
         Route::prefix('verifikasi-data')->group(function () {

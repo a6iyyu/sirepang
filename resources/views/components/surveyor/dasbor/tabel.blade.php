@@ -4,7 +4,7 @@
     </ul>
 @endif
 <section class="mt-2 mb-8">
-    @include('shared.table.table', [
+    @include('shared.ui.table', [
         'headers' => ['Nama', 'Desa'],
         'sortable' => ['Nama', 'Desa'],
         'rows' => $data->map(fn ($item) => [$item->nama, $item->desa])->toArray(),

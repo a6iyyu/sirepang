@@ -14,7 +14,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->tipe !== 'admin') return redirect()->route('masuk')->withErrors(['error' => 'Anda tidak memiliki izin untuk mengakses halaman ini.']);
+        if (!Auth::check() || Auth::user()->tipe !== 'admin') return to_route('masuk')->withErrors(['error' => 'Anda tidak memiliki izin untuk mengakses halaman ini.']);
         return $next($request);
     }
 }

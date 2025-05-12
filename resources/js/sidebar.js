@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         close.style.display = "none";
         footer.style.paddingLeft = "8rem";
         logo.style.display = "none";
-        main.style.paddingLeft = "8rem";
+        main.style.paddingLeft = "9rem";
         open.classList.add("!lg:inline");
         open.classList.remove("!hidden");
         route.style.width = "fit-content";

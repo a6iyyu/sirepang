@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +14,7 @@ class Takaran extends Model
 
     protected $table = 'takaran';
     protected $primaryKey = 'id_takaran';
+    public $timestamps = false;
 
     public function pangan(): HasMany
     {

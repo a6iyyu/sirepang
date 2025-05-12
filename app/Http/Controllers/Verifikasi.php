@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\Status;
@@ -66,7 +68,7 @@ class Verifikasi extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
-            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+            return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 

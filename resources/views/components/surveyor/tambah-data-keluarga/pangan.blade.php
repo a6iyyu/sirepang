@@ -1,5 +1,5 @@
-<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between space-y-6 xl:flex-row xl:flex-wrap xl:space-y-0">
-    <fieldset class="w-full grow xl:max-w-2/5">
+<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between space-y-6">
+    <fieldset class="w-full grow">
         <label for="pilihan-nama-pangan" class="mb-2 block text-sm font-medium">Nama Pangan</label>
         <div class="custom-select-pangan relative h-full">
             <button type="button" id="tombol-dropdown-pangan" class="flex w-full items-center justify-between rounded-md border-2 border-gray-700 px-4 py-3 text-left">
@@ -30,7 +30,7 @@
             </select>
         </div>
     </fieldset>
-    <fieldset class="w-full grow xl:max-w-2/5">
+    <fieldset class="w-full grow">
         <label for="jumlah-urt" class="mb-2 block text-sm font-medium">Takaran URT</label>
         <span class="flex items-center">
             <input type="number" id="jumlah-urt" class="grow rounded-md border-2 border-gray-700 px-4 py-3" placeholder="Cth. 1" min="0" onwheel="this.blur()" />
@@ -38,13 +38,14 @@
         </span>
         <p id="konversi-referensi" class="mt-2 text-sm text-gray-500"></p>
     </fieldset>
-    <fieldset class="mb-3 flex w-fit items-end justify-end xl:max-w-1/5">
-        <button type="button" id="tombol-tambah" class="h-fit w-fit cursor-pointer rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700">
-            <i class="fa-solid fa-plus mr-2"></i> Tambah
+    <fieldset class="flex items-stretch">
+        <button type="button" id="tombol-tambah" class="h-fit w-fit cursor-pointer self-center rounded-lg bg-green-600 px-6 py-3 transition-all duratio-300 ease-in-out text-white hover:bg-green-700">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Tambah
         </button>
     </fieldset>
 </section>
-<section class="mt-6 cursor-default overflow-x-auto rounded-lg shadow">
+<section class="mt-10 cursor-default overflow-x-auto rounded-lg shadow">
     <div class="min-w-[600px]">
         <span class="grid grid-cols-[40%_40%_20%] bg-green-800 text-center font-medium text-white">
             <h3 class="px-4 py-3">Nama Pangan</h3>

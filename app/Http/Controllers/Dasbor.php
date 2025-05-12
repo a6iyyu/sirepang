@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -27,7 +29,7 @@ class Dasbor extends Controller
         $tahun = KeluargaModel::selectRaw('DISTINCT YEAR(created_date) as tahun')->orderBy('tahun', 'desc')->pluck('tahun');
         $kecamatan = $this->filter_per_tahun(2025);
 
-        if (!$user) return redirect()->route('masuk');
+        if (!$user) return to_route('masuk');
         if (!in_array($user->tipe, ['admin', 'kader'])) abort(403, 'Anda tidak memiliki akses.');
 
         return match ($user->tipe) {

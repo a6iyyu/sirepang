@@ -1,5 +1,5 @@
 <fieldset class="flex w-full items-center justify-end">
-    <label for="filter-kecamatan" class="text-green-dark mr-4 hidden font-medium lg:block">
+    <label for="filter-kecamatan" class="text-green-dark text-sm mr-4 hidden font-medium lg:block">
         <i class="fas fa-filter mr-2"></i>
         Kecamatan
     </label>
@@ -7,7 +7,7 @@
         <select
             id="filter-kecamatan"
             name="filter-kecamatan"
-            class="appearance-none rounded-lg border-2 border-[#2c5e4f] bg-[#2c5e4f] p-3 pr-10 text-sm text-white focus:outline-none lg:text-base"
+            class="appearance-none rounded-lg border-2 border-[#2c5e4f] bg-[#2c5e4f] p-3 pr-10 text-sm text-white focus:outline-none"
         >
             <option value="">Semua Kecamatan</option>
             @foreach ($kecamatan as $id => $nama)
@@ -17,7 +17,7 @@
             @endforeach
         </select>
         <div class="pointer-events-none absolute inset-y-0 right-5 flex items-center text-white">
-            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-chevron-down text-xs"></i>
         </div>
     </span>
 </fieldset>

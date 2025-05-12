@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,5 +19,10 @@ class Kader extends Model
     public function kecamatan(): BelongsTo
     {
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id_kecamatan');
+    }
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }

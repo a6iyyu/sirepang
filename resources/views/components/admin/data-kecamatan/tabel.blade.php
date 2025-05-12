@@ -1,7 +1,7 @@
 <section class="mt-2 mb-8">
-    @include('shared.table.table', [
+    @include('shared.ui.table', [
         'headers' => ['Kecamatan', 'Jumlah Desa', 'Aksi'],
-        'sortable' => ['Nama Kecamatan'],
+        'sortable' => ['Kecamatan'],
         'rows' => $data->map(fn ($item) => [
             $item->nama_kecamatan,
             $item->jumlah_desa,

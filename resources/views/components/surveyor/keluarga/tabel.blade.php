@@ -4,7 +4,7 @@
             {{ session('success') }}
         </div>
     @endif
-    @include('shared.table.table', [
+    @include('shared.ui.table', [
         'headers' => ['Nama', 'Desa', 'Status', 'Komentar', 'Aksi'],
         'sortable' => ['Nama', 'Desa'],
         'rows' => $data->map(fn ($item) => [
@@ -15,7 +15,7 @@
                 'DITOLAK'   => 'bg-red-500 text-white',
                 'DITERIMA'  => 'bg-green-500 text-white',
                 default     => 'bg-gray-300 text-gray-700',
-            } . ' px-3 py-1 rounded-full text-sm font-semibold">' . $item->status->value . '</span>',
+            } . ' px-3 py-1 rounded-full text-xs font-semibold">' . $item->status->value . '</span>',
             $item->komentar ? view('components.surveyor.keluarga.tampilkan-komentar', ['item' => $item]) : '<span class="font-semibold">-</span>',
             view('components.surveyor.keluarga.aksi', ['item' => $item])->render(),
         ])->toArray(),

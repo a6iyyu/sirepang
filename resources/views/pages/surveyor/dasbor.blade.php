@@ -63,8 +63,8 @@
                     rows.forEach((row) => {
                         let tr = document.createElement("tr");
                         tr.innerHTML = `
-                            <td class="px-6 py-4 text-center whitespace-nowrap">${highlight_keyword(row.nama, input.value)}</td>
-                            <td class="px-6 py-4 text-center whitespace-nowrap">${highlight_keyword(row.desa, input.value)}</td>
+                            <td class="px-6 py-4 text-sm text-center whitespace-nowrap">${highlight_keyword(row.nama, input.value)}</td>
+                            <td class="px-6 py-4 text-sm text-center whitespace-nowrap">${highlight_keyword(row.desa, input.value)}</td>
                         `;
 
                         table.appendChild(tr);

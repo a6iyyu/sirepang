@@ -1,5 +1,5 @@
-<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between space-y-6 xl:flex-row xl:flex-wrap xl:space-y-0">
-    <fieldset class="w-full grow xl:max-w-2/5">
+<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between space-y-6">
+    <fieldset class="w-full grow">
         <label for="pilihan-nama-pangan" class="mb-2 block text-sm font-medium">Nama Pangan</label>
         <div class="custom-select-pangan relative">
             <button type="button" id="tombol-dropdown-pangan" class="flex w-full items-center justify-between rounded-md border-2 border-gray-700 px-4 py-3 text-left">
@@ -20,7 +20,7 @@
             </select>
         </div>
     </fieldset>
-    <fieldset class="w-full grow xl:max-w-2/5">
+    <fieldset class="w-full grow">
         <label for="jumlah-urt" class="mb-2 block text-sm font-medium">Takaran URT</label>
         <span class="flex items-center gap-2">
             <input type="number" id="jumlah-urt" class="grow rounded-md border-2 border-gray-700 px-4 py-3" placeholder="Cth. 1" min="0" onwheel="this.blur()" />

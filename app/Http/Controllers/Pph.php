@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Exception;
@@ -10,7 +12,6 @@ use App\Exports\Keluarga;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Kecamatan;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Pph extends Controller

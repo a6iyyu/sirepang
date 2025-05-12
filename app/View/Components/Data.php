@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
 use Closure;
@@ -18,6 +20,6 @@ class Data extends Component
 
     public function render(): View|Closure|string
     {
-        return view('shared.table.data');
+        return view('shared.ui.data');
     }
 }

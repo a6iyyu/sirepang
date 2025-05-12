@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -53,7 +55,7 @@ class Pangan extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
-            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+            return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 
@@ -63,7 +65,7 @@ class Pangan extends Controller
             $keluarga = KeluargaModel::findOrFail($id);
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
             KeluargaModel::where('id_keluarga', $id)->firstOrFail()->delete();
-            return redirect()->route('rekap-pangan')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
+            return to_route('rekap-pangan')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
         } catch (ModelNotFoundException $exception) {
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         } catch (Exception $exception) {

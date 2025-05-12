@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +14,7 @@ class Pangan extends Model
 
     protected $table = 'pangan';
     protected $primaryKey = 'id_pangan';
+    public $timestamps = false;
 
     public function takaran(): BelongsTo
     {

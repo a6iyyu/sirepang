@@ -29,23 +29,41 @@
             <a
                 href="{{ $paginator->previousPageUrl() }}"
                 class="{{ $paginator->onFirstPage() ? 'cursor-not-allowed opacity-50' : 'hover:bg-emerald-50' }} text-white-600 flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white transition-colors"
-                {{ $paginator->onFirstPage() ? 'aria-disabled="true"' : '' }}
+                {{ $paginator->onFirstPage() ? 'aria-disabled=true' : '' }}
             >
                 <i class="fas fa-chevron-left text-xs"></i>
             </a>
-            @foreach ($elements as $element)
-                @if (is_array($element))
-                    @foreach ($element as $page => $url)
-                        <a href="{{ $url }}" class="{{ $page == $paginator->currentPage() ? 'border-emerald-600 bg-emerald-600 text-white' : 'text-white-700 border-gray-200 bg-white hover:bg-emerald-50' }} flex h-8 min-w-[2rem] items-center justify-center rounded-md border text-sm transition-colors">
-                            {{ $page }}
-                        </a>
-                    @endforeach
-                @endif
-            @endforeach
+            @php
+                $current = $paginator->currentPage();
+                $last = $paginator->lastPage();
+                $start = max(2, $current - 1);
+                $end = min($last - 1, $current + 1);
+            @endphp
+            <a href="{{ $paginator->url(1) }}" class="{{ $current == 1 ? 'border-emerald-600 bg-emerald-600 text-white' : 'text-white-700 border-gray-200 bg-white hover:bg-emerald-50' }} flex h-8 min-w-[2rem] items-center justify-center rounded-md border text-sm transition-colors">
+                1
+            </a>
+            @if ($start > 2)
+                <span class="text-white px-1">...</span>
+            @endif
+            @for ($i = $start; $i <= $end; $i++)
+                <a href="{{ $paginator->url($i) }}"
+                   class="{{ $current == $i ? 'border-emerald-600 bg-emerald-600 text-white' : 'text-white-700 border-gray-200 bg-white hover:bg-emerald-50' }} flex h-8 min-w-[2rem] items-center justify-center rounded-md border text-sm transition-colors">
+                    {{ $i }}
+                </a>
+            @endfor
+            @if ($end < $last - 1)
+                <span class="text-white px-1">...</span>
+            @endif
+            @if ($last > 1)
+                <a href="{{ $paginator->url($last) }}"
+                   class="{{ $current == $last ? 'border-emerald-600 bg-emerald-600 text-white' : 'text-white-700 border-gray-200 bg-white hover:bg-emerald-50' }} flex h-8 min-w-[2rem] items-center justify-center rounded-md border text-sm transition-colors">
+                    {{ $last }}
+                </a>
+            @endif
             <a
                 href="{{ $paginator->nextPageUrl() }}"
                 class="{{ $paginator->hasMorePages() ? 'hover:bg-emerald-50' : 'cursor-not-allowed opacity-50' }} text-white-600 flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white transition-colors"
-                {{ $paginator->hasMorePages() ? '' : 'aria-disabled="true"' }}
+                {{ $paginator->hasMorePages() ? '' : 'aria-disabled=true' }}
             >
                 <i class="fas fa-chevron-right text-xs"></i>
             </a>

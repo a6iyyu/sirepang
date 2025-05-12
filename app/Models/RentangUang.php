@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,4 +13,5 @@ class RentangUang extends Model
 
     protected $table = 'rentang_uang';
     protected $primaryKey = 'id_rentang_uang';
+    public $timestamps = false;
 }

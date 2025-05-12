@@ -5,7 +5,7 @@
 @endsection
 
 @section('deskripsi')
-    Lihat data lengkap kecamatan {{ $kecamatan }}. Cek jumlah desa dan keluarga yang sudah didata di wilayah ini.
+        Lihat data lengkap kecamatan {{ $kecamatan }}. Cek jumlah desa dan keluarga yang sudah didata di wilayah ini.
 @endsection
 
 @section('konten')
@@ -13,19 +13,19 @@
         class="h-full min-h-screen bg-cover bg-center bg-no-repeat p-10 transition-all duration-300 ease-in-out lg:pl-88"
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
-        <x-menu
-            icon="fa-solid fa-arrow-left mr-2"
-            label="Kembali"
-            route="data-kecamatan"
-            sidebar="{{ false }}"
-            style="flex w-fit items-center justify-center cursor-pointer h-fit rounded-lg px-4 py-3 text-sm transition-all transform duration-300 ease-in-out bg-emerald-600 text-white lg:px-5 lg:py-3 lg:text-base lg:hover:bg-emerald-500"
-        />
-        <h1 class="text-green-dark mt-6 cursor-default text-xl font-bold md:text-2xl lg:text-3xl">Daftar Desa</h1>
-        <h5 class="text-green-medium mt-2 mb-6 cursor-default text-sm italic lg:text-base">
+        <a
+            href="{{ route('data-kecamatan') }}"
+            class="flex h-fit w-fit transform cursor-pointer items-center justify-center rounded-lg bg-emerald-600 px-4 py-3 text-sm text-white transition-all duration-300 ease-in-out lg:px-5 lg:py-3 lg:hover:bg-emerald-500"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            <h5 class="ml-4">Kembali</h5>
+        </a>
+        <h2 class="text-green-dark mt-6 cursor-default text-base font-bold lg:text-xl">Daftar Desa</h2>
+        <h5 class="text-green-medium mt-2 mb-6 cursor-default text-sm italic">
             Berikut adalah daftar desa yang terletak di wilayah Kecamatan {{ $kecamatan }}.
         </h5>
         <section class="mt-2 mb-8">
-            @include('shared.table.table', [
+            @include('shared.ui.table', [
                 'headers' => ['Nama Desa', 'Kode Wilayah'],
                 'sortable' => ['Nama Kecamatan'],
                 'rows' => $desa->map(fn ($item) => [$item->nama_desa, $item->kode_wilayah])->toArray(),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -35,6 +37,7 @@ class Autentikasi extends Controller
         } catch (ValidationException $validation) {
             return back()->withErrors($validation->errors())->withInput($request->except('password'));
         } catch (Exception $exception) {
+            report($exception);
             return back()->withErrors(['error' => 'Terjadi kesalahan pada sistem.'])->withInput($request->except('password'));
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\Status;
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -93,7 +96,9 @@ class Keluarga extends Controller
             ]);
 
             $data = $request->all();
-            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            if ($request->hasFile('gambar') && $request->file('gambar') instanceof UploadedFile) {
+                $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')->getRealPath()));
+            }
 
             $user = Auth::user();
             $data['id_kader'] = $user->kader->id_kader;
@@ -158,7 +163,7 @@ class Keluarga extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
-            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+            return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 
@@ -201,7 +206,7 @@ class Keluarga extends Controller
             ]);
         } catch (Exception $e) {
             Log::error('Edit Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return redirect()->route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+            return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
 
@@ -226,7 +231,9 @@ class Keluarga extends Controller
             $data = $request->all();
             $keluarga = KeluargaModel::findOrFail($id);
 
-            if ($request->hasFile('gambar')) $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')));
+            if ($request->hasFile('gambar') && $request->file('gambar') instanceof UploadedFile) {
+                $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')->getRealPath()));
+            }
             
             $keluarga->update([
                 'nama_kepala_keluarga'  => $data['nama_kepala_keluarga'],
@@ -254,9 +261,9 @@ class Keluarga extends Controller
                     ]);
                 }
                 DB::commit();
-                return redirect()->route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
+                return to_route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
             } else {
-                return redirect()->route('keluarga.edit', ['id' => $id])->with('errors', "Data keluarga $keluarga->nama_kepala_keluarga gagal diperbarui!");
+                return to_route('keluarga.edit', ['id' => $id])->with('errors', "Data keluarga $keluarga->nama_kepala_keluarga gagal diperbarui!");
             }
         } catch (ValidationException $e) {
             DB::rollback();
@@ -275,7 +282,7 @@ class Keluarga extends Controller
             $keluarga = KeluargaModel::findOrFail($id);
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
             KeluargaModel::where('id_keluarga', $id)->firstOrFail()->delete();
-            return redirect()->route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
+            return to_route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
         } catch (ModelNotFoundException $exception) {
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         } catch (Exception $exception) {

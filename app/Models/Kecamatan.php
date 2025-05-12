@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,4 +13,5 @@ class Kecamatan extends Model
 
     protected $table = 'kecamatan';
     protected $primaryKey = 'id_kecamatan';
+    public $timestamps = false;
 }
