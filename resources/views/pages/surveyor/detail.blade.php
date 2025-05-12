@@ -15,9 +15,9 @@
     >
         <a
             href="{{ route('keluarga') }}"
-            class="flex w-fit items-center justify-center cursor-pointer h-fit rounded-lg px-4 py-3 text-sm transition-all transform duration-300 ease-in-out bg-emerald-600 text-white lg:px-5 lg:py-3 lg:text-base lg:hover:bg-emerald-500"
+            class="flex h-fit w-fit transform cursor-pointer items-center justify-center rounded-lg bg-emerald-600 px-4 py-3 text-sm text-white transition-all duration-300 ease-in-out lg:px-5 lg:py-3 lg:hover:bg-emerald-500"
         >
-            <i class="fa-solid fa-arrow-left mr-2"></i>
+            <i class="fa-solid fa-arrow-left"></i>
             <h5 class="ml-4">Kembali</h5>
         </a>
         <h2 class="mt-6 cursor-default text-base font-bold lg:text-xl">Detail Data Keluarga</h2>
