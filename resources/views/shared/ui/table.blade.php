@@ -4,7 +4,7 @@
             <tr>
                 @foreach ($headers as $header)
                     <th class="w-1/{{ count($headers) }} px-6 py-4 text-center font-bold tracking-wider uppercase">
-                        <div class="flex items-center justify-center space-x-2 text-[8pt] whitespace-nowrap">
+                        <div class="flex items-center justify-center space-x-2 text-xs whitespace-nowrap">
                             <h5>{{ $header }}</h5>
                             @if (in_array(strtolower($header), array_map('strtolower', $sortable)))
                                 <i id="sort" class="fa-solid fa-sort hover:text-green-dark cursor-pointer"></i>

@@ -14,7 +14,7 @@
                 'MENUNGGU' => 'bg-yellow-500 text-white',
                 'DITOLAK'  => 'bg-red-500 text-white',
                 'DITERIMA' => 'bg-green-500 text-white',
-            } . ' px-3 py-1 rounded-full font-semibold">' . $item->status->value . '</span>',
+            } . ' px-3 py-1 text-xs rounded-full font-semibold">' . $item->status->value . '</span>',
             view('components.admin.verifikasi-data.aksi', ['item' => $item])->render(),
         ])->toArray(),
     ])
