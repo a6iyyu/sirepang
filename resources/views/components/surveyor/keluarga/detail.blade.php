@@ -1,7 +1,7 @@
 <section x-data="{ open: true }" class="mt-6 cursor-default overflow-hidden rounded-xl border-0 shadow-xl">
-    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5">
-        <h4 class="mb-0 text-xl font-bold text-white">Data Keluarga</h4>
-        <button @click="open = !open" class="text-xl text-white">
+    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 text-white">
+        <h4 class="mb-0 font-bold">Data Keluarga</h4>
+        <button @click="open = !open">
             <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
             <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
         </button>
@@ -19,9 +19,9 @@
     </article>
 </section>
 <section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent shadow-xl">
-    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5">
-        <h4 class="mb-0 text-xl font-bold text-white">Dokumentasi</h4>
-        <button @click="open = !open" class="text-xl text-white">
+    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 text-white">
+        <h4 class="mb-0 font-bold">Dokumentasi</h4>
+        <button @click="open = !open">
             <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
             <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
         </button>
@@ -30,14 +30,14 @@
         <img
             src="data:image/jpeg;base64,{{ $keluarga->gambar }}"
             alt="{{ "Dokumentasi dari keluarga $keluarga->nama_kepala_keluarga." }}"
-            class="h-96 w-full object-cover"    
+            class="h-96 w-full object-cover"
         />
     </article>
 </section>
 <section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent shadow-xl">
-    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5">
-        <h4 class="mb-0 text-xl font-bold text-white">Pangan Keluarga</h4>
-        <button @click="open = !open" class="text-xl text-white">
+    <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 text-white">
+        <h4 class="mb-0 cursor-default font-bold">Pangan Keluarga</h4>
+        <button @click="open = !open">
             <i x-show="open" class="fa-solid fa-chevron-down cursor-pointer"></i>
             <i x-show="!open" class="fa-solid fa-chevron-right cursor-pointer"></i>
         </button>
@@ -61,9 +61,9 @@
                     </div>
                 @endforeach
             @else
-                <div class="grid grid-cols-1 transition-all duration-200 md:grid-cols-3 lg:hover:bg-emerald-50/50">
-                    <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
-                    <h5 class="flex items-center p-4 text-gray-400 md:justify-end md:p-5 md:text-right">—</h5>
+                <div class="grid grid-cols-1 transition-all duration-200 md:grid-cols-2 lg:hover:bg-emerald-50/50">
+                    <h5 class="p-4 text-center text-gray-400 md:p-5">—</h5>
+                    <h5 class="p-4 text-center text-gray-400 md:p-5">—</h5>
                 </div>
             @endif
         </div>

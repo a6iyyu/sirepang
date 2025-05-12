@@ -20,8 +20,8 @@
             <i class="fa-solid fa-arrow-left mr-2"></i>
             <h5 class="ml-4">Kembali</h5>
         </a>
-        <h2 class="mt-6 cursor-default text-xl font-bold md:text-2xl lg:text-3xl">Detail Data Keluarga</h2>
-        <h5 class="mt-1 cursor-default text-sm italic lg:text-base">
+        <h2 class="mt-6 cursor-default text-base font-bold lg:text-xl">Detail Data Keluarga</h2>
+        <h5 class="mt-1 cursor-default text-sm italic">
             Berikut merupakan detail rekap pangan dari keluarga {{ $keluarga->nama_kepala_keluarga }}.
         </h5>
         @include('components.surveyor.keluarga.detail')
