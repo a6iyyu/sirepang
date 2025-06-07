@@ -23,7 +23,7 @@ class MigrateImages extends Command
                 if (str_contains($base64, 'base64,')) [, $base64] = explode('base64,', $base64, 2);
                 $decoded = base64_decode($base64);
 
-                if ($decoded === false || strlen($decoded) < 100) {
+                if ($decoded === false) {
                     $this->error("Gagal decode base64 untuk ID {$item->id_keluarga} atau data terlalu kecil.");
                     continue;
                 }
