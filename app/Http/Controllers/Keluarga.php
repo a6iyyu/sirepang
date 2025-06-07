@@ -78,7 +78,7 @@ class Keluarga extends Controller
         ]);
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -144,7 +144,7 @@ class Keluarga extends Controller
             }
 
             DB::commit();
-            return response()->json(['redirect' => route('keluarga')]);
+            return to_route('keluarga')->with('success', 'Data keluarga berhasil disimpan.');
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['errors' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
