@@ -50,7 +50,7 @@
 </section>
 <section id="data-pangan-tersembunyi"></section>
 
-@section('skrip')
+@push('skrip')
     <script>
         window.controller = {
             semua_nama_pangan: {!! json_encode($semua_nama_pangan) !!},
@@ -61,4 +61,4 @@
         };
     </script>
     <script src="{{ asset('js/food-edit-form.js') }}"></script>
-@endsection
+@endpush

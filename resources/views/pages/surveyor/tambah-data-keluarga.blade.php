@@ -37,7 +37,7 @@
     </main>
 @endsection
 
-@section('skrip')
+@push('skripsection: ')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const data_pangan_tersembunyi = document.getElementById('data-pangan-tersembunyi');
@@ -110,4 +110,4 @@
             });
         });
     </script>
-@endsection
+@endpush

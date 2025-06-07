@@ -31,7 +31,7 @@
     </figure>
 </section>
 
-@section('skrip')
+@push('skrip')
     <script>
         const fetch_chart_data = (year) => {
             fetch(`/admin/data-kecamatan/${year}`, {
@@ -181,4 +181,4 @@
             });
         });
     </script>
-@endsection
+@endpush

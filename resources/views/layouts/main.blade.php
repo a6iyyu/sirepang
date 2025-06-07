@@ -38,6 +38,6 @@
                 &copy; {{ date('Y') }} Workshop Riset Informatika - Jurusan Teknologi Informasi - Politeknik Negeri Malang
             </footer>
         @endauth
-        @yield('skrip')
+        @stack('skrip')
     </body>
 </html>

@@ -42,7 +42,7 @@
     </main>
 @endsection
 
-@section('skrip')
+@push('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const formulir = document.querySelector('form');
@@ -55,4 +55,4 @@
             });
         });
     </script>
-@endsection
+@endpush

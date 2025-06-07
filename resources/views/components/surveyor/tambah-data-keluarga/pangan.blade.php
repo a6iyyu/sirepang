@@ -61,7 +61,7 @@
 </section>
 <section id="data-pangan-tersembunyi"></section>
 
-@section('skrip')
+@push('skrip')
     <script>
         window.nama_pangan = @json($nama_pangan);
         window.takaran = @json($takaran);
@@ -79,4 +79,4 @@
         window.addEventListener('load', truncate_text);
     </script>
     <script src="{{ asset('js/food-entry-form.js') }}"></script>
-@endsection
+@endpush
