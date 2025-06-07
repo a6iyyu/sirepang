@@ -4,7 +4,7 @@
             <img src="{{ asset('img/logo.svg') }}" alt="Logo" id="logo" class="h-12 w-12 object-cover" />
             <span id="sidebar-menu">
                 <h5 class="text-xl font-bold tracking-tight text-white">SIREPANG</h5>
-                <h6 class="text-sm text-white italic">Sistem Rekam Pangan</h6>
+                <h6 class="text-sm text-white italic">Sistem Recall Pangan</h6>
             </span>
         </div>
         <i id="close" class="fa-solid fa-xmark mt-1.5 h-fit cursor-pointer text-lg text-white"></i>

@@ -1,11 +1,13 @@
-<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">Dokumentasi Kegiatan</h3>
+<h3 class="mb-6 cursor-default text-lg font-bold text-[#2c5e4f] lg:text-2xl">
+    Dokumentasi Kegiatan
+</h3>
 <fieldset>
     <section id="image-preview" class="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-[#2c5e4f] p-4">
         @if ($gambar)
             <h5 class="h-fit w-full text-center text-2xl font-bold text-[#2c5e4f]">Gambar Lama</h5>
             <hr class="h-1 w-full" />
             <img
-                src="data:image/jpeg;base64,{{ $gambar }}"
+                src="{{ asset($gambar) }}"
                 alt="Dokumentasi Kegiatan"
                 class="mb-4 h-96 w-full rounded-lg object-cover"
             />

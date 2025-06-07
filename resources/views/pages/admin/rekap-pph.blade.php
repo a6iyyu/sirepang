@@ -22,7 +22,7 @@
     </main>
 @endsection
 
-@push('skrip')
+@section('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const filter_kecamatan = document.getElementById('filter-kecamatan');
@@ -39,4 +39,4 @@
             });
         });
     </script>
-@endpush
+@endsection

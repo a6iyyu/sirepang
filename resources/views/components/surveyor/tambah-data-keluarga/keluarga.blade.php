@@ -1,4 +1,6 @@
-<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">Masukkan Data Keluarga</h3>
+<h3 class="mb-6 cursor-default text-lg font-bold text-[#2c5e4f] lg:text-2xl">
+    Masukkan Data Keluarga
+</h3>
 @if ($errors->any())
     <ul class="my-5 list-inside list-disc rounded-lg border border-red-500 bg-red-50 p-4 text-sm text-red-500">
         @foreach ($errors->all() as $error)

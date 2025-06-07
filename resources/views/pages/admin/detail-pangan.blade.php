@@ -15,7 +15,7 @@
         style="background: url({{ asset('img/latar-belakang.svg') }})"
     >
         <a
-            href="{{ route('data-kecamatan') }}"
+            href="{{ route('rekap-pangan') }}"
             class="mt-4 flex h-fit w-fit transform cursor-pointer items-center justify-center rounded-lg bg-emerald-600 px-4 py-3 text-sm text-white transition-all duration-300 ease-in-out lg:px-5 lg:py-3 lg:hover:bg-emerald-500"
         >
             <i class="fa-solid fa-arrow-left mr-2"></i>

@@ -28,7 +28,7 @@
     </div>
     <article x-show="open" class="cursor-default overflow-x-auto">
         <img
-            src="data:image/jpeg;base64,{{ $keluarga->gambar }}"
+            src="{{ asset($keluarga->gambar) }}"
             alt="{{ "Dokumentasi dari keluarga $keluarga->nama_kepala_keluarga." }}"
             class="h-96 w-full object-cover"
         />

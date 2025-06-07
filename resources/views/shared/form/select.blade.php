@@ -24,7 +24,7 @@
         <div class="custom-select">
             <button
                 type="button"
-                class="select-selected flex w-full cursor-pointer items-center justify-between rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 text-left"
+                class="select-selected flex w-full cursor-pointer items-center justify-between rounded-md border-2 border-gray-700 bg-transparent px-4 py-2.5 text-left"
                 onclick="toggle_dropdown('{{ $name }}', event)"
             >
                 <span class="selected-text max-w-[210px] truncate">
@@ -68,7 +68,7 @@
     </div>
 </fieldset>
 
-@push('skrip')
+@section('skrip')
     <script>
         if (typeof window.selectSearchInitialized === 'undefined') {
             window.selectSearchInitialized = true;
@@ -80,4 +80,4 @@
             });
         }
     </script>
-@endpush
+@endsection

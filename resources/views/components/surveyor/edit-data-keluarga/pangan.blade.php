@@ -1,6 +1,6 @@
-<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between space-y-6">
+<section class="pangan-form bg-cream-50 mt-7 flex flex-col justify-between text-sm space-y-6">
     <fieldset class="w-full grow">
-        <label for="pilihan-nama-pangan" class="mb-2 block text-sm font-medium">Nama Pangan</label>
+        <label for="pilihan-nama-pangan" class="mb-2 block font-medium">Nama Pangan</label>
         <div class="custom-select-pangan relative">
             <button type="button" id="tombol-dropdown-pangan" class="flex w-full items-center justify-between rounded-md border-2 border-gray-700 px-4 py-3 text-left">
                 <span id="selected-pangan-text" class="truncate">Pilih Nama Pangan</span>
@@ -21,12 +21,12 @@
         </div>
     </fieldset>
     <fieldset class="w-full grow">
-        <label for="jumlah-urt" class="mb-2 block text-sm font-medium">Takaran URT</label>
+        <label for="jumlah-urt" class="mb-2 block font-medium">Takaran URT</label>
         <span class="flex items-center gap-2">
             <input type="number" id="jumlah-urt" class="grow rounded-md border-2 border-gray-700 px-4 py-3" placeholder="Cth. 1" min="0" onwheel="this.blur()" />
             <h5 id="unit-takaran" class="whitespace-nowrap text-gray-700"></h5>
         </span>
-        <p id="konversi-referensi" class="mt-2 text-sm text-gray-500"></p>
+        <p id="konversi-referensi" class="mt-2 text-gray-500"></p>
     </fieldset>
     <fieldset class="mb-3 flex w-fit items-end justify-end xl:max-w-1/5">
         <button type="button" id="tombol-tambah" class="mb-auto h-fit w-fit cursor-pointer rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700">
@@ -34,7 +34,7 @@
         </button>
     </fieldset>
 </section>
-<section class="mt-6 cursor-default overflow-x-auto rounded-lg shadow">
+<section class="mt-6 cursor-default overflow-x-auto rounded-lg text-sm shadow">
     <div class="min-w-[600px]">
         <span class="bg-green-dark grid grid-cols-[40%_40%_20%] text-center font-medium text-white">
             <h3 class="px-4 py-3">Nama Pangan</h3>
@@ -50,7 +50,7 @@
 </section>
 <section id="data-pangan-tersembunyi"></section>
 
-@push('skrip')
+@section('skrip')
     <script>
         window.controller = {
             semua_nama_pangan: {!! json_encode($semua_nama_pangan) !!},
@@ -61,4 +61,4 @@
         };
     </script>
     <script src="{{ asset('js/food-edit-form.js') }}"></script>
-@endpush
+@endsection

@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.daftar_pangan.forEach((item, indeks) => {
             const row = document.createElement('div');
-            row.className = 'pangan-item grid grid-cols-[40%_40%_20%] place-items-center border-b border-gray-200 transition-colors';
+            row.className = 'pangan-item grid grid-cols-[40%_40%_20%] place-items-center border-b border-gray-200 text-sm transition-colors';
             row.innerHTML = `
                 <h5 class="text-gray-700 text-center">${item.teks_nama_pangan}</h5>
                 <h5 class="text-gray-700 text-center">${item.jumlah_urt} ${item.takaran ? `(${item.takaran})` : ''}</h5>

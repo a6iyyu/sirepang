@@ -20,7 +20,7 @@
     </main>
 @endsection
 
-@push('skrip')
+@section('skrip')
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const container = document.getElementById("search-container");
@@ -73,4 +73,4 @@
             });
         });
     </script>
-@endpush
+@endsection

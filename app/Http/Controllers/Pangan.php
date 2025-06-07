@@ -58,18 +58,4 @@ class Pangan extends Controller
             return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
-
-    public function delete(string $id): RedirectResponse
-    {
-        try {
-            $keluarga = KeluargaModel::findOrFail($id);
-            PanganKeluargaModel::where('id_keluarga', $id)->delete();
-            KeluargaModel::where('id_keluarga', $id)->firstOrFail()->delete();
-            return to_route('rekap-pangan')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
-        } catch (ModelNotFoundException $exception) {
-            return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
-        } catch (Exception $exception) {
-            return back()->withErrors(['errors' => 'Gagal menghapus data!']);
-        }
-    }
 }

@@ -71,7 +71,7 @@
     </section>
 @endif
 
-@push('skrip')
+@section('skrip')
     <script>
         const update_per_page = (value) => {
             const url = new URL(window.location.href);
@@ -80,4 +80,4 @@
             window.location.replace(url.toString());
         };
     </script>
-@endpush
+@endsection

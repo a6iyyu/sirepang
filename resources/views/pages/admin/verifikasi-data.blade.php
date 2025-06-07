@@ -22,7 +22,7 @@
     </main>
 @endsection
 
-@push('skrip')
+@section('skrip')
     <script>
         const modal_approve = (id, nama, desa, kecamatan, status) => {
             const modal = document.getElementById('modal-konfirmasi');
@@ -111,4 +111,4 @@
             });
         });
     </script>
-@endpush
+@endsection

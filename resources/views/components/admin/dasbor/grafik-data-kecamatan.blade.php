@@ -23,7 +23,7 @@
     </div>
     <hr class="mb-8 h-1 w-full min-w-[800px] text-white" />
     <figure class="w-full overflow-x-auto">
-        <div id="column-chart" class="inline-block h-96 w-fit min-w-[800px]"></div>
+        <div id="column-chart" class="inline-block max-h-80 h-full w-fit min-w-[800px]"></div>
         <span id="no-data-message" class="flex flex-col items-center justify-center p-6 text-center text-white" style="display: none">
             <i class="fa-solid fa-check-double mb-10 text-5xl"></i>
             <h4 class="text-lg font-semibold">Belum ada data keluarga yang terverifikasi.</h4>
@@ -31,7 +31,7 @@
     </figure>
 </section>
 
-@push('skrip')
+@section('skrip')
     <script>
         const fetch_chart_data = (year) => {
             fetch(`/admin/data-kecamatan/${year}`, {
@@ -181,4 +181,4 @@
             });
         });
     </script>
-@endpush
+@endsection

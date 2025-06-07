@@ -1,4 +1,6 @@
-<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">Dokumentasi Kegiatan</h3>
+<h3 class="mb-6 cursor-default text-lg font-bold text-[#2c5e4f] lg:text-2xl">
+    Dokumentasi Kegiatan
+</h3>
 <fieldset>
     <label for="gambar" class="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-[#2c5e4f] p-20">
         <i class="fa-solid fa-upload text-4xl text-[#2c5e4f]"></i>

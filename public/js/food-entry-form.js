@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nama_pangan = window.nama_pangan || {};
     const takaran = window.takaran || {};
-
     if (!window.daftar_pangan) window.daftar_pangan = [];
 
     const sortir_nama_pangan = Object.entries(nama_pangan).sort((a, b) => {
@@ -44,24 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         options_pangan.appendChild(item);
     });
 
-    tombol_dropdown_pangan.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdown_pangan.classList.toggle('hidden');
-        if (!dropdown_pangan.classList.contains('hidden')) {
-            search_pangan.focus();
-            search_pangan.value = '';
-            filterOptions('');
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.custom-select-pangan')) dropdown_pangan.classList.add('hidden');
-    });
-
-    search_pangan.addEventListener('click', (e) => e.stopPropagation());
-    search_pangan.addEventListener('input', (e) => filterOptions(e.target.value.toLowerCase()));
-
-    function filterOptions(query) {
+    const saring_opsi = (query) => {
         const items = options_pangan.querySelectorAll('li');
         let any_visible = false;
 
@@ -85,20 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (no_result_message) {
             no_result_message.remove();
         }
-    }
-
-    options_pangan.addEventListener('click', (e) => {
-        const item = e.target.closest('li.option-item');
-        if (item) {
-            const value = item.dataset.value;
-            const label = item.dataset.label;
-            selected_pangan_text.textContent = label;
-            pilihan_nama_pangan.value = value;
-            const event = new Event('change');
-            pilihan_nama_pangan.dispatchEvent(event);
-            dropdown_pangan.classList.add('hidden');
-        }
-    });
+    };
 
     const shorten_unit = (unit) => {
         const unit_map = {
@@ -131,21 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return unit_map[unit.toLowerCase()] || unit;
     };
 
-    pilihan_nama_pangan.addEventListener('change', () => {
-        const selectedOption = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
-        if (selectedOption && !selectedOption.disabled) {
-            const id_takaran = selectedOption.dataset.id_takaran;
-            const unit = takaran[id_takaran] || '';
-            unit_takaran.textContent = unit ? `${shorten_unit(unit)}` : '';
-            const referensi_urt = selectedOption.dataset.referensi_urt;
-            const referensi_gram_berat = parseFloat(selectedOption.dataset.referensi_gram_berat);
-            konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` : 'Konversi tidak tersedia';
-        } else {
-            unit_takaran.textContent = '';
-            konversi_referensi.textContent = '';
-        }
-    });
-
     const atur_ulang_formulir = () => {
         pilihan_nama_pangan.selectedIndex = 0;
         selected_pangan_text.textContent = 'Pilih Nama Pangan';
@@ -170,6 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
             data_pangan_tersembunyi.appendChild(masukan_id_pangan);
             data_pangan_tersembunyi.appendChild(masukan_jumlah_urt);
         });
+    };
+
+    const hapus_pangan = (indeks) => {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            window.daftar_pangan.splice(indeks, 1);
+            perbarui_tabel();
+        }
     };
 
     const perbarui_tabel = () => {
@@ -203,16 +164,54 @@ document.addEventListener('DOMContentLoaded', () => {
         perbarui_data_tersembunyi();
     };
 
-    const hapus_pangan = (indeks) => {
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            window.daftar_pangan.splice(indeks, 1);
-            perbarui_tabel();
+    tombol_dropdown_pangan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown_pangan.classList.toggle('hidden');
+        if (!dropdown_pangan.classList.contains('hidden')) {
+            search_pangan.focus();
+            search_pangan.value = '';
+            saring_opsi('');
         }
-    };
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-select-pangan')) dropdown_pangan.classList.add('hidden');
+    });
+
+    search_pangan.addEventListener('click', (e) => e.stopPropagation());
+    search_pangan.addEventListener('input', (e) => saring_opsi(e.target.value.toLowerCase()));
+
+    options_pangan.addEventListener('click', (e) => {
+        const item = e.target.closest('li.option-item');
+        if (item) {
+            const value = item.dataset.value;
+            const label = item.dataset.label;
+            selected_pangan_text.textContent = label;
+            pilihan_nama_pangan.value = value;
+            const event = new Event('change');
+            pilihan_nama_pangan.dispatchEvent(event);
+            dropdown_pangan.classList.add('hidden');
+        }
+    });
+
+    pilihan_nama_pangan.addEventListener('change', () => {
+        const selectedOption = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
+        if (selectedOption && !selectedOption.disabled) {
+            const id_takaran = selectedOption.dataset.id_takaran;
+            const unit = takaran[id_takaran] || '';
+            unit_takaran.textContent = unit ? `${shorten_unit(unit)}` : '';
+            const referensi_urt = selectedOption.dataset.referensi_urt;
+            const referensi_gram_berat = parseFloat(selectedOption.dataset.referensi_gram_berat);
+            konversi_referensi.textContent = referensi_urt && referensi_gram_berat ? `${referensi_urt} = ${referensi_gram_berat.toFixed(2).replace('.', ',')} gram` : 'Konversi tidak tersedia';
+        } else {
+            unit_takaran.textContent = '';
+            konversi_referensi.textContent = '';
+        }
+    });
 
     tombol_tambah.addEventListener('click', () => {
         if (pilihan_nama_pangan.selectedIndex === 0 || !pilihan_nama_pangan.value || !jumlah_urt.value) return alert('Semua bidang harus diisi dengan data yang valid!');
-        
+
         const opsi_terpilih = pilihan_nama_pangan.options[pilihan_nama_pangan.selectedIndex];
         const id_takaran = opsi_terpilih.dataset.id_takaran;
         const unit = takaran[id_takaran] || '';

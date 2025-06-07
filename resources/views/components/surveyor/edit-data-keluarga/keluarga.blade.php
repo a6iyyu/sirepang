@@ -1,4 +1,4 @@
-<h3 class="mb-6 cursor-default text-3xl font-bold text-[#2c5e4f]">
+<h3 class="mb-6 cursor-default text-lg font-bold text-[#2c5e4f] lg:text-2xl">
     Edit Data Keluarga {{ $keluarga->nama_kepala_keluarga }}
 </h3>
 @if ($errors->any())

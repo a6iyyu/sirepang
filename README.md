@@ -1,7 +1,7 @@
-<h1 align="center">Sirepang (Sistem Rekap Pangan)</h1>
+<h1 align="center">Sirepang (Sistem Recall Pangan)</h1>
 
 <p align="justify">
-SIREPANG (Sistem Rekap Pangan) adalah sebuah situs web yang didedikasikan untuk Dinas Ketahanan Pangan untuk mencatat pangan keluarga di tiap desa, Kabupaten Malang. Sistem ini membantu memantau status ketahanan pangan dengan menyediakan data yang akurat dan terkini dari berbagai desa di Kabupaten Malang.
+SIREPANG (Sistem Recall Pangan) adalah sebuah situs web yang didedikasikan untuk Dinas Ketahanan Pangan untuk mencatat pangan keluarga di tiap desa, Kabupaten Malang. Sistem ini membantu memantau status ketahanan pangan dengan menyediakan data yang akurat dan terkini dari berbagai desa di Kabupaten Malang.
 </p>
 
 ## Fitur

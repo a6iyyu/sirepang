@@ -21,7 +21,7 @@ class Dasbor extends Controller
         $user = Auth::user();
         $data = KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->paginate(request()->input('per_page', 10));
         $data->through(fn($item) => (object) [
-            'id' => $item->id_keluarga,
+            'id'   => $item->id_keluarga,
             'nama' => $item->nama_kepala_keluarga,
             'desa' => $item->desa->nama_desa,
         ])->links();
@@ -48,7 +48,7 @@ class Dasbor extends Controller
                 'jumlah_desa'       => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->distinct('id_desa')->count('id_desa'),
                 'jumlah_keluarga'   => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->count(),
             ]),
-            default => abort(403),
+            default => abort(403, 'Anda tidak memiliki akses ke halaman ini.'),
         };
     }
 
@@ -77,12 +77,12 @@ class Dasbor extends Controller
     {
         $kecamatan = $this->filter_per_tahun($tahun_dipilih);
 
-        $formattedData = $kecamatan->map(fn($item) => [
+        $data = $kecamatan->map(fn($item) => [
             'x' => $item->nama_kecamatan,
             'y' => $item->total_keluarga,
         ]);
 
-        return response()->json($formattedData);
+        return response()->json($data);
     }
 
     private function filter_per_tahun($tahun): Collection
@@ -90,7 +90,6 @@ class Dasbor extends Controller
         return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
             ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan, COUNT(keluarga.id_keluarga) as total_keluarga')
             ->whereYear('keluarga.created_date', $tahun)
-            ->where('keluarga.status', 'DITERIMA')
             ->groupBy('kecamatan.id_kecamatan', 'kecamatan.nama_kecamatan')
             ->get();
     }

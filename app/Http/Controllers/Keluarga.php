@@ -22,6 +22,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -62,7 +63,7 @@ class Keluarga extends Controller
         $rentang_uang = [];
         foreach ($batas_bawah as $id => $bawah) {
             $atas = $batas_atas[$id] ?? null;
-            $rentang_uang[$id] = match(true) {
+            $rentang_uang[$id] = match (true) {
                 $id == 1 => "< $atas",
                 $id == 15 => "> $atas",
                 default => "$bawah - $atas"
@@ -95,15 +96,21 @@ class Keluarga extends Controller
                 'detail_pangan_keluarga'    => 'array',
             ]);
 
-            $data = $request->all();
-            if ($request->hasFile('gambar') && $request->file('gambar') instanceof UploadedFile) {
-                $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')->getRealPath()));
-            }
-
             $user = Auth::user();
+            $data = $request->all();
             $data['id_kader'] = $user->kader->id_kader;
             $data['id_kecamatan'] = $user->kader->id_kecamatan;
 
+            $tmp_name = null;
+            $path = null;
+
+            if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+                $tmp_name = 'tmp_' . time() . '_' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+                $tmp_path = $request->file('gambar')->storeAs('images', $tmp_name, 'public');
+                $path = "storage/$tmp_path";
+            }
+
+            // Simpan data keluarga
             $keluarga = new KeluargaModel();
             $keluarga->nama_kepala_keluarga = $data['nama_kepala_keluarga'];
             $keluarga->id_desa = $data['id_desa'];
@@ -116,8 +123,15 @@ class Keluarga extends Controller
             $keluarga->is_hamil = $data['is_hamil'];
             $keluarga->is_menyusui = $data['is_menyusui'];
             $keluarga->is_balita = $data['is_balita'];
-            if (isset($data['gambar'])) $keluarga->gambar = $data['gambar'];
+            $keluarga->gambar = $path ?? '';
             $keluarga->save();
+
+            $new_name = "image_{$keluarga->id_keluarga}." . $request->file('gambar')->getClientOriginalExtension();
+            $new_path = $request->file('gambar')->storeAs('images', $new_name, 'public');
+            $keluarga->gambar = "storage/$new_path";
+            $keluarga->save();
+
+            if ($tmp_name) Storage::disk('public')->delete("images/$tmp_name");
 
             if (!empty($data['detail_pangan_keluarga'])) {
                 foreach ($data['detail_pangan_keluarga'] as $pangan) {
@@ -163,6 +177,7 @@ class Keluarga extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
+            report($exception);
             return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -205,7 +220,7 @@ class Keluarga extends Controller
                 'rentang_uang'      => $rentang_uang,
             ]);
         } catch (Exception $e) {
-            Log::error('Edit Error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            Log::error('Terjadi kesalahan saat mengambil data:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -228,51 +243,55 @@ class Keluarga extends Controller
                 'detail_pangan_keluarga'    => 'array',
             ]);
 
-            $data = $request->all();
             $keluarga = KeluargaModel::findOrFail($id);
+            $old_image = $keluarga->gambar;
 
-            if ($request->hasFile('gambar') && $request->file('gambar') instanceof UploadedFile) {
-                $data['gambar'] = base64_encode(file_get_contents($request->file('gambar')->getRealPath()));
+            if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+                if ($old_image && Storage::disk('public')->exists(str_replace('storage/', '', $old_image))) Storage::disk('public')->delete(str_replace('storage/', '', $old_image));
+                $new_name = "image_{$keluarga->id_keluarga}." . $request->file('gambar')->getClientOriginalExtension();
+                $new_path = $request->file('gambar')->storeAs('images', $new_name, 'public');
+                $path = "storage/$new_path";
+            } else {
+                $path = $old_image;
             }
-            
+
             $keluarga->update([
-                'nama_kepala_keluarga'  => $data['nama_kepala_keluarga'],
-                'id_desa'               => $data['id_desa'],
-                'alamat'                => $data['alamat'],
-                'jumlah_keluarga'       => $data['jumlah_keluarga'],
-                'rentang_pendapatan'    => $data['range_pendapatan'],
-                'rentang_pengeluaran'   => $data['range_pengeluaran'],
-                'is_hamil'              => $data['is_hamil'],
-                'is_menyusui'           => $data['is_menyusui'],
-                'is_balita'             => $data['is_balita'],
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'id_desa'               => $request->id_desa,
+                'alamat'                => $request->alamat,
+                'jumlah_keluarga'       => $request->jumlah_keluarga,
+                'rentang_pendapatan'    => $request->range_pendapatan,
+                'rentang_pengeluaran'   => $request->range_pengeluaran,
+                'is_hamil'              => $request->is_hamil,
+                'is_menyusui'           => $request->is_menyusui,
+                'is_balita'             => $request->is_balita,
                 'status'                => Status::MENUNGGU,
                 'komentar'              => null,
-                'gambar'                => $data['gambar'] ?? $keluarga->gambar,
+                'gambar'                => $path,
             ]);
 
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
 
-            if (!empty($data['detail_pangan_keluarga'])) {
-                foreach ($data['detail_pangan_keluarga'] as $item) {
+            if (!empty($request->detail_pangan_keluarga)) {
+                foreach ($request->detail_pangan_keluarga as $item) {
                     PanganKeluargaModel::create([
                         'id_keluarga'   => $id,
                         'id_pangan'     => $item['nama_pangan'],
                         'urt'           => $item['jumlah_urt'],
                     ]);
                 }
-                DB::commit();
-                return to_route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil diperbarui!");
-            } else {
-                return to_route('keluarga.edit', ['id' => $id])->with('errors', "Data keluarga $keluarga->nama_kepala_keluarga gagal diperbarui!");
             }
-        } catch (ValidationException $e) {
-            DB::rollback();
-            Log::error('Gagal melakukan validasi: ', ['errors' => $e->errors()]);
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (Exception $e) {
-            DB::rollback();
-            Log::error('Gagal memperbarui data pangan keluarga: ', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
+
+            DB::commit();
+            return to_route('keluarga')->with('success', "Data keluarga {$keluarga->nama_kepala_keluarga} berhasil diperbarui!");
+        } catch (ValidationException $exception) {
+            DB::rollBack();
+            Log::error('Gagal validasi update: ', ['errors' => $exception->errors()]);
+            return redirect()->back()->withErrors($exception->errors())->withInput();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error('Gagal update data keluarga: ', ['message' => $exception->getMessage(), 'trace' => $exception->getTraceAsString()]);
+            return redirect()->back()->withErrors('Terjadi kesalahan: ' . $exception->getMessage());
         }
     }
 
@@ -280,17 +299,24 @@ class Keluarga extends Controller
     {
         try {
             $keluarga = KeluargaModel::findOrFail($id);
+
+            if ($keluarga->gambar && Storage::disk('public')->exists(str_replace('storage/', '', $keluarga->gambar))) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $keluarga->gambar));
+            }
+
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
-            KeluargaModel::where('id_keluarga', $id)->firstOrFail()->delete();
-            return to_route('keluarga')->with('success', 'Data keluarga ' . $keluarga->nama_kepala_keluarga . ' berhasil dihapus!');
+            $keluarga->delete();
+            return to_route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil dihapus!");
         } catch (ModelNotFoundException $exception) {
+            report($exception);
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         } catch (Exception $exception) {
+            report($exception);
             return back()->withErrors(['errors' => 'Gagal menghapus data!']);
         }
     }
 
-    private function nama_pangan()
+    private function nama_pangan(): array
     {
         return PanganModel::select('id_pangan', 'nama_pangan', 'id_takaran', 'referensi_urt', 'referensi_gram_berat')->orderBy('nama_pangan', 'asc')->get()->mapWithKeys(fn($item) => [$item->id_pangan => (object) [
             'id_pangan'            => $item->id_pangan,

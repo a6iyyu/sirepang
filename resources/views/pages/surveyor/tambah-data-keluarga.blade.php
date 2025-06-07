@@ -20,7 +20,7 @@
             @include('components.surveyor.tambah-data-keluarga.dokumentasi')
             <hr class="bg-green-dark mb-3 mt-6 h-0.25 text-transparent" />
             @include('components.surveyor.tambah-data-keluarga.pangan')
-            <section class="mt-6 flex justify-end gap-4">
+            <section class="mt-6 flex justify-end text-sm gap-4">
                 <a href="{{ route('keluarga') }}" class="flex h-fit transform cursor-pointer items-center rounded-lg bg-red-600 px-5 py-3 text-white transition-all duration-300 ease-in-out lg:hover:bg-red-500">
                     <i class="fa-solid fa-xmark mr-4"></i> Batal
                 </a>
@@ -37,7 +37,7 @@
     </main>
 @endsection
 
-@push('skrip')
+@section('skrip')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const data_pangan_tersembunyi = document.getElementById('data-pangan-tersembunyi');
@@ -110,4 +110,4 @@
             });
         });
     </script>
-@endpush
+@endsection

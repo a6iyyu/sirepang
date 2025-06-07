@@ -27,13 +27,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
-        Route::get('/data-kecamatan/{year}', [Dasbor::class, 'data_kecamatan'])->name('admin.get.kecamatan.data');
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
+        Route::get('/data-kecamatan/{year}', [Dasbor::class, 'data_kecamatan'])->name('admin.data-kecamatan');
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
-        Route::delete('/rekap-pangan/{id}', [Pangan::class, 'delete'])->name('hapus-rekap-pangan');
 
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
@@ -45,6 +44,11 @@ Route::middleware('auth')->group(function () {
         Route::prefix('kelola-surveyor')->group(function () {
             Route::get('/', [Surveyor::class, 'index'])->name('kelola-surveyor');
             Route::get('/detail/{id}', [Surveyor::class, 'detail'])->name('kelola-surveyor.detail');
+            Route::get('/edit/{id}', [Surveyor::class, 'edit'])->name('kelola-surveyor.edit');
+            Route::get('/tambah', [Surveyor::class, 'create'])->name('kelola-surveyor.buat');
+            Route::post('/tambah', [Surveyor::class, 'store'])->name('kelola-surveyor.tambah');
+            Route::post('/edit/{id}', [Surveyor::class, 'update'])->name('kelola-surveyor.perbarui');
+            Route::delete('/hapus/{id}', [Surveyor::class, 'destroy'])->name('kelola-surveyor.hapus');
         });
 
         Route::prefix('verifikasi-data')->group(function () {
