@@ -16,6 +16,7 @@ class AuthenticationTest extends TestCase
     #[Test]
     public function admin_dapat_masuk_ke_akunnya(): void
     {
+        /** @var User $admin */
         $admin = User::factory()->create([
             'username' => 'admin',
             'password' => bcrypt('admin'),
@@ -35,6 +36,7 @@ class AuthenticationTest extends TestCase
     #[Test]
     public function surveyor_dapat_masuk_ke_akunnya(): void
     {
+        /** @var User $kader */
         $kader = User::factory()->create([
             'username' => '123456789101112131',
             'password' => bcrypt('12345678'),

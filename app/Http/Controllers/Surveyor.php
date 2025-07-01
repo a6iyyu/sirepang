@@ -46,7 +46,7 @@ class Surveyor extends Controller
     public function create(): RedirectResponse|View
     {
         try {
-            $kecamatan = Kecamatan::all()->pluck('nama_kecamatan', 'id_kecamatan')->toArray();
+            $kecamatan = Kecamatan::pluck('nama_kecamatan', 'id_kecamatan')->toArray();
             return view('pages.admin.tambah-surveyor', compact('kecamatan'));
         } catch (ModelNotFoundException $exception) {
             report($exception);
@@ -106,7 +106,7 @@ class Surveyor extends Controller
     public function edit(): RedirectResponse|View
     {
         try {
-            $kecamatan = Kecamatan::all()->pluck('nama_kecamatan', 'id_kecamatan')->toArray();
+            $kecamatan = Kecamatan::pluck('nama_kecamatan', 'id_kecamatan')->toArray();
             $surveyor = Kader::where('id_kader', request()->id)->first();
             return view('pages.admin.edit-surveyor', compact('kecamatan', 'surveyor'));
         } catch (ModelNotFoundException $exception) {

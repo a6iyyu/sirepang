@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PanganKeluarga extends Model
 {
@@ -16,13 +17,13 @@ class PanganKeluarga extends Model
     public $timestamps = false;
     protected $fillable = ['id_pangan', 'id_keluarga', 'urt'];
 
-    public function pangan()
+    public function pangan(): BelongsTo
     {
         return $this->belongsTo(Pangan::class, 'id_pangan', 'id_pangan');
     }
 
-    public function keluarga()
+    public function keluarga(): BelongsTo
     {
-        return $this->belongsTo(Keluarga::class,'id_keluarga','id_keluarga');
+        return $this->belongsTo(Keluarga::class, 'id_keluarga', 'id_keluarga');
     }
 }

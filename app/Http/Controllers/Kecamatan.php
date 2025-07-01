@@ -47,22 +47,16 @@ class Kecamatan extends Controller
         return view('pages.admin.rekap-kecamatan', compact('id', 'tahun', 'kecamatan'));
     }
 
-    public function export_rekap($id, $th)
+    public function ekspor_rekap($id, $th)
     {
         $kecamatan = KecamatanModel::find($id);
-        // dd($kecamatan);
-        $kk = KeluargaModel::where('id_kecamatan', $id)
-            ->whereYear('created_date', $th)
-            ->sum('jumlah_keluarga');
+        $kk = KeluargaModel::where('id_kecamatan', $id)->whereYear('created_date', $th)->sum('jumlah_keluarga');
 
         $year = (int) $th;
-        $isLeapYear = date('L', mktime(0, 0, 0, 1, 1, $year));
-        $daysInYear = $isLeapYear ? 366 : 365;
+        $is_leap_year = date('L', mktime(0, 0, 0, 1, 1, $year));
+        $days_in_year = $is_leap_year ? 366 : 365;
 
-        $currentYear = (int) date('Y');
-        if ($year == $currentYear) {
-            $daysInYear = date('z') + 1; // jumlah hari 'jika' tahun ini
-        }
+        if ($year == (int) date('Y')) $days_in_year = date('z') + 1;
 
         $jenis_pangan = JenisPanganModel::select('id_jenis_pangan', 'nama_jenis', 'parent')->where('parent', "=", null)->get()->toArray();
         $sub_jenis_pangan = JenisPanganModel::select('id_jenis_pangan', 'nama_jenis', 'parent')->where('parent', "!=", null)->get()->toArray();
@@ -109,18 +103,16 @@ class Kecamatan extends Controller
         $row = 4;
         $index = 0;
         $num = 1;
-        foreach ($jenis_pangan as $key_jenis => $value_jenis_pangan) {
-            $sheet->setCellValue("B{$row}", $num .  ". " . $value_jenis_pangan['nama_jenis']);
+        foreach ($jenis_pangan as $key => $value) {
+            $sheet->setCellValue("B{$row}", $num .  ". " . $value['nama_jenis']);
             $row++;
 
-            while ($pangan_list[$index]['id_jenis_pangan'] == $value_jenis_pangan['id_jenis_pangan'] && $index < 177) {
-                $totalKonsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
-                    $query->where('id_kecamatan', $id)
-                        ->whereYear('created_date', $th);
-                })->where('id_pangan', $pangan_list[$index]['id_pangan'])
-                    ->sum('urt');
+            while ($pangan_list[$index]['id_jenis_pangan'] == $value['id_jenis_pangan'] && $index < 177) {
+                $total_konsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
+                    $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
+                })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
 
-                $jumlah = $daysInYear > 0 ? $totalKonsumsi / $daysInYear : 0;
+                $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
 
                 $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
 
@@ -149,36 +141,29 @@ class Kecamatan extends Controller
                 $sheet->getColumnDimension('L')->setAutoSize(true);
 
                 $columns = ['C', 'D', 'E', 'F', 'G', 'I', 'K'];
-                foreach ($columns as $col)
-                    if ($col === 'K') {
-                                $sheet->getStyle("{$col}{$row}")
-                                    ->getNumberFormat()
-                                    ->setFormatCode('#,##0.000');
-                            } else {
-                                $sheet->getStyle("{$col}{$row}")
-                                    ->getNumberFormat()
-                                    ->setFormatCode('#,##0.00');
-                            }
+
+                foreach ($columns as $col) {
+                    if ($col === 'K') $sheet->getStyle("{$col}{$row}")->getNumberFormat()->setFormatCode('#,##0.000');
+                    else $sheet->getStyle("{$col}{$row}")->getNumberFormat()->setFormatCode('#,##0.00');
+                }
+
                 $row++;
                 $index++;
             }
 
             $ber = 1;
-            foreach ($sub_jenis_pangan as $key_sub => $value_sub_jenis_pangan) {
-                if ($value_jenis_pangan['id_jenis_pangan'] == $sub_jenis_pangan[$key_sub]['parent'] && $index < 177) {
-                    $sheet->setCellValue("B{$row}", $num . "." . $ber . $value_sub_jenis_pangan['nama_jenis']);
+            foreach ($sub_jenis_pangan as $key => $sub_value) {
+                if ($value['id_jenis_pangan'] == $sub_jenis_pangan[$key]['parent'] && $index < 177) {
+                    $sheet->setCellValue("B{$row}", $num . "." . $ber . $sub_value['nama_jenis']);
                     $row++;
                     $ber++;
 
-                    while ($pangan_list[$index]['id_jenis_pangan'] == $value_sub_jenis_pangan['id_jenis_pangan']) {
-                        $totalKonsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
-                            $query->where('id_kecamatan', $id)
-                                ->whereYear('created_date', $th);
-                        })->where('id_pangan', $pangan_list[$index]['id_pangan'])
-                            ->sum('urt');
+                    while ($pangan_list[$index]['id_jenis_pangan'] == $sub_value['id_jenis_pangan']) {
+                        $total_konsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
+                            $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
+                        })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
 
-                        $jumlah = $daysInYear > 0 ? $totalKonsumsi / $daysInYear : 0;
-
+                        $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
                         $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
 
                         $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
@@ -206,17 +191,12 @@ class Kecamatan extends Controller
                         $sheet->getColumnDimension('L')->setAutoSize(true);
 
                         $columns = ['C', 'D', 'E', 'F', 'G', 'I', 'K'];
+
                         foreach ($columns as $col) {
-                            if ($col === 'K') {
-                                $sheet->getStyle("{$col}{$row}")
-                                    ->getNumberFormat()
-                                    ->setFormatCode('#,##0.000');
-                            } else {
-                                $sheet->getStyle("{$col}{$row}")
-                                    ->getNumberFormat()
-                                    ->setFormatCode('#,##0.00');
-                            }
+                            if ($col === 'K') $sheet->getStyle("{$col}{$row}")->getNumberFormat()->setFormatCode('#,##0.000');
+                            else $sheet->getStyle("{$col}{$row}")->getNumberFormat()->setFormatCode('#,##0.00');
                         }
+
                         $row++;
                         $index++;
                     }

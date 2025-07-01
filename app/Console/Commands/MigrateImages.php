@@ -21,7 +21,7 @@ class MigrateImages extends Command
             foreach ($items as $item) {
                 $base64 = $item->gambar;
                 if (str_contains($base64, 'base64,')) [, $base64] = explode('base64,', $base64, 2);
-                $decoded = base64_decode($base64);
+                $decoded = base64_decode($base64, true);
 
                 if ($decoded === false) {
                     $this->error("Gagal decode base64 untuk ID {$item->id_keluarga} atau data terlalu kecil.");

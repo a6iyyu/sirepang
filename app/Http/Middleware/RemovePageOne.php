@@ -11,11 +11,16 @@ class RemovePageOne
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->query('page') == 1) return redirect()->to($request->url() . '' . http_build_query($request->except('page')));
+        if ($request->query('page') == 1) {
+            $query = http_build_query($request->except('page'));
+            $url = $request->url() . ($query ? "?{$query}" : '');
+            return redirect()->to($url);
+        }
+
         return $next($request);
     }
 }

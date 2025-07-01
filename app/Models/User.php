@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticable;
 
+/**
+ * @property string $tipe
+ * @property string $username
+ * @property string $password
+ * @property int $id_user
+ * @property int $id_kader
+ * @property-read \App\Models\Kader|null $kader
+ */
 class User extends Authenticable
 {
     use HasFactory;

@@ -1,5 +1,5 @@
 
-<fieldset class="flex w-full flex-col justify-between space-y-4">
+<fieldset class="flex w-full flex-col justify-between space-y-4 text-sm">
     <label for="{{ $name }}" class="font-medium">
         {{ $label }}
         @if ($required)
@@ -39,7 +39,7 @@
                         Pilih {{ $label }}
                     @endif
                 </span>
-                <i class="fa-solid fa-chevron-down ml-2 flex-shrink-0 text-xs text-gray-400"></i>
+                <i class="fa-solid fa-chevron-down ml-2 flex-shrink-0 text-gray-400"></i>
             </button>
             <ul id="dropdown-{{ $name }}" class="select-items absolute z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded-md border-2 border-gray-700 bg-white">
                 <li class="sticky top-0 border-b border-gray-200 bg-white p-2">

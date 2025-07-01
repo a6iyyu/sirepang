@@ -1,6 +1,6 @@
 <section class="mt-2 mb-8">
     @if (session('success'))
-        <div id="success" class="relative mb-4 rounded-lg border border-green-400 bg-green-100 px-4 py-3 text-green-700">
+        <div id="success" class="relative mb-4 cursor-default rounded-lg border border-green-400 bg-green-100 px-4 py-3 text-sm text-green-700">
             {{ session('success') }}
         </div>
     @endif

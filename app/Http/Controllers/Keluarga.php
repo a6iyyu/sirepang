@@ -283,7 +283,7 @@ class Keluarga extends Controller
             }
 
             DB::commit();
-            return to_route('keluarga')->with('success', "Data keluarga {$keluarga->nama_kepala_keluarga} berhasil diperbarui!");
+            return to_route('keluarga')->with('success', 'Data keluarga ' . ucwords(strtolower($keluarga->nama_kepala_keluarga)) . ' berhasil diperbarui!');
         } catch (ValidationException $exception) {
             DB::rollBack();
             Log::error('Gagal validasi update: ', ['errors' => $exception->errors()]);
@@ -306,7 +306,7 @@ class Keluarga extends Controller
 
             PanganKeluargaModel::where('id_keluarga', $id)->delete();
             $keluarga->delete();
-            return to_route('keluarga')->with('success', "Data keluarga $keluarga->nama_kepala_keluarga berhasil dihapus!");
+            return to_route('keluarga')->with('success', 'Data keluarga ' . ucwords(strtolower($keluarga->nama_kepala_keluarga)) . ' berhasil dihapus!');
         } catch (ModelNotFoundException $exception) {
             report($exception);
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);

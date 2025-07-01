@@ -6,10 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Keluarga as KeluargaModel;
-use Illuminate\Database\Eloquent\Collection;
+use DateTimeInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
@@ -20,7 +21,7 @@ class Dasbor extends Controller
     {
         $user = Auth::user();
         $data = KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->paginate(request()->input('per_page', 10));
-        $data->through(fn($item) => (object) [
+        $data->through(fn(KeluargaModel $item) => (object) [
             'id'   => $item->id_keluarga,
             'nama' => $item->nama_kepala_keluarga,
             'desa' => $item->desa->nama_desa,
@@ -48,7 +49,6 @@ class Dasbor extends Controller
                 'jumlah_desa'       => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->distinct('id_desa')->count('id_desa'),
                 'jumlah_keluarga'   => KeluargaModel::where('id_kader', $user->kader->id_kader ?? null)->count(),
             ]),
-            default => abort(403, 'Anda tidak memiliki akses ke halaman ini.'),
         };
     }
 
@@ -58,7 +58,7 @@ class Dasbor extends Controller
         $data = KeluargaModel::where('id_kader', Auth::user()->kader->id_kader)
             ->where('nama_kepala_keluarga', 'like', "%{$keyword}%")
             ->get()
-            ->map(fn($item) => [
+            ->map(fn(KeluargaModel $item) => [
                 'id'        => $item->id_keluarga,
                 'nama'      => $item->nama_kepala_keluarga,
                 'desa'      => $item->desa->nama_desa,
@@ -77,6 +77,7 @@ class Dasbor extends Controller
     {
         $kecamatan = $this->filter_per_tahun($tahun_dipilih);
 
+        /** @var Collection<int, KeluargaModel> $data */
         $data = $kecamatan->map(fn($item) => [
             'x' => $item->nama_kecamatan,
             'y' => $item->total_keluarga,
@@ -85,7 +86,7 @@ class Dasbor extends Controller
         return response()->json($data);
     }
 
-    private function filter_per_tahun($tahun): Collection
+    private function filter_per_tahun(DateTimeInterface|int|string $tahun): Collection
     {
         return KeluargaModel::join('kecamatan', 'keluarga.id_kecamatan', '=', 'kecamatan.id_kecamatan')
             ->selectRaw('kecamatan.id_kecamatan, kecamatan.nama_kecamatan, COUNT(keluarga.id_keluarga) as total_keluarga')

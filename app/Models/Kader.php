@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id_kader
+ * @property int $id_kecamatan
+ * @property string $nama
+ * @property string $nip
+ * @property string $contact_info
+ * @property-read Kecamatan $kecamatan
+ */
 class Kader extends Model
 {
     use HasFactory;

@@ -21,7 +21,7 @@
             <h5 class="ml-4">Kembali</h5>
         </a>
         <h2 class="mt-6 cursor-default text-base font-bold lg:text-xl">Detail Data Keluarga</h2>
-        <h5 class="mt-1 cursor-default text-sm italic">
+        <h5 class="mt-2 cursor-default text-sm italic">
             Berikut merupakan detail rekap pangan dari keluarga {{ $keluarga->nama_kepala_keluarga }}.
         </h5>
         @include('components.surveyor.keluarga.detail')

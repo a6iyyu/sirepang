@@ -24,7 +24,7 @@
         <h1 class="text-green-dark mt-6 cursor-default text-base font-bold lg:text-xl">
             Detail Rekap Pangan
         </h1>
-        <h5 class="tetx-green-medium mt-1 cursor-default text-sm italic">
+        <h5 class="tetx-green-medium mt-2 cursor-default text-sm italic">
             Berikut merupakan detail rekap pangan dari keluarga {{ $keluarga->nama_kepala_keluarga }}.
         </h5>
         @include('components.admin.rekap-pangan.detail')

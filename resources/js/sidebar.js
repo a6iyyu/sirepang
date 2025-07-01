@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const logo = document.getElementById("logo");
     const main = document.querySelector("main");
     const open = document.getElementById("open");
-    const route = document.getElementById("route");
+    const routes = document.querySelectorAll(".route");
     const route_icon = document.querySelectorAll("#route > i");
     const sidebar_menu = document.querySelectorAll("#sidebar-menu");
     const menu_items = document.querySelectorAll("nav > a");
@@ -23,9 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
         main.style.paddingLeft = "9rem";
         open.classList.add("!lg:inline");
         open.classList.remove("!hidden");
-        route.style.width = "fit-content";
         route_icon.forEach((item) => (item.style.marginRight = "0"));
         sidebar_menu.forEach((item) => (item.style.display = "none"));
+        routes.forEach((route) => {
+            route.classList.remove("justify-start");
+            route.classList.add("justify-center");
+        });
     });
 
     open.addEventListener("click", () => {
@@ -39,8 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
         main.style.paddingLeft = null;
         open.classList.add("!hidden");
         open.classList.remove("!lg:inline");
-        route.style.width = "";
         sidebar_menu.forEach((menu) => (menu.style.display = "inline"));
+        routes.forEach((route) => {
+            route.classList.remove("justify-center");
+            route.classList.add("justify-start");
+        });
     });
 
     menu_items.forEach((item) => {

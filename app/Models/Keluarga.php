@@ -5,11 +5,37 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Status;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id_keluarga
+ * @property string $nama_kepala_keluarga
+ * @property string $alamat
+ * @property int $id_desa
+ * @property int $id_kecamatan
+ * @property int $id_kader
+ * @property int $jumlah_keluarga
+ * @property int $rentang_pendapatan
+ * @property int $rentang_pengeluaran
+ * @property bool $is_hamil
+ * @property bool $is_menyusui
+ * @property bool $is_balita
+ * @property string|null $gambar
+ * @property Status $status
+ * @property string|null $komentar
+ *
+ * @property-read Desa $desa
+ * @property-read Kecamatan $kecamatan
+ * @property-read Kader|null $kader
+ * @property-read RentangUang $rentang_pendapatan_model
+ * @property-read RentangUang $rentang_pengeluaran_model
+ * @property-read Collection|PanganKeluarga[] $pangan_keluarga
+ * @property-read Collection|DetailPanganKeluarga[] $detail_pangan_keluarga
+ */
 class Keluarga extends Model
 {
     use HasFactory;

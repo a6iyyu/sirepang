@@ -12,6 +12,7 @@ use App\Models\RentangUang as RentangUangModel;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class Pangan extends Controller
@@ -55,6 +56,8 @@ class Pangan extends Controller
                 'pengeluaran'   => $pengeluaran,
             ]);
         } catch (Exception $exception) {
+            Log::error('Terjadi kesalahan pada server: ' . $exception->getMessage());
+            report($exception);
             return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }

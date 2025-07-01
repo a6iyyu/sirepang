@@ -34,7 +34,7 @@
         />
     </article>
 </section>
-<section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent shadow-xl">
+<section x-data="{ open: true }" class="mt-6 overflow-hidden rounded-xl border-0 bg-transparent text-sm shadow-xl">
     <div class="flex items-center justify-between bg-gradient-to-r from-emerald-800 to-emerald-600 px-7 py-5 text-white">
         <h4 class="mb-0 cursor-default font-bold">Pangan Keluarga</h4>
         <button @click="open = !open">
@@ -44,7 +44,7 @@
     </div>
     <article x-show="open" class="cursor-default overflow-x-auto">
         <div class="min-w-[600px]">
-            <span class="grid grid-cols-2 p-4 text-center text-base font-medium text-emerald-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
+            <span class="grid grid-cols-2 p-4 text-center font-medium text-emerald-800 transition-all duration-200 lg:hover:bg-emerald-50/50">
                 <h5 class="flex items-center justify-center font-bold">Nama Pangan</h5>
                 <h5 class="flex items-center justify-center font-bold">Takaran URT</h5>
             </span>

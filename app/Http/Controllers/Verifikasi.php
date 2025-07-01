@@ -35,9 +35,11 @@ class Verifikasi extends Controller
 
             return view('pages.admin.verifikasi-data', [
                 'data' => $data,
-                'keluarga' => isset($id) ? KeluargaModel::with('desa')->findOrFail($id) : null,
+                'keluarga' => request()->input('id') ? KeluargaModel::with('desa')->findOrFail(request()->input('id')) : null,
             ]);
         } catch (Exception $exception) {
+            report($exception);
+            Log::error('Terjadi kesalahan pada server: ' . $exception->getMessage());
             return back()->withErrors(['errors' => 'Data tidak ditemukan!']);
         }
     }
@@ -86,7 +88,7 @@ class Verifikasi extends Controller
         $keluarga = KeluargaModel::where('id_keluarga', $request->id)->first();
         if (!$keluarga) return Response::json(['error' => 'Data keluarga tidak ditemukan.'], 404);
 
-        $keluarga->status = $status;
+        $keluarga->status = Status::from($status);
         if ($status === 'DITOLAK') $keluarga->komentar = $request->komentar;
         $keluarga->save();
         return Response::json(['redirect' => route('verifikasi-data')]);

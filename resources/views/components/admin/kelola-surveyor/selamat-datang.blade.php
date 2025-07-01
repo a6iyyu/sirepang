@@ -12,13 +12,13 @@
     </a>
 </section>
 @if ($errors->any())
-    <ul class="my-5 list-inside list-disc rounded-lg border border-red-500 bg-red-50 p-4 text-sm text-red-500">
+    <ul class="my-5 cursor-default list-inside list-disc rounded-lg border border-red-500 bg-red-50 p-4 text-sm text-red-500">
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
     </ul>
 @elseif (session('success'))
-    <ul class="my-5 list-inside list-disc rounded-lg border border-green-500 bg-green-50 p-4 text-sm text-green-500">
+    <ul class="my-5 cursor-default list-inside list-disc rounded-lg border border-green-500 bg-green-50 p-4 text-sm text-green-500">
         {{ session('success') }}
     </ul>
 @endif
