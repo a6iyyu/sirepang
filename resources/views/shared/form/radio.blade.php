@@ -1,7 +1,7 @@
-<fieldset class="flex w-full flex-col justify-between space-y-4">
+<fieldset class="flex w-full flex-col justify-between space-y-4 text-sm">
     <h5 class="font-medium">
         {{ $label }}
-        @if (!empty($required))
+        @if (! empty($required))
             <span class="text-red-500">*</span>
         @endif
     </h5>
@@ -16,7 +16,7 @@
                     class="h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                     {{ $value === $checked ? 'checked' : '' }}
                 />
-                <label for="{{ $name . '_' . $checked }}" class="ml-2 cursor-pointer">{{ $text }}</label>
+                <label for="{{  "{$name}_{$checked}" }}" class="ml-2 cursor-pointer">{{ $text }}</label>
             </span>
         @endforeach
     </div>
