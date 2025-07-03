@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -78,7 +77,7 @@ class Keluarga extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse|RedirectResponse
     {
         DB::beginTransaction();
         try {
@@ -182,7 +181,7 @@ class Keluarga extends Controller
         }
     }
 
-    public function edit(string $id): RedirectResponse|View
+    public function edit(int|string $id): RedirectResponse|View
     {
         try {
             $kader = $this->kader();
@@ -332,12 +331,12 @@ class Keluarga extends Controller
         return User::with('kader.kecamatan')->findOrFail(Auth::user()->id_user)->kader;
     }
 
-    private function desa($id_kecamatan): array
+    private function desa(int $id_kecamatan): array
     {
         return DesaModel::where('id_kecamatan', $id_kecamatan)->select('id_desa', 'nama_desa', 'kode_wilayah')->get()->mapWithKeys(fn($item) => [$item->id_desa => "$item->nama_desa - $item->kode_wilayah"])->toArray();
     }
 
-    private function detail_pangan($id_keluarga): array
+    private function detail_pangan(int|string $id_keluarga): array
     {
         $pangan_keluarga = PanganKeluargaModel::with('pangan')->where('id_keluarga', $id_keluarga)->select('id_pangan', 'id_keluarga', 'urt')->get();
 

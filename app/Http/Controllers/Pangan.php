@@ -10,7 +10,6 @@ use App\Models\Pangan as PanganModel;
 use App\Models\PanganKeluarga as PanganKeluargaModel;
 use App\Models\RentangUang as RentangUangModel;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -30,7 +29,7 @@ class Pangan extends Controller
         return view('pages.admin.rekap-pangan', ['data' => $data]);
     }
 
-    public function detail(string $id): RedirectResponse|View
+    public function detail(int|string $id): RedirectResponse|View
     {
         try {
             $keluarga = KeluargaModel::with('desa')->find($id);

@@ -13,7 +13,7 @@ class MigrateImages extends Command
     protected $signature = 'migrate:images';
     protected $description = 'Migrate base64 images to file storage';
 
-    public function handle()
+    public function handle(): void
     {
         $this->info('Mulai migrasi gambar...');
 

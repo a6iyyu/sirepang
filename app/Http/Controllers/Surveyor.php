@@ -53,6 +53,7 @@ class Surveyor extends Controller
             return redirect()->back()->withErrors(['errors' => 'Data surveyor tidak ditemukan!']);
         } catch (Exception $exception) {
             report($exception);
+            Log::error('Terjadi kesalahan saat mengambil data surveyor karena kesalahan pada sistem: ' . $exception->getMessage());
             return redirect()->back()->withErrors(['errors' => 'Terjadi kesalahan saat mengambil data surveyor karena kesalahan pada sistem.']);
         }
     }
@@ -96,9 +97,15 @@ class Surveyor extends Controller
 
             DB::commit();
             return to_route('kelola-surveyor')->with('success', 'Data surveyor berhasil disimpan!');
+        } catch (ValidationException $exception) {
+            DB::rollBack();
+            report($exception);
+            Log::error('Terjadi kesalahan saat validasi data surveyor: ' . $exception->getMessage());
+            return redirect()->back()->withErrors($exception->errors())->withInput();
         } catch (Exception $exception) {
             DB::rollBack();
             report($exception);
+            Log::error('Terjadi kesalahan saat menyimpan data surveyor: ' . $exception->getMessage());
             return redirect()->back()->withErrors(['errors' => 'Data surveyor gagal disimpan!']);
         }
     }
@@ -111,9 +118,11 @@ class Surveyor extends Controller
             return view('pages.admin.edit-surveyor', compact('kecamatan', 'surveyor'));
         } catch (ModelNotFoundException $exception) {
             report($exception);
+            Log::warning('Terjadi kesalahan saat mengambil data surveyor: ' . $exception->getMessage());
             return redirect()->back()->withErrors(['errors' => 'Data surveyor tidak ditemukan!']);
         } catch (Exception $exception) {
             report($exception);
+            Log::error('Terjadi kesalahan saat mengambil data surveyor karena kesalahan pada sistem: ' . $exception->getMessage());
             return redirect()->back()->withErrors(['errors' => 'Terjadi kesalahan saat mengambil data surveyor karena kesalahan pada sistem.']);
         }
     }
@@ -150,6 +159,10 @@ class Surveyor extends Controller
             if ($request->filled('password')) $user->password = bcrypt($request->password);
             $user->save();
             return to_route('kelola-surveyor')->with('success', 'Data surveyor berhasil diperbarui!');
+        } catch (ValidationException $exception) {
+            report($exception);
+            Log::warning('Terjadi kesalahan saat validasi data surveyor: ' . $exception->getMessage());
+            return redirect()->back()->withErrors($exception->errors())->withInput();
         } catch (Exception $exception) {
             report($exception);
             Log::info($exception->getMessage());

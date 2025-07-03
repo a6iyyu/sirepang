@@ -16,7 +16,7 @@ class Keluarga implements FromCollection, WithHeadings, WithMapping
     protected $tahun;
     protected $id_kecamatan;
 
-    public function __construct($tahun, $id_kecamatan = null)
+    public function __construct(int $tahun, ?int $id_kecamatan = null)
     {
         $this->tahun = $tahun;
         $this->id_kecamatan = $id_kecamatan;

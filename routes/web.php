@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
+        Route::get('/rekap-keseluruhan', [Dasbor::class, 'rekap_keseluruhan'])->name('admin.rekap-keseluruhan');
         Route::get('/data-kecamatan/{year}', [Dasbor::class, 'data_kecamatan'])->name('admin.data-kecamatan');
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');

@@ -24,7 +24,7 @@ class Kecamatan extends Controller
             ->with('kecamatan:id_kecamatan,nama_kecamatan')
             ->groupBy('id_kecamatan')
             ->paginate(request('per_page', 7))
-            ->through(fn($item) => (object) [
+            ->through(fn(object $item) => (object) [
                 'id' => $item->id_kecamatan,
                 'jumlah_desa' => $item->jumlah_desa,
                 'nama_kecamatan' => $item->kecamatan->nama_kecamatan,
@@ -47,19 +47,17 @@ class Kecamatan extends Controller
         return view('pages.admin.rekap-kecamatan', compact('id', 'tahun', 'kecamatan'));
     }
 
-    public function ekspor_rekap($id, $th)
+    public function ekspor_rekap(int|string $id, int|string $th): never
     {
         $kecamatan = KecamatanModel::find($id);
 
-        //ngitung total jumlah semua anggota keluarga di tahun itu
+        // Menghitung total jumlah semua anggota keluarga di tahun itu.
         $kk = KeluargaModel::where('id_kecamatan', $id)
             ->whereYear('created_date', $th)
             ->sum('jumlah_keluarga');
 
-        //ngitung jumlah keluarga aja di tahun itu
-        // $kk = KeluargaModel::where('id_kecamatan', $id)
-        //     ->whereYear('created_date', $th)
-        //     ->count('id_keluarga');
+        // Menghitung jumlah keluarga saja di tahun itu.
+        // $kk = KeluargaModel::where('id_kecamatan', $id)->whereYear('created_date', $th)->count('id_keluarga');
 
         $year = (int) $th;
         $is_leap_year = date('L', mktime(0, 0, 0, 1, 1, $year));
@@ -71,20 +69,18 @@ class Kecamatan extends Controller
         $sub_jenis_pangan = JenisPanganModel::select('id_jenis_pangan', 'nama_jenis', 'parent')->where('parent', "!=", null)->get()->toArray();
         $pangan = PanganModel::with('jenis_pangan')->get()->toArray();
 
-        $pangan_list = collect($pangan)->map(function ($data) {
-            return [
-                'id_jenis_pangan' => $data['jenis_pangan']['id_jenis_pangan'],
-                'nama_jenis' => $data['jenis_pangan']['nama_jenis'],
-                'id_pangan' => $data['id_pangan'],
-                'nama_pangan' => $data['nama_pangan'],
-                'berat' => $data['gram'],
-                'energi' => $data['kalori'],
-                'protein' => $data['protein'],
-                'lemak' => $data['lemak'],
-                'karbohidrat' => $data['karbohidrat'],
-                'referensi_urt' => $data['referensi_urt'],
-            ];
-        });
+        $daftar_pangan = collect($pangan)->map(fn($data) => [
+            'id_jenis_pangan'   => $data['jenis_pangan']['id_jenis_pangan'],
+            'nama_jenis'        => $data['jenis_pangan']['nama_jenis'],
+            'id_pangan'         => $data['id_pangan'],
+            'nama_pangan'       => $data['nama_pangan'],
+            'berat'             => $data['gram'],
+            'energi'            => $data['kalori'],
+            'protein'           => $data['protein'],
+            'lemak'             => $data['lemak'],
+            'karbohidrat'       => $data['karbohidrat'],
+            'referensi_urt'     => $data['referensi_urt'],
+        ]);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -107,46 +103,44 @@ class Kecamatan extends Controller
         $sheet->setCellValue("I3", "Jumlah");
         $sheet->setCellValue("J3", "7 Hari");
         $sheet->setCellValue("K3", "Total");
-        $sheet->setCellValue("L3", "Jumlah Keluarga"); //ngitung total jumlah semua anggota keluarga di tahun itu
-        // $sheet->setCellValue("L3", "Jumlah Kepala Keluarga"); //ngitung jumlah keluarga aja di tahun itu
+        $sheet->setCellValue("L3", "Jumlah Keluarga"); // Menghitung total jumlah semua anggota keluarga di tahun itu.
+        // $sheet->setCellValue("L3", "Jumlah Kepala Keluarga"); // Menghitung jumlah keluarga saja di tahun itu.
         $sheet->setCellValue("M3", "Konversi Satuan");
 
         $row = 4;
         $index = 0;
         $num = 1;
-        $bahanMinumanCount = 0;
+        $bahan_minuman = 0;
         foreach ($jenis_pangan as $key => $value) {
             if ($value['nama_jenis'] === 'Bahan Minuman') {
-                $bahanMinumanCount++;
-                if ($bahanMinumanCount > 1) {
-                    continue;
-                }
+                $bahan_minuman++;
+                if ($bahan_minuman > 1) continue;
             }
+
             $sheet->setCellValue("B{$row}", $num .  ". " . $value['nama_jenis']);
             $row++;
 
-            while ($pangan_list[$index]['id_jenis_pangan'] == $value['id_jenis_pangan'] && $index < 177) {
+            while ($daftar_pangan[$index]['id_jenis_pangan'] == $value['id_jenis_pangan'] && $index < 177) {
                 $total_konsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
                     $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
-                })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
+                })->where('id_pangan', $daftar_pangan[$index]['id_pangan'])->sum('urt');
 
                 $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
-
                 $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
 
-                $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
-                $sheet->setCellValue("C{$row}", $pangan_list[$index]['berat']);
-                $sheet->setCellValue("D{$row}", $pangan_list[$index]['energi']);
-                $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
-                $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
-                $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                $sheet->setCellValue("B{$row}", $daftar_pangan[$index]['nama_pangan']);
+                $sheet->setCellValue("C{$row}", $daftar_pangan[$index]['berat']);
+                $sheet->setCellValue("D{$row}", $daftar_pangan[$index]['energi']);
+                $sheet->setCellValue("E{$row}", $daftar_pangan[$index]['protein']);
+                $sheet->setCellValue("F{$row}", $daftar_pangan[$index]['lemak']);
+                $sheet->setCellValue("G{$row}", $daftar_pangan[$index]['karbohidrat']);
+                // $sheet->setCellValue("H{$row}", $daftar_pangan[$index]['referensi_urt']);
                 $sheet->setCellValue("H{$row}", 'Kg');
                 $sheet->setCellValue("I{$row}", $jumlah);
                 $sheet->setCellValue("J{$row}", 7);
                 $sheet->setCellValue("K{$row}", $total);
                 $sheet->setCellValue("L{$row}", $kk);
-                $sheet->setCellValue("M{$row}", $pangan_list[$index]['referensi_urt']);
+                $sheet->setCellValue("M{$row}", $daftar_pangan[$index]['referensi_urt']);
 
                 $sheet->getColumnDimension('B')->setWidth(40);
                 $sheet->getColumnDimension('C')->setAutoSize(true);
@@ -179,27 +173,27 @@ class Kecamatan extends Controller
                     $row++;
                     $ber++;
 
-                    while ($pangan_list[$index]['id_jenis_pangan'] == $sub_value['id_jenis_pangan']) {
+                    while ($daftar_pangan[$index]['id_jenis_pangan'] == $sub_value['id_jenis_pangan']) {
                         $total_konsumsi = PanganKeluargaModel::whereHas('keluarga', function ($query) use ($id, $th) {
                             $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
-                        })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
+                        })->where('id_pangan', $daftar_pangan[$index]['id_pangan'])->sum('urt');
 
                         $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
                         $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
 
-                        $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
-                        $sheet->setCellValue("C{$row}", $pangan_list[$index]['berat']);
-                        $sheet->setCellValue("D{$row}", $pangan_list[$index]['energi']);
-                        $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
-                        $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
-                        $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                        // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                        $sheet->setCellValue("B{$row}", $daftar_pangan[$index]['nama_pangan']);
+                        $sheet->setCellValue("C{$row}", $daftar_pangan[$index]['berat']);
+                        $sheet->setCellValue("D{$row}", $daftar_pangan[$index]['energi']);
+                        $sheet->setCellValue("E{$row}", $daftar_pangan[$index]['protein']);
+                        $sheet->setCellValue("F{$row}", $daftar_pangan[$index]['lemak']);
+                        $sheet->setCellValue("G{$row}", $daftar_pangan[$index]['karbohidrat']);
+                        // $sheet->setCellValue("H{$row}", $daftar_pangan[$index]['referensi_urt']);
                         $sheet->setCellValue("H{$row}", 'Kg');
                         $sheet->setCellValue("I{$row}", $jumlah);
                         $sheet->setCellValue("J{$row}", 7);
                         $sheet->setCellValue("K{$row}", $total);
                         $sheet->setCellValue("L{$row}", $kk);
-                        $sheet->setCellValue("M{$row}", $pangan_list[$index]['referensi_urt']);
+                        $sheet->setCellValue("M{$row}", $daftar_pangan[$index]['referensi_urt']);
 
                         $sheet->getColumnDimension('B')->setWidth(40);
                         $sheet->getColumnDimension('C')->setAutoSize(true);
@@ -231,7 +225,7 @@ class Kecamatan extends Controller
         }
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . 'Data_Rekap_' . $kecamatan->nama_kecamatan . '_' . date('Y-m-d_H-i-s') . '.xlsx' . '"');
+        header('Content-Disposition: attachment; filename="' . "Data Rekap {$kecamatan->nama_kecamatan} " . date('d-m-Y') . '.xlsx' . '"');
         header('Cache-Control: max-age=0');
         header('Cache-Control: max-age=1');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
