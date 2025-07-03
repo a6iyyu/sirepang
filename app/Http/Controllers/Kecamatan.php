@@ -50,7 +50,16 @@ class Kecamatan extends Controller
     public function ekspor_rekap($id, $th)
     {
         $kecamatan = KecamatanModel::find($id);
-        $kk = KeluargaModel::where('id_kecamatan', $id)->whereYear('created_date', $th)->sum('jumlah_keluarga');
+
+        //ngitung total jumlah semua anggota keluarga di tahun itu
+        $kk = KeluargaModel::where('id_kecamatan', $id)
+            ->whereYear('created_date', $th)
+            ->sum('jumlah_keluarga');
+
+        //ngitung jumlah keluarga aja di tahun itu
+        // $kk = KeluargaModel::where('id_kecamatan', $id)
+        //     ->whereYear('created_date', $th)
+        //     ->count('id_keluarga');
 
         $year = (int) $th;
         $is_leap_year = date('L', mktime(0, 0, 0, 1, 1, $year));
@@ -98,12 +107,21 @@ class Kecamatan extends Controller
         $sheet->setCellValue("I3", "Jumlah");
         $sheet->setCellValue("J3", "7 Hari");
         $sheet->setCellValue("K3", "Total");
-        $sheet->setCellValue("L3", "kk");
+        $sheet->setCellValue("L3", "Jumlah Keluarga"); //ngitung total jumlah semua anggota keluarga di tahun itu
+        // $sheet->setCellValue("L3", "Jumlah Kepala Keluarga"); //ngitung jumlah keluarga aja di tahun itu
+        $sheet->setCellValue("M3", "Konversi Satuan");
 
         $row = 4;
         $index = 0;
         $num = 1;
+        $bahanMinumanCount = 0;
         foreach ($jenis_pangan as $key => $value) {
+            if ($value['nama_jenis'] === 'Bahan Minuman') {
+                $bahanMinumanCount++;
+                if ($bahanMinumanCount > 1) {
+                    continue;
+                }
+            }
             $sheet->setCellValue("B{$row}", $num .  ". " . $value['nama_jenis']);
             $row++;
 
@@ -122,11 +140,13 @@ class Kecamatan extends Controller
                 $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
                 $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
                 $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                $sheet->setCellValue("H{$row}", 'Kg');
                 $sheet->setCellValue("I{$row}", $jumlah);
                 $sheet->setCellValue("J{$row}", 7);
                 $sheet->setCellValue("K{$row}", $total);
                 $sheet->setCellValue("L{$row}", $kk);
+                $sheet->setCellValue("M{$row}", $pangan_list[$index]['referensi_urt']);
 
                 $sheet->getColumnDimension('B')->setWidth(40);
                 $sheet->getColumnDimension('C')->setAutoSize(true);
@@ -139,6 +159,7 @@ class Kecamatan extends Controller
                 $sheet->getColumnDimension('J')->setAutoSize(true);
                 $sheet->getColumnDimension('K')->setAutoSize(true);
                 $sheet->getColumnDimension('L')->setAutoSize(true);
+                $sheet->getColumnDimension('M')->setAutoSize(true);
 
                 $columns = ['C', 'D', 'E', 'F', 'G', 'I', 'K'];
 
@@ -172,11 +193,13 @@ class Kecamatan extends Controller
                         $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
                         $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
                         $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                        $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                        // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
+                        $sheet->setCellValue("H{$row}", 'Kg');
                         $sheet->setCellValue("I{$row}", $jumlah);
                         $sheet->setCellValue("J{$row}", 7);
                         $sheet->setCellValue("K{$row}", $total);
                         $sheet->setCellValue("L{$row}", $kk);
+                        $sheet->setCellValue("M{$row}", $pangan_list[$index]['referensi_urt']);
 
                         $sheet->getColumnDimension('B')->setWidth(40);
                         $sheet->getColumnDimension('C')->setAutoSize(true);
@@ -189,6 +212,7 @@ class Kecamatan extends Controller
                         $sheet->getColumnDimension('J')->setAutoSize(true);
                         $sheet->getColumnDimension('K')->setAutoSize(true);
                         $sheet->getColumnDimension('L')->setAutoSize(true);
+                        $sheet->getColumnDimension('M')->setAutoSize(true);
 
                         $columns = ['C', 'D', 'E', 'F', 'G', 'I', 'K'];
 
@@ -203,6 +227,7 @@ class Kecamatan extends Controller
                 }
             }
             $num++;
+            ++$row;
         }
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
