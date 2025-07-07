@@ -11,12 +11,14 @@ use App\Models\Pangan as PanganModel;
 use App\Models\PanganKeluarga as PanganKeluargaModel;
 use App\Models\RentangUang as RentangUangModel;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
+use ValueError;
 
 class Verifikasi extends Controller
 {
@@ -69,28 +71,42 @@ class Verifikasi extends Controller
                 'pendapatan'    => $pendapatan,
                 'pengeluaran'   => $pengeluaran,
             ]);
+        } catch (ModelNotFoundException $exception) {
+            report($exception);
+            Log::error('Data keluarga tidak ditemukan: ' . $exception->getMessage());
+            return to_route('keluarga')->withErrors(['errors' => 'Data keluarga tidak ditemukan!']);
         } catch (Exception $exception) {
-            return to_route('keluarga')->withErrors(['errors' => 'Data tidak ditemukan!']);
+            report($exception);
+            Log::error('Server tidak bisa mengambil data keluarga untuk diverifikasi: ' . $exception->getMessage());
+            return to_route('keluarga')->withErrors(['errors' => 'Server tidak bisa mengambil data keluarga untuk diverifikasi!']);
         }
     }
 
     public function verify(Request $request, string $status): JsonResponse
     {
-        if ($status === 'DITOLAK') {
-            $request->validate([
-                'komentar' => 'required|max:200|string'
-            ], [
-                'komentar.required' => 'Bidang ini perlu diisi.',
-                'komentar.max'      => 'Tidak boleh lebih dari 200 karakter.',
-            ]);
+        try {
+            if ($status === Status::DITOLAK->value) {
+                $request->validate([
+                    'komentar'          => 'required|max:200|string'
+                ], [
+                    'komentar.required' => 'Bidang ini perlu diisi.',
+                    'komentar.max'      => 'Tidak boleh lebih dari 200 karakter.',
+                ]);
+            }
+
+            $keluarga = KeluargaModel::where('id_keluarga', $request->id)->first();
+            if (!$keluarga) return Response::json(['error' => 'Data keluarga tidak ditemukan.'], 404);
+
+            $keluarga->status = Status::from($status);
+            if ($keluarga->status === Status::DITOLAK) $keluarga->komentar = $request->komentar;
+
+            $keluarga->save();
+            return Response::json(['redirect' => route('verifikasi-data')]);
+        } catch (ValueError $e) {
+            return Response::json(['error' => "Status tidak valid: {$status}"], 400);
+        } catch (Exception $exception) {
+            report($exception);
+            return Response::json(['error' => 'Terjadi kesalahan server. Silakan coba lagi.'], 500);
         }
-
-        $keluarga = KeluargaModel::where('id_keluarga', $request->id)->first();
-        if (!$keluarga) return Response::json(['error' => 'Data keluarga tidak ditemukan.'], 404);
-
-        $keluarga->status = Status::from($status);
-        if ($status === 'DITOLAK') $keluarga->komentar = $request->komentar;
-        $keluarga->save();
-        return Response::json(['redirect' => route('verifikasi-data')]);
     }
 }

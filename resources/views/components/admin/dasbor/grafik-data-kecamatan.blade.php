@@ -33,8 +33,8 @@
 
 @push('skrip')
     <script>
-        const fetch_chart_data = (year) => {
-            fetch(`/admin/data-kecamatan/${year}`, {
+        const fetch_chart_data = (tahun) => {
+            fetch(`/admin/${tahun}`, {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',

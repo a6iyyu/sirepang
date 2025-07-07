@@ -28,13 +28,14 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->prefix('admin')->group(function (): void {
         Route::get('/', [Dasbor::class, 'show'])->name('admin');
-        Route::get('/rekap-keseluruhan', [Dasbor::class, 'rekap_keseluruhan'])->name('admin.rekap-keseluruhan');
-        Route::get('/data-kecamatan/{year}', [Dasbor::class, 'data_kecamatan'])->name('admin.data-kecamatan');
+        Route::get('/{tahun?}', [Dasbor::class, 'data_kecamatan'])->name('admin.data-kecamatan')->where('tahun', '[0-9]+');
+        Route::post('/rekap-keseluruhan', [Dasbor::class, 'rekap_keseluruhan'])->name('admin.rekap-keseluruhan');
+
         Route::get('/rekap-pangan', [Pangan::class, 'index'])->name('rekap-pangan');
         Route::get('/rekap-pangan/{id}', [Pangan::class, 'detail'])->name('detail-rekap-pangan');
         Route::get('/rekap-pph', [Pph::class, 'index'])->name('rekap-pph');
         Route::post('/rekap-pph/ekspor/{tahun}', [Pph::class, 'export'])->name('ekspor-pph');
-
+        
         Route::prefix('data-kecamatan')->group(function () {
             Route::get('/', [Kecamatan::class, 'index'])->name('data-kecamatan');
             Route::get('/detail/{id}', [Kecamatan::class, 'detail'])->name('admin.detail');

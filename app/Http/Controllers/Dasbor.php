@@ -79,9 +79,9 @@ class Dasbor extends Controller
         return response()->json($data);
     }
 
-    public function data_kecamatan(DateTimeInterface|int|string $tahun_dipilih): JsonResponse
+    public function data_kecamatan(DateTimeInterface|int|string $tahun): JsonResponse
     {
-        $kecamatan = $this->filter_per_tahun($tahun_dipilih);
+        $kecamatan = $this->filter_per_tahun($tahun);
 
         /** @var Collection<int, KeluargaModel> $data */
         $data = $kecamatan->map(fn($item) => [
@@ -98,36 +98,43 @@ class Dasbor extends Controller
             ini_set('memory_limit', '2048M');
 
             $keluarga = DB::select("
-                SELECT 
-                    k.id_keluarga,
-                    k.nama_kepala_keluarga,
-                    k.jumlah_keluarga,
-                    c.kode_wilayah,
-                    d.nama_desa,
-                    c.nama_kecamatan,
-                    jp.nama_jenis,
-                    g.nama_pangan,
-                    g.kalori,
-                    g.lemak,
-                    g.karbohidrat,
-                    g.protein
-                FROM keluarga k
-                JOIN desa d ON d.id_desa = k.id_desa
-                JOIN kecamatan c ON c.id_kecamatan = d.id_kecamatan
-                JOIN pangan_keluarga pk ON pk.id_keluarga = k.id_keluarga
-                JOIN pangan g ON g.id_pangan = pk.id_pangan
-                JOIN jenis_pangan jp ON jp.id_jenis_pangan = g.id_jenis_pangan;
+                SELECT
+                    k.id_keluarga AS ID,
+                    k.nama_kepala_keluarga AS 'Nama Kepala Keluarga',
+                    k.jumlah_keluarga AS 'Jumlah Keluarga',
+                    c.kode_wilayah AS 'Kode Kecamatan',
+                    c.nama_kecamatan AS 'Nama Kecamatan',
+                    d.kode_wilayah AS 'Kode Desa',
+                    d.nama_desa AS 'Nama Desa',
+                    k.is_hamil AS 'Hamil',
+                    k.is_menyusui AS 'Menyusui',
+                    k.is_balita AS 'Balita',
+                    rup.batas_bawah AS 'Pengeluaran Minimal',
+                    rup.batas_atas AS 'Pengeluaran Maksimal',
+                    rud.batas_bawah AS 'Pendapatan Minimal',
+                    rud.batas_atas AS 'Pendapatan Maksimal',
+                    jp.nama_jenis AS 'Jenis Pangan',
+                    g.nama_pangan AS 'Nama Pangan',
+                    pk.urt AS 'URT'
+                FROM keluarga k, desa d, kecamatan c, pangan_keluarga pk, pangan g, jenis_pangan jp, rentang_uang rup, rentang_uang rud
+                where k.id_keluarga = pk.id_keluarga
+                and pk.id_pangan = g.id_pangan
+                and g.id_jenis_pangan = jp.id_jenis_pangan
+                and c.id_kecamatan = d.id_kecamatan
+                and d.id_desa = k.id_desa
+                and k.rentang_pengeluaran = rup.id_rentang_uang
+                and k.rentang_pendapatan = rud.id_rentang_uang;
             ");
 
             $keluarga = json_decode(json_encode($keluarga), true);
-
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
 
             $headers = [
-                'ID Keluarga', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Wilayah',
-                'Nama Desa', 'Nama Kecamatan', 'Jenis Pangan', 'Nama Pangan',
-                'Kalori Per Orang', 'Lemak Per Orang', 'Karbohidrat Per Orang', 'Protein Per Orang'
+                'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
+                'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
+                'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
+                'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT'
             ];
 
             foreach ($headers as $index => $header) {
@@ -137,15 +144,16 @@ class Dasbor extends Controller
 
             $number = 2;
             foreach ($keluarga as $row) {
-                $colNumber = 1;
+                $column = 1;
                 foreach ([
-                    'id_keluarga', 'nama_kepala_keluarga', 'jumlah_keluarga', 'kode_wilayah',
-                    'nama_desa', 'nama_kecamatan', 'nama_jenis', 'nama_pangan',
-                    'kalori', 'lemak', 'karbohidrat', 'protein'
+                    'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
+                    'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
+                    'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
+                    'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT'
                 ] as $key) {
-                    $col = Coordinate::stringFromColumnIndex($colNumber);
+                    $col = Coordinate::stringFromColumnIndex($column);
                     $sheet->setCellValue("{$col}{$number}", $row[$key]);
-                    $colNumber++;
+                    $column++;
                 }
                 $number++;
             }

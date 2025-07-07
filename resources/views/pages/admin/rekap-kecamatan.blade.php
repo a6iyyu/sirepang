@@ -46,7 +46,7 @@
                     <section class="relative z-10 p-6 pt-4 text-sm">
                         <a
                             href="{{ url("admin/data-kecamatan/rekap-kecamatan/$id/tahun/$thn") }}"
-                            class="hover:bg-opacity-90 flex w-full items-center justify-center space-x-2 rounded-lg bg-white px-4 py-3 font-semibold text-emerald-600 transition-all duration-200"
+                            class="flex w-full items-center justify-center space-x-2 rounded-lg bg-white px-4 py-3 font-semibold text-emerald-600 transition-all duration-200 lg:hover:bg-slate-100"
                         >
                             <i class="fa-solid fa-file-excel"></i>
                             <span>Unduh Rekap</span>

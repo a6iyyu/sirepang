@@ -21,22 +21,3 @@
         @include('components.admin.rekap-pph.daftar')
     </main>
 @endsection
-
-@push('skrip')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const filter_kecamatan = document.getElementById('filter-kecamatan');
-
-            filter_kecamatan.addEventListener('change', () => {
-                document.body.style.opacity = '0.8';
-                document.body.style.transition = 'opacity 0.3s ease';
-
-                setTimeout(() => {
-                    const id_kecamatan = this.value;
-                    const url = '{{ route('rekap-pph') }}';
-                    window.location.href = id_kecamatan ? `${url}?filter-kecamatan=${id_kecamatan}` : url;
-                }, 300);
-            });
-        });
-    </script>
-@endpush

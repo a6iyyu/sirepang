@@ -20,9 +20,9 @@ class Pangan extends Controller
     {
         $data = KeluargaModel::paginate(10);
         $data->getCollection()->transform(fn($item) => (object) [
-            'id'    => $item->id_keluarga,
-            'nama'  => $item->nama_kepala_keluarga,
-            'desa'  => $item->desa->nama_desa,
+            'id'        => $item->id_keluarga,
+            'nama'      => $item->nama_kepala_keluarga,
+            'desa'      => $item->desa->nama_desa,
             'kecamatan' => $item->kecamatan->nama_kecamatan,
         ]);
 
