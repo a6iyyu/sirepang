@@ -21,6 +21,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class Dasbor extends Controller
 {
@@ -98,68 +99,100 @@ class Dasbor extends Controller
         try {
             ini_set('memory_limit', '2048M');
 
-            $keluarga = DB::select("
+            $data_keluarga = DB::select("
                 SELECT
-                    k.id_keluarga AS ID,
-                    k.nama_kepala_keluarga AS 'Nama Kepala Keluarga',
-                    k.jumlah_keluarga AS 'Jumlah Keluarga',
-                    c.kode_wilayah AS 'Kode Kecamatan',
-                    c.nama_kecamatan AS 'Nama Kecamatan',
-                    d.kode_wilayah AS 'Kode Desa',
-                    d.nama_desa AS 'Nama Desa',
-                    k.is_hamil AS 'Hamil',
-                    k.is_menyusui AS 'Menyusui',
-                    k.is_balita AS 'Balita',
-                    rup.batas_bawah AS 'Pengeluaran Minimal',
-                    rup.batas_atas AS 'Pengeluaran Maksimal',
-                    rud.batas_bawah AS 'Pendapatan Minimal',
-                    rud.batas_atas AS 'Pendapatan Maksimal',
-                    jp.nama_jenis AS 'Jenis Pangan',
-                    g.nama_pangan AS 'Nama Pangan',
-                    pk.urt AS 'URT',
-                    g.gram AS 'Berat',
-                    t.nama_takaran AS 'Satuan'
+                    k.id_keluarga,
+                    k.nama_kepala_keluarga,
+                    k.jumlah_keluarga,
+                    d.kode_wilayah AS 'kode_desa',
+                    d.nama_desa,
+                    c.kode_wilayah AS 'kode_kecamatan',
+                    c.nama_kecamatan,
+                    jp.nama_jenis AS 'jenis_pangan',
+                    g.nama_pangan,
+                    pk.urt,
+                    ((pk.urt * g.kalori) / k.jumlah_keluarga) AS kalori_per_orang,
+                    ((pk.urt * g.lemak) / k.jumlah_keluarga) AS lemak_per_orang,
+                    ((pk.urt * g.karbohidrat) / k.jumlah_keluarga) AS karbohidrat_per_orang,
+                    ((pk.urt * g.protein) / k.jumlah_keluarga) AS protein_per_orang,
+                    g.gram AS 'berat',
+                    t.nama_takaran AS 'satuan'
                 FROM keluarga k
                 JOIN desa d ON d.id_desa = k.id_desa
                 JOIN kecamatan c ON c.id_kecamatan = d.id_kecamatan
-                JOIN rentang_uang rup ON rup.id_rentang_uang = k.rentang_pengeluaran
-                JOIN rentang_uang rud ON rud.id_rentang_uang = k.rentang_pendapatan
                 JOIN pangan_keluarga pk ON pk.id_keluarga = k.id_keluarga
                 JOIN pangan g ON g.id_pangan = pk.id_pangan
                 JOIN jenis_pangan jp ON jp.id_jenis_pangan = g.id_jenis_pangan
                 JOIN takaran t ON t.id_takaran = g.id_takaran
+                ORDER BY k.id_keluarga
             ");
 
-            $keluarga = array_map(fn($r) => (array) $r, $keluarga);
+            $data_keluarga = array_map(fn($r) => (array) $r, $data_keluarga);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
 
-            $headers = [
-                'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
-                'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
-                'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
-                'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT', 'Berat', 'Satuan'
+            $header_kolom = [
+                'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Desa',
+                'Nama Desa', 'Kode Kecamatan', 'Nama Kecamatan', 'Jenis Pangan',
+                'Nama Pangan', 'URT', 'Kalori Per Orang', 'Lemak Per Orang',
+                'Karbohidrat Per Orang', 'Protein Per Orang', 'Berat', 'Satuan'
             ];
 
-            foreach ($headers as $index => $header) {
-                $col = Coordinate::stringFromColumnIndex($index + 1);
-                $sheet->setCellValue("{$col}1", $header);
+            foreach ($header_kolom as $index => $judul_kolom) {
+                $kolom = Coordinate::stringFromColumnIndex($index + 1);
+                $sheet->setCellValue("{$kolom}1", $judul_kolom);
             }
 
-            $number = 2;
-            foreach ($keluarga as $row) {
-                $column = 1;
-                foreach ([
-                    'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
-                    'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
-                    'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
-                    'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT', 'Berat', 'Satuan'
-                ] as $key) {
-                    $col = Coordinate::stringFromColumnIndex($column);
-                    $sheet->setCellValueExplicit("{$col}{$number}", $row[$key] ?? '', DataType::TYPE_STRING);
-                    $column++;
+            $baris_ke = 2;
+            foreach ($data_keluarga as $baris_data) {
+                $kolom_ke = 1;
+                foreach (
+                    [
+                        'id_keluarga', 'nama_kepala_keluarga', 'jumlah_keluarga', 'kode_desa',
+                        'nama_desa', 'kode_kecamatan', 'nama_kecamatan', 'jenis_pangan',
+                        'nama_pangan', 'urt', 'kalori_per_orang', 'lemak_per_orang',
+                        'karbohidrat_per_orang', 'protein_per_orang', 'berat', 'satuan'
+                    ] as $nama_kolom
+                ) {
+                    $kolom_excel = Coordinate::stringFromColumnIndex($kolom_ke);
+                    $nilai = $baris_data[$nama_kolom] ?? '';
+                    $tipe = is_numeric($nilai) ? DataType::TYPE_NUMERIC : DataType::TYPE_STRING;
+                    $sheet->setCellValueExplicit("{$kolom_excel}{$baris_ke}", $nilai, $tipe);
+                    $kolom_ke++;
                 }
-                $number++;
+                $baris_ke++;
+            }
+
+            $kolom_merge = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            $baris_awal = 2;
+            $id_sebelumnya = $data_keluarga[0]['id_keluarga'] ?? null;
+
+            for ($i = 1; $i < count($data_keluarga); $i++) {
+                $id_sekarang = $data_keluarga[$i]['id_keluarga'];
+                $baris_sekarang = $i + 2;
+
+                if ($id_sekarang !== $id_sebelumnya) {
+                    if ($baris_awal < $baris_sekarang - 1) {
+                        foreach ($kolom_merge as $kolom) {
+                            $sheet->mergeCells("{$kolom}{$baris_awal}:{$kolom}" . ($baris_sekarang - 1));
+                            $sheet->getStyle("{$kolom}{$baris_awal}")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                        }
+                    }
+                    $baris_awal = $baris_sekarang;
+                    $id_sebelumnya = $id_sekarang;
+                }
+            }
+
+            $baris_akhir = count($data_keluarga) + 1;
+            if ($baris_awal < $baris_akhir) {
+                foreach ($kolom_merge as $kolom) {
+                    $sheet->mergeCells("{$kolom}{$baris_awal}:{$kolom}{$baris_akhir}");
+                    $sheet->getStyle("{$kolom}{$baris_awal}")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                }
+            }
+
+            foreach ($kolom_merge as $kolom) {
+                $sheet->getStyle("{$kolom}2:{$kolom}{$baris_akhir}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             }
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
