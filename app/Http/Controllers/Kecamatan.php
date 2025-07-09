@@ -48,7 +48,7 @@ class Kecamatan extends Controller
         return view('pages.admin.rekap-kecamatan', compact('id', 'tahun', 'kecamatan'));
     }
 
-    public function ekspor_rekap(int|string $id, int|string $th): JsonResponse
+    public function ekspor_rekap(int|string $id, int|string $th): never
     {
         try {
             $kecamatan = KecamatanModel::findOrFail($id);
@@ -61,13 +61,16 @@ class Kecamatan extends Controller
                     AVG(((pk.urt * g.kalori) / k.jumlah_keluarga)) AS kalori_per_orang,
                     AVG(((pk.urt * g.lemak) / k.jumlah_keluarga)) AS lemak_per_orang,
                     AVG(((pk.urt * g.karbohidrat) / k.jumlah_keluarga)) AS karbohidrat_per_orang,
-                    AVG(((pk.urt * g.protein) / k.jumlah_keluarga)) AS protein_per_orang
+                    AVG(((pk.urt * g.protein) / k.jumlah_keluarga)) AS protein_per_orang,
+                    MAX(g.gram) AS berat,
+                    MAX(t.nama_takaran) AS satuan
                 FROM keluarga k
                 JOIN desa d ON d.id_desa = k.id_desa
                 JOIN kecamatan c ON c.id_kecamatan = d.id_kecamatan
                 JOIN pangan_keluarga pk ON pk.id_keluarga = k.id_keluarga
                 JOIN pangan g ON g.id_pangan = pk.id_pangan
                 JOIN jenis_pangan jp ON jp.id_jenis_pangan = g.id_jenis_pangan
+                JOIN takaran t ON t.id_takaran = g.id_takaran
                 WHERE c.id_kecamatan = ? AND YEAR(k.created_date) = ?
                 GROUP BY g.nama_pangan, jp.nama_jenis, d.nama_desa, c.nama_kecamatan
                 ORDER BY c.nama_kecamatan, d.nama_desa, jp.nama_jenis, g.nama_pangan
@@ -83,6 +86,8 @@ class Kecamatan extends Controller
             $sheet->setCellValue("E1", "Lemak Per Orang");
             $sheet->setCellValue("F1", "Karbohidrat Per Orang");
             $sheet->setCellValue("G1", "Protein Per Orang");
+            $sheet->setCellValue("H1", "Berat");
+            $sheet->setCellValue("I1", "Satuan");
 
             $row = 2;
             foreach ($hasil as $item) {
@@ -93,10 +98,12 @@ class Kecamatan extends Controller
                 $sheet->setCellValue("E{$row}", round(floatval($item->lemak_per_orang), 2));
                 $sheet->setCellValue("F{$row}", round(floatval($item->karbohidrat_per_orang), 2));
                 $sheet->setCellValue("G{$row}", round(floatval($item->protein_per_orang), 2));
+                $sheet->setCellValue("H{$row}", $item->berat);
+                $sheet->setCellValue("I{$row}", $item->satuan);
                 $row++;
             }
 
-            foreach (range('A', 'G') as $col) {
+            foreach (range('A', 'I') as $col) {
                 $sheet->getColumnDimension($col)->setAutoSize(true);
             }
 
@@ -110,7 +117,7 @@ class Kecamatan extends Controller
         } catch (Throwable $throwable) {
             report($throwable);
             Log::error('Terjadi kesalahan saat mengekspor rekap per kecamatan: ' . $throwable->getMessage());
-            return Response::json(['status' => 'error', 'message' => 'Gagal mengekspor rekap: ' . $throwable->getMessage()], 500);
+            abort(500, 'Terjadi kesalahan saat mengekspor rekap per kecamatan!');
         }
     }
 }

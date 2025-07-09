@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -115,18 +116,21 @@ class Dasbor extends Controller
                     rud.batas_atas AS 'Pendapatan Maksimal',
                     jp.nama_jenis AS 'Jenis Pangan',
                     g.nama_pangan AS 'Nama Pangan',
-                    pk.urt AS 'URT'
-                FROM keluarga k, desa d, kecamatan c, pangan_keluarga pk, pangan g, jenis_pangan jp, rentang_uang rup, rentang_uang rud
-                where k.id_keluarga = pk.id_keluarga
-                and pk.id_pangan = g.id_pangan
-                and g.id_jenis_pangan = jp.id_jenis_pangan
-                and c.id_kecamatan = d.id_kecamatan
-                and d.id_desa = k.id_desa
-                and k.rentang_pengeluaran = rup.id_rentang_uang
-                and k.rentang_pendapatan = rud.id_rentang_uang;
+                    pk.urt AS 'URT',
+                    g.gram AS 'Berat',
+                    t.nama_takaran AS 'Satuan'
+                FROM keluarga k
+                JOIN desa d ON d.id_desa = k.id_desa
+                JOIN kecamatan c ON c.id_kecamatan = d.id_kecamatan
+                JOIN rentang_uang rup ON rup.id_rentang_uang = k.rentang_pengeluaran
+                JOIN rentang_uang rud ON rud.id_rentang_uang = k.rentang_pendapatan
+                JOIN pangan_keluarga pk ON pk.id_keluarga = k.id_keluarga
+                JOIN pangan g ON g.id_pangan = pk.id_pangan
+                JOIN jenis_pangan jp ON jp.id_jenis_pangan = g.id_jenis_pangan
+                JOIN takaran t ON t.id_takaran = g.id_takaran
             ");
 
-            $keluarga = json_decode(json_encode($keluarga), true);
+            $keluarga = array_map(fn($r) => (array) $r, $keluarga);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
 
@@ -134,7 +138,7 @@ class Dasbor extends Controller
                 'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
                 'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
                 'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
-                'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT'
+                'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT', 'Berat', 'Satuan'
             ];
 
             foreach ($headers as $index => $header) {
@@ -149,10 +153,10 @@ class Dasbor extends Controller
                     'ID', 'Nama Kepala Keluarga', 'Jumlah Keluarga', 'Kode Kecamatan',
                     'Nama Kecamatan', 'Kode Desa', 'Nama Desa', 'Hamil', 'Menyusui', 'Balita',
                     'Pengeluaran Minimal', 'Pengeluaran Maksimal', 'Pendapatan Minimal',
-                    'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT'
+                    'Pendapatan Maksimal', 'Jenis Pangan', 'Nama Pangan', 'URT', 'Berat', 'Satuan'
                 ] as $key) {
                     $col = Coordinate::stringFromColumnIndex($column);
-                    $sheet->setCellValue("{$col}{$number}", $row[$key]);
+                    $sheet->setCellValueExplicit("{$col}{$number}", $row[$key] ?? '', DataType::TYPE_STRING);
                     $column++;
                 }
                 $number++;
