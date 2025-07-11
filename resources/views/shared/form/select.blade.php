@@ -1,8 +1,8 @@
 
 <fieldset class="flex w-full flex-col justify-between space-y-4 text-sm">
     <label for="{{ $name }}" class="font-medium">
-        {{ $label }}
         @if ($required)
+            {{ $label }}
             <span class="text-red-500">*</span>
         @endif
     </label>
@@ -11,7 +11,7 @@
             name="{{ $name }}"
             id="{{ $name }}"
             class="hidden w-full appearance-none rounded-md border-2 border-gray-700 bg-transparent px-4 py-3 focus:ring-0 focus:outline-none"
-            required
+            @if ($required) required @endif
         >
             <option value="" hidden>Pilih {{ $label }}</option>
             @if (is_array($options))

@@ -68,22 +68,22 @@ class Kecamatan extends Controller
 
             $jenis_pangan = JenisPangan::select('id_jenis_pangan', 'nama_jenis', 'parent')->where('parent', "=", null)->get()->toArray();
             $sub_jenis_pangan = JenisPangan::select('id_jenis_pangan', 'nama_jenis', 'parent')->where('parent', "!=", null)->get()->toArray();
-            $pangan = Pangan::with('jenis_pangan')->get()->toArray();
+            $pangan = Pangan::with(['jenis_pangan', 'takaran'])->get()->toArray();
 
-            $pangan_list = collect($pangan)->map(function ($data) {
-                return [
-                    'id_jenis_pangan' => $data['jenis_pangan']['id_jenis_pangan'],
-                    'nama_jenis' => $data['jenis_pangan']['nama_jenis'],
-                    'id_pangan' => $data['id_pangan'],
-                    'nama_pangan' => $data['nama_pangan'],
-                    'berat' => $data['gram'],
-                    'energi' => $data['kalori'],
-                    'protein' => $data['protein'],
-                    'lemak' => $data['lemak'],
-                    'karbohidrat' => $data['karbohidrat'],
-                    'referensi_urt' => $data['referensi_urt'],
-                ];
-            });
+            $pangan_list = collect($pangan)->map(fn($data) =>
+            [
+                'id_jenis_pangan'   => $data['jenis_pangan']['id_jenis_pangan'],
+                'nama_jenis'        => $data['jenis_pangan']['nama_jenis'],
+                'id_pangan'         => $data['id_pangan'],
+                'nama_pangan'       => $data['nama_pangan'],
+                'berat'             => $data['gram'],
+                'energi'            => $data['kalori'],
+                'protein'           => $data['protein'],
+                'lemak'             => $data['lemak'],
+                'karbohidrat'       => $data['karbohidrat'],
+                'referensi_urt'     => $data['referensi_urt'],
+                'nama_takaran'      => $data['takaran']['nama_takaran'] ?? null,
+            ]);
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -129,7 +129,6 @@ class Kecamatan extends Controller
                     })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
 
                     $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
-
                     $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
 
                     $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
@@ -138,8 +137,8 @@ class Kecamatan extends Controller
                     $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
                     $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
                     $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                    // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
-                    $sheet->setCellValue("H{$row}", 'Kg');
+                    $sheet->setCellValue("H{$row}", $pangan_list[$index]['nama_takaran']);
+                    // $sheet->setCellValue("H{$row}", 'Kg');
                     $sheet->setCellValue("I{$row}", $jumlah);
                     $sheet->setCellValue("J{$row}", 7);
                     $sheet->setCellValue("K{$row}", $total);
@@ -191,8 +190,8 @@ class Kecamatan extends Controller
                             $sheet->setCellValue("E{$row}", $pangan_list[$index]['protein']);
                             $sheet->setCellValue("F{$row}", $pangan_list[$index]['lemak']);
                             $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
-                            // $sheet->setCellValue("H{$row}", $pangan_list[$index]['referensi_urt']);
-                            $sheet->setCellValue("H{$row}", 'Kg');
+                            $sheet->setCellValue("H{$row}", $pangan_list[$index]['nama_takaran']);
+                            // $sheet->setCellValue("H{$row}", 'Kg');
                             $sheet->setCellValue("I{$row}", $jumlah);
                             $sheet->setCellValue("J{$row}", 7);
                             $sheet->setCellValue("K{$row}", $total);

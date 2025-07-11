@@ -4,7 +4,7 @@
             <i class="fa-solid fa-chart-simple mr-4 text-2xl"></i>
             <h5 class="text-lg">Data Kecamatan Per Tahun</h5>
         </span>
-        <span class="relative mt-4 flex items-center space-x-4 md:mt-0">
+        <fieldset class="relative mt-4 flex items-center space-x-4 md:mt-0">
             <select
                 id="tahun-select"
                 class="cursor-pointer appearance-none rounded-lg bg-slate-50 py-2.5 pr-14 text-sm pl-4 font-semibold text-emerald-600 shadow-lg focus:ring-2 focus:ring-slate-300 focus:outline-none"
@@ -19,7 +19,7 @@
                 @endforelse
             </select>
             <i class="fa-solid fa-chevron-down pointer-events-none absolute top-1/2 right-7 -translate-y-1/2 transform text-emerald-600"></i>
-        </span>
+        </fieldset>
     </div>
     <hr class="mb-8 h-1 w-full min-w-[800px] text-white" />
     <figure class="w-full overflow-x-auto">
