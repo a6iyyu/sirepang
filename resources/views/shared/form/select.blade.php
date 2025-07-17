@@ -1,4 +1,3 @@
-
 <fieldset class="flex w-full flex-col justify-between space-y-4 text-sm">
     <label for="{{ $name }}" class="font-medium">
         @if ($required)

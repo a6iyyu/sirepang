@@ -39,4 +39,4 @@ Kami berharap SIREPANG dapat membantu Dinas Ketahanan Pangan dalam memantau dan 
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah [MIT License](https://github.com/a6iyyu/sirepang/blob/main/LICENSE).
+Proyek ini merupakan perangkat lunak tertutup (_closed source_) dan dikembangkan secara eksklusif untuk Dinas Ketahanan Pangan Kabupaten Malang. Segala bentuk distribusi, modifikasi, maupun publikasi tanpa izin tertulis dari pemilik hak cipta adalah dilarang.

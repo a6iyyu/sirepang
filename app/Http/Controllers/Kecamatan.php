@@ -128,8 +128,7 @@ class Kecamatan extends Controller
                         $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
                     })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
 
-                    $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
-                    $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
+                    $total = $kk > 0 ? ($total_konsumsi / $kk) * 7 : 0;
 
                     $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
                     $sheet->setCellValue("C{$row}", $pangan_list[$index]['berat']);
@@ -139,7 +138,7 @@ class Kecamatan extends Controller
                     $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
                     $sheet->setCellValue("H{$row}", $pangan_list[$index]['nama_takaran']);
                     // $sheet->setCellValue("H{$row}", 'Kg');
-                    $sheet->setCellValue("I{$row}", $jumlah);
+                    $sheet->setCellValue("I{$row}", $total_konsumsi);
                     $sheet->setCellValue("J{$row}", 7);
                     $sheet->setCellValue("K{$row}", $total);
                     $sheet->setCellValue("L{$row}", $kk);
@@ -181,8 +180,7 @@ class Kecamatan extends Controller
                                 $query->where('id_kecamatan', $id)->whereYear('created_date', $th);
                             })->where('id_pangan', $pangan_list[$index]['id_pangan'])->sum('urt');
 
-                            $jumlah = $days_in_year > 0 ? $total_konsumsi / $days_in_year : 0;
-                            $total = $kk > 0 ? ($jumlah / $kk) * 7 : 0;
+                            $total = $kk > 0 ? ($total_konsumsi / $kk) * 7 : 0;
 
                             $sheet->setCellValue("B{$row}", $pangan_list[$index]['nama_pangan']);
                             $sheet->setCellValue("C{$row}", $pangan_list[$index]['berat']);
@@ -192,7 +190,7 @@ class Kecamatan extends Controller
                             $sheet->setCellValue("G{$row}", $pangan_list[$index]['karbohidrat']);
                             $sheet->setCellValue("H{$row}", $pangan_list[$index]['nama_takaran']);
                             // $sheet->setCellValue("H{$row}", 'Kg');
-                            $sheet->setCellValue("I{$row}", $jumlah);
+                            $sheet->setCellValue("I{$row}", $total_konsumsi);
                             $sheet->setCellValue("J{$row}", 7);
                             $sheet->setCellValue("K{$row}", $total);
                             $sheet->setCellValue("L{$row}", $kk);
